@@ -1,0 +1,4 @@
+﻿molecule,SMILES,MW,LogP,HBD,HBA,TPSA,RotatableBonds,Lipinski_violations,Ro5_pass,BBB_permeant_likely
+cycloastragenol,C[C@]12CC[C@@]34C[C@@]35CC[C@@H](C([C@@H]5[C@H](C[C@H]4[C@@]1(C[C@@H]([C@@H]2[C@]6(CC[C@H](O6)C(C)(C)O)C)O)C)O)(C)C)O,490.73,4.44,4,5,90.15,2,0,True,False
+gallic_acid,C1=C(C=C(C(=C1O)O)O)C(=O)O,170.12,0.5,4,4,97.99,1,0,True,False
+spermidine,C(CCNCCCN)CN,145.25,-0.34,3,3,64.07,7,0,True,True

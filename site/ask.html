@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rasayana — What We Need</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<style>
+  .ask-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  @media (max-width:860px){.ask-grid{grid-template-columns:1fr;}}
+  .role-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;}
+  .role-list li{display:flex; gap:14px; padding-bottom:14px; border-bottom:1px solid var(--line-soft);}
+  .role-list li:last-child{border-bottom:0;}
+  .role-list .n{font-family:var(--mono); color:var(--gold); font-size:13px; padding-top:2px;}
+  .role-list h4{font-family:var(--sans); font-weight:700; font-size:15px; margin:0 0 3px;}
+  .role-list p{font-size:13.5px; color:var(--ink-soft);}
+  .ask-card{background:var(--bg-hero); color:var(--on-hero); border-radius:6px; padding:34px; height:fit-content;}
+  .ask-card .eyebrow{color:var(--gold);}
+  .ask-card h3{color:var(--on-hero); font-size:22px; margin-top:10px;}
+  .ask-card p{color:var(--on-hero-soft); font-size:14.5px; margin-top:12px;}
+  .ask-card .btn-primary{margin-top:22px;}
+  .why-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:24px;}
+  @media (max-width:860px){.why-grid{grid-template-columns:1fr;}}
+  .why-card{padding:22px; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:4px; min-width:0;}
+  .why-card h4{font-family:var(--serif); font-size:17px; margin-bottom:8px;}
+  .why-card p{font-size:13.5px; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<!--#include virtual="/assets/_nav.html" -->
+
+<header class="hero">
+  <div class="container hero-inner">
+    <p class="eyebrow"><span lang="ru">Что нужно проекту</span><span lang="en">What the project needs</span></p>
+    <h1><span lang="ru">Наука есть. Нужна команда, чтобы довести её до полки</span><span lang="en">The science exists. It needs a team to reach the shelf</span></h1>
+    <p class="thesis"><span lang="ru">Мы проверили гипотезу вычислительно и знаем, что делать дальше. Не хватает конкретных компетенций и партнёрских связей — не идей.</span>
+    <span lang="en">We've validated the hypothesis computationally and know what comes next. What's missing is specific expertise and partner connections — not ideas.</span></p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <section id="why">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Зачем это вообще</span><span lang="en">Why this, why now</span></p>
+      <h2><span lang="ru">Три причины заняться этим именно сейчас</span><span lang="en">Three reasons to do this now</span></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <h4><span lang="ru">Рынок уже платит</span><span lang="en">The market already pays</span></h4>
+        <p><span lang="ru">Один из классов наших кандидатов уже продаётся как коммерческая добавка по $35–200/мес — спрос доказан не нами.</span><span lang="en">One of our candidate classes already sells as a commercial supplement at $35–200/month — demand proven by someone else already.</span></p>
+      </div>
+      <div class="why-card">
+        <h4><span lang="ru">Регуляторный путь короче обычного</span><span lang="en">A shorter regulatory path</span></h4>
+        <p><span lang="ru">Один кандидат уже разрешён в ЕС, второй имеет традиционный статус — полный цикл «rapamycin-style» одобрения нам не грозит.</span><span lang="en">One candidate is already EU-authorized, another has traditional status — we're not facing a full rapamycin-style approval cycle.</span></p>
+      </div>
+      <div class="why-card">
+        <h4><span lang="ru">Метод масштабируется</span><span lang="en">The method scales</span></h4>
+        <p><span lang="ru">Тот же пайплайн (см. страницу «Лаборатория») работает для любой пары молекула-мишень — это не разовая находка, а воспроизводимый инструмент.</span><span lang="en">The same pipeline (see The Lab page) works for any molecule-target pair — this isn't a one-off finding, it's a repeatable tool.</span></p>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="ask">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Роли</span><span lang="en">Roles</span></p>
+      <h2><span lang="ru">Кого мы ищем</span><span lang="en">Who we're looking for</span></h2>
+    </div>
+    <div class="ask-grid">
+      <ul class="role-list">
+        <li>
+          <span class="n">01</span>
+          <div><h4><span lang="ru">Регуляторный / юридический партнёр</span><span lang="en">Regulatory / legal partner</span></h4>
+          <p><span lang="ru">Подготовка и подача досье Novel Food в ЕС, параллельно — юрисдикции продажи.</span><span lang="en">Preparing and filing the EU Novel Food dossier, plus sales-jurisdiction structuring.</span></p></div>
+        </li>
+        <li>
+          <span class="n">02</span>
+          <div><h4><span lang="ru">Переговорщик по закупкам (Китай)</span><span lang="en">China sourcing negotiator</span></h4>
+          <p><span lang="ru">Контракт на поставку сырья, контроль качества, логистика.</span><span lang="en">Raw-material supply contract, quality control, logistics.</span></p></div>
+        </li>
+        <li>
+          <span class="n">03</span>
+          <div><h4><span lang="ru">Лабораторный партнёр (in vitro)</span><span lang="en">Wet-lab partner (in vitro)</span></h4>
+          <p><span lang="ru">Проверка находок докинга на реальных клеточных моделях.</span><span lang="en">Validating docking findings in real cell-based assays.</span></p></div>
+        </li>
+        <li>
+          <span class="n">04</span>
+          <div><h4><span lang="ru">Бизнес-девелопмент / коммерциализация</span><span lang="en">Business development / commercialization</span></h4>
+          <p><span lang="ru">Бренд, дистрибуция, выход на рынок ЕС.</span><span lang="en">Brand, distribution, EU market entry.</span></p></div>
+        </li>
+      </ul>
+      <div class="ask-card">
+        <p class="eyebrow"><span lang="ru">Инвестиции</span><span lang="en">Investment</span></p>
+        <h3><span lang="ru">Условия обсуждаются индивидуально</span><span lang="en">Terms discussed individually</span></h3>
+        <p><span lang="ru">Проект на стадии pre-seed: наука подтверждена вычислительно, юридическое лицо ещё не создано. Сумма раунда, доля и использование средств — на переговорах, при необходимости под NDA.</span>
+        <span lang="en">Pre-seed stage: the science is computationally validated, no legal entity yet. Round size, equity and use of funds are discussed in conversation, under NDA if needed.</span></p>
+        <p style="margin-top:16px;"><span lang="ru">После разговора серьёзным инвесторам открывается закрытый раздел с полными данными исследования и текущим статусом проекта.</span>
+        <span lang="en">After a conversation, serious investors get access to a private section with the full research data and current project status.</span></p>
+        <a href="mailto:pylypchukandrii770@gmail.com?subject=Rasayana%20Virtual%20Lab" class="btn btn-primary"><span lang="ru">Написать по проекту</span><span lang="en">Get in touch</span></a>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+</body>
+</html>

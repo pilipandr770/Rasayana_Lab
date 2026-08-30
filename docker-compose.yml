@@ -1,0 +1,12 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rasayana.rule=Host(`rasayana.andrii-it.de`)"
+      - "traefik.http.routers.rasayana.entrypoints=websecure"
+      - "traefik.http.routers.rasayana.tls.certresolver=cfdns"
+      - "traefik.http.services.rasayana.loadbalancer.server.port=80"
+    restart: unless-stopped

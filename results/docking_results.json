@@ -1,0 +1,254 @@
+[
+  {
+    "ligand": "cycloastragenol",
+    "target": "6E53",
+    "status": "ok",
+    "best_affinity_kcal_mol": -8.44,
+    "all_modes_kcal_mol": [
+      -8.44,
+      -7.186,
+      -6.472,
+      -6.245,
+      -6.168
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\cycloastragenol__6E53.pdbqt"
+  },
+  {
+    "ligand": "cycloastragenol",
+    "target": "4ZZJ",
+    "status": "ok",
+    "best_affinity_kcal_mol": -5.788,
+    "all_modes_kcal_mol": [
+      -5.788,
+      -5.754,
+      -5.742,
+      -5.637,
+      -5.59
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\cycloastragenol__4ZZJ.pdbqt"
+  },
+  {
+    "ligand": "cycloastragenol",
+    "target": "4JSP",
+    "status": "ok",
+    "best_affinity_kcal_mol": -7.834,
+    "all_modes_kcal_mol": [
+      -7.834,
+      -7.83,
+      -7.691,
+      -7.629,
+      -7.611
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\cycloastragenol__4JSP.pdbqt"
+  },
+  {
+    "ligand": "cycloastragenol",
+    "target": "2FLU",
+    "status": "ok",
+    "best_affinity_kcal_mol": -7.537,
+    "all_modes_kcal_mol": [
+      -7.537,
+      -7.497,
+      -7.386,
+      -7.268,
+      -7.198
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\cycloastragenol__2FLU.pdbqt"
+  },
+  {
+    "ligand": "cycloastragenol",
+    "target": "4PZS",
+    "status": "ok",
+    "best_affinity_kcal_mol": -9.672,
+    "all_modes_kcal_mol": [
+      -9.672,
+      -9.507,
+      -9.375,
+      -8.781,
+      -8.443
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\cycloastragenol__4PZS.pdbqt"
+  },
+  {
+    "ligand": "cycloastragenol",
+    "target": "4CFE",
+    "status": "ok",
+    "best_affinity_kcal_mol": -7.703,
+    "all_modes_kcal_mol": [
+      -7.703,
+      -7.57,
+      -7.378,
+      -7.088,
+      -7.057
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\cycloastragenol__4CFE.pdbqt"
+  },
+  {
+    "ligand": "gallic_acid",
+    "target": "6E53",
+    "status": "ok",
+    "best_affinity_kcal_mol": -5.854,
+    "all_modes_kcal_mol": [
+      -5.854,
+      -5.794,
+      -5.787,
+      -5.781,
+      -5.772
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\gallic_acid__6E53.pdbqt"
+  },
+  {
+    "ligand": "gallic_acid",
+    "target": "4ZZJ",
+    "status": "ok",
+    "best_affinity_kcal_mol": -3.464,
+    "all_modes_kcal_mol": [
+      -3.464,
+      -3.464,
+      -3.463,
+      -3.461,
+      -3.371
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\gallic_acid__4ZZJ.pdbqt"
+  },
+  {
+    "ligand": "gallic_acid",
+    "target": "4JSP",
+    "status": "ok",
+    "best_affinity_kcal_mol": -5.468,
+    "all_modes_kcal_mol": [
+      -5.468,
+      -5.384,
+      -5.383,
+      -5.266,
+      -5.221
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\gallic_acid__4JSP.pdbqt"
+  },
+  {
+    "ligand": "gallic_acid",
+    "target": "2FLU",
+    "status": "ok",
+    "best_affinity_kcal_mol": -5.174,
+    "all_modes_kcal_mol": [
+      -5.174,
+      -5.114,
+      -5.034,
+      -5.023,
+      -4.912
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\gallic_acid__2FLU.pdbqt"
+  },
+  {
+    "ligand": "gallic_acid",
+    "target": "4PZS",
+    "status": "ok",
+    "best_affinity_kcal_mol": -6.158,
+    "all_modes_kcal_mol": [
+      -6.158,
+      -6.057,
+      -6.055,
+      -6.027,
+      -5.993
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\gallic_acid__4PZS.pdbqt"
+  },
+  {
+    "ligand": "gallic_acid",
+    "target": "4CFE",
+    "status": "ok",
+    "best_affinity_kcal_mol": -5.329,
+    "all_modes_kcal_mol": [
+      -5.329,
+      -5.3,
+      -5.288,
+      -5.222,
+      -5.197
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\gallic_acid__4CFE.pdbqt"
+  },
+  {
+    "ligand": "spermidine",
+    "target": "6E53",
+    "status": "ok",
+    "best_affinity_kcal_mol": -4.564,
+    "all_modes_kcal_mol": [
+      -4.564,
+      -4.528,
+      -4.505,
+      -4.469,
+      -4.426
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\spermidine__6E53.pdbqt"
+  },
+  {
+    "ligand": "spermidine",
+    "target": "4ZZJ",
+    "status": "ok",
+    "best_affinity_kcal_mol": -2.784,
+    "all_modes_kcal_mol": [
+      -2.784,
+      -2.763,
+      -2.753,
+      -2.695,
+      -2.684
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\spermidine__4ZZJ.pdbqt"
+  },
+  {
+    "ligand": "spermidine",
+    "target": "4JSP",
+    "status": "ok",
+    "best_affinity_kcal_mol": -4.206,
+    "all_modes_kcal_mol": [
+      -4.206,
+      -4.114,
+      -3.875,
+      -3.869,
+      -3.678
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\spermidine__4JSP.pdbqt"
+  },
+  {
+    "ligand": "spermidine",
+    "target": "2FLU",
+    "status": "ok",
+    "best_affinity_kcal_mol": -4.092,
+    "all_modes_kcal_mol": [
+      -4.092,
+      -4.061,
+      -4.031,
+      -3.968,
+      -3.943
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\spermidine__2FLU.pdbqt"
+  },
+  {
+    "ligand": "spermidine",
+    "target": "4PZS",
+    "status": "ok",
+    "best_affinity_kcal_mol": -4.842,
+    "all_modes_kcal_mol": [
+      -4.842,
+      -4.763,
+      -4.7,
+      -4.667,
+      -4.606
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\spermidine__4PZS.pdbqt"
+  },
+  {
+    "ligand": "spermidine",
+    "target": "4CFE",
+    "status": "ok",
+    "best_affinity_kcal_mol": -3.618,
+    "all_modes_kcal_mol": [
+      -3.618,
+      -3.584,
+      -3.569,
+      -3.532,
+      -3.507
+    ],
+    "out_pdbqt": "C:\\Users\\ПК\\rasayana-lab\\results\\docking\\spermidine__4CFE.pdbqt"
+  }
+]

@@ -1,0 +1,13 @@
+.claude/
+venv/
+__pycache__/
+*.pyc
+deploy/.htpasswd
+bin/
+results/pdb/*.pdb
+results/receptors/*.pdbqt
+results/viz/*.html
+demo/results/pdb/*.pdb
+demo/results/receptor/*.pdbqt
+demo/results/viz/*.html
+.DS_Store

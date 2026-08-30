@@ -1,0 +1,14 @@
+[
+  {
+    "target": "4CFE",
+    "ligand_code": "STU",
+    "smiles": "C[C@@]12[C@@H]([C@@H](C[C@@H](O1)n3c4ccccc4c5c3c6n2c7ccccc7c6c8c5C(=O)NC8)NC)OC",
+    "best_affinity_kcal_mol": -12.98,
+    "all_rmsd_A": [
+      0.37382199736543636,
+      2.563736982275228
+    ],
+    "best_rmsd_A": 0.37382199736543636,
+    "success_lt_2A": true
+  }
+]

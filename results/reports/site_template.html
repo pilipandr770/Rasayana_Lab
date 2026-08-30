@@ -1,0 +1,585 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rasayana Virtual Lab</title>
+<script>
+(function(){
+  var saved = null;
+  try { saved = localStorage.getItem('rasayana_lang'); } catch(e) {}
+  document.documentElement.setAttribute('data-lang', saved || 'ru');
+})();
+function setLang(lang){
+  document.documentElement.setAttribute('data-lang', lang);
+  try { localStorage.setItem('rasayana_lang', lang); } catch(e) {}
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false');
+  });
+}
+document.addEventListener('DOMContentLoaded', function(){
+  var cur = document.documentElement.getAttribute('data-lang') || 'ru';
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.setAttribute('aria-pressed', b.dataset.lang === cur ? 'true' : 'false');
+  });
+});
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<style>
+  :root{
+    --bg:#EDF0E6; --bg-raised:#E2E6D5; --bg-card:#F6F8F0; --bg-hero:#171B2E;
+    --line:#C9D0BE; --line-soft:#DADFCE;
+    --ink:#1A1D2B; --ink-soft:#565C52; --ink-faint:#83886F;
+    --gold:#9C6A1B; --gold-soft:#EADFC5;
+    --jade:#1B7A68; --jade-soft:#D9EBE4;
+    --vermillion:#A03D28; --vermillion-soft:#F3DFD8;
+    --on-hero:#EDEFE6; --on-hero-soft:#B7BCD1;
+    --serif:'PT Serif', Georgia, 'Times New Roman', serif;
+    --sans:'PT Sans','Segoe UI',Arial,sans-serif;
+    --mono:'PT Mono','SFMono-Regular',Consolas,monospace;
+    --shadow: 0 1px 2px rgba(26,29,43,.06), 0 8px 24px rgba(26,29,43,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#12162B; --bg-raised:#1B2040; --bg-card:#1F2547; --bg-hero:#0B0E1D;
+      --line:#333A5C; --line-soft:#262C4C;
+      --ink:#EDEFE6; --ink-soft:#ABB1C7; --ink-faint:#7B81A0;
+      --gold:#D79A2C; --gold-soft:#3A3018;
+      --jade:#3EBBA3; --jade-soft:#173C36;
+      --vermillion:#E37A5E; --vermillion-soft:#3E241E;
+      --on-hero:#EDEFE6; --on-hero-soft:#9AA0C0;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12162B; --bg-raised:#1B2040; --bg-card:#1F2547; --bg-hero:#0B0E1D;
+    --line:#333A5C; --line-soft:#262C4C;
+    --ink:#EDEFE6; --ink-soft:#ABB1C7; --ink-faint:#7B81A0;
+    --gold:#D79A2C; --gold-soft:#3A3018;
+    --jade:#3EBBA3; --jade-soft:#173C36;
+    --vermillion:#E37A5E; --vermillion-soft:#3E241E;
+    --on-hero:#EDEFE6; --on-hero-soft:#9AA0C0;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  html[data-lang="ru"] [lang="en"]{display:none !important;}
+  html[data-lang="en"] [lang="ru"]{display:none !important;}
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+
+  h1,h2,h3{font-family:var(--serif); font-weight:700; text-wrap:balance; margin:0;}
+  p{margin:0;}
+  a{color:inherit;}
+  .mono{font-family:var(--mono);}
+  .container{max-width:1080px; margin:0 auto; padding:0 28px;}
+  .eyebrow{
+    font-family:var(--sans); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--gold); font-weight:700;
+  }
+  section{padding:88px 0;}
+  .measure{max-width:640px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--line-soft);
+  }
+  .nav-row{display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1080px; margin:0 auto;}
+  .wordmark{display:flex; flex-direction:column; line-height:1.05;}
+  .wordmark b{font-family:var(--serif); font-size:19px; letter-spacing:.02em;}
+  .wordmark span{font-size:10.5px; letter-spacing:.22em; color:var(--ink-faint); text-transform:uppercase;}
+  .lang-switch{display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden;}
+  .lang-btn{
+    font-family:var(--mono); font-size:12px; letter-spacing:.06em; padding:7px 14px; border:0; cursor:pointer;
+    background:transparent; color:var(--ink-faint);
+  }
+  .lang-btn[aria-pressed="true"]{background:var(--ink); color:var(--bg);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; background:var(--bg-hero); color:var(--on-hero); overflow:hidden;
+    padding:76px 0 64px;
+  }
+  .hero::before{
+    content:""; position:absolute; inset:0;
+    background-image:linear-gradient(180deg, rgba(11,14,29,.55) 0%, rgba(11,14,29,.88) 62%, var(--bg-hero) 100%), var(--hero-img);
+    background-size:cover; background-position:60% 30%; opacity:.9;
+  }
+  .hero-inner{position:relative; z-index:1;}
+  .hero h1{font-size:clamp(30px,4.6vw,52px); line-height:1.14; max-width:min(720px,92%);}
+  .hero .thesis{margin-top:22px; max-width:52ch; font-size:18px; color:var(--on-hero-soft);}
+  .hero-stats{display:flex; gap:36px; margin-top:38px; flex-wrap:wrap;}
+  .stat b{display:block; font-family:var(--serif); font-size:28px; color:var(--gold);}
+  .stat span{font-size:12.5px; color:var(--on-hero-soft); letter-spacing:.04em;}
+  .hero-cta{margin-top:32px; display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; font-family:var(--sans); font-weight:700; font-size:14px;
+    padding:13px 22px; border-radius:3px; text-decoration:none; border:1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{background:var(--gold); color:#1A1204;}
+  .btn-ghost{border-color:rgba(237,239,230,.35); color:var(--on-hero);}
+  .btn-ghost:hover{border-color:rgba(237,239,230,.7);}
+
+  /* ---------- GENERIC SECTION HEADERS ---------- */
+  .sec-head{max-width:640px; margin-bottom:44px;}
+  .sec-head h2{font-size:clamp(24px,3vw,34px); margin-top:10px;}
+  .rule{height:1px; background:var(--line); border:0; margin:0 0 88px;}
+
+  /* ---------- THESIS ---------- */
+  .thesis-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  .thesis-grid > div, .mol-grid > .mol-card, .ask-grid > *, .market-grid > .market-card{min-width:0;}
+  .thesis-grid p + p{margin-top:16px;}
+  .thesis-grid .col{color:var(--ink-soft); font-size:16px;}
+  .thesis-grid .col.lede{color:var(--ink); font-size:19px; font-family:var(--serif);}
+  @media (max-width:760px){.thesis-grid{grid-template-columns:1fr;}}
+
+  /* ---------- FUNNEL ---------- */
+  figure{margin:0;}
+  figcaption{margin-top:14px; font-size:13px; color:var(--ink-faint); max-width:60ch;}
+  .funnel-wrap{overflow-x:auto;}
+
+  /* ---------- MOLECULE CARDS ---------- */
+  .mol-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media (max-width:860px){.mol-grid{grid-template-columns:1fr;}}
+  .mol-card{
+    background:var(--bg-card); border:1px solid var(--line-soft); border-radius:4px; padding:26px;
+    display:flex; flex-direction:column; gap:14px; box-shadow:var(--shadow);
+  }
+  .mol-card .tag{font-family:var(--mono); font-size:11.5px; color:var(--jade); letter-spacing:.03em;}
+  .mol-card h3{font-size:21px; margin-top:2px;}
+  .mol-card .src{font-size:13.5px; color:var(--ink-faint); font-style:italic;}
+  .mol-card .mech{font-size:14.5px; color:var(--ink-soft); border-top:1px solid var(--line-soft); padding-top:14px;}
+  .mol-card .mech li{margin-bottom:5px;}
+  .mol-card ul{margin:6px 0 0; padding-left:18px;}
+  .cid{font-family:var(--mono); font-size:12.5px; color:var(--ink-faint);}
+
+  /* ---------- RESULTS ---------- */
+  .results-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:40px; align-items:start;}
+  .results-grid > div{min-width:0;}
+  @media (max-width:860px){.results-grid{grid-template-columns:1fr;}}
+  .shot-card{background:#fff; border-radius:6px; overflow:hidden; box-shadow:var(--shadow); border:1px solid var(--line-soft);}
+  .shot-card img{display:block; width:100%; height:auto;}
+  .shot-caption{padding:14px 18px; font-size:13px; color:#555; background:#F3F4EC; border-top:1px solid #E4E6DA;}
+  table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  th,td{padding:9px 10px; text-align:right; border-bottom:1px solid var(--line-soft); font-variant-numeric:tabular-nums;}
+  th:first-child,td:first-child{text-align:left; font-family:var(--sans);}
+  thead th{font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); font-weight:700;}
+  td.num{font-family:var(--mono);}
+  td.strong{color:var(--vermillion); font-weight:700;}
+  .table-wrap{overflow-x:auto; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:4px; padding:6px 14px;}
+  .callout{
+    margin-top:20px; padding:16px 18px; border-radius:4px; background:var(--gold-soft); border:1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+    font-size:13.5px; color:var(--ink-soft);
+  }
+  .callout b{color:var(--ink);}
+  .scale-legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:16px; font-size:12px; color:var(--ink-faint);}
+  .scale-legend span{display:inline-flex; align-items:center; gap:6px;}
+  .swatch{width:10px; height:10px; border-radius:2px; display:inline-block;}
+
+  /* ---------- MARKET ---------- */
+  .market-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media (max-width:860px){.market-grid{grid-template-columns:1fr;}}
+  .market-card{padding:24px; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:4px;}
+  .market-card b{display:block; font-family:var(--serif); font-size:32px; color:var(--jade); margin-bottom:6px;}
+  .market-card span{font-size:13.5px; color:var(--ink-soft);}
+  .market-card sup{font-family:var(--mono); font-size:10px; color:var(--ink-faint);}
+
+  /* ---------- REGULATORY ---------- */
+  .reg-list{display:flex; flex-direction:column; gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:4px; overflow:hidden;}
+  .reg-row{display:grid; grid-template-columns:1.1fr auto 2fr; gap:18px; align-items:center; background:var(--bg-card); padding:18px 20px;}
+  @media (max-width:700px){.reg-row{grid-template-columns:1fr; gap:8px;}}
+  .reg-row .name{font-family:var(--serif); font-size:17px;}
+  .chip{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.03em; padding:5px 11px; border-radius:999px;
+    white-space:nowrap; justify-self:start;
+  }
+  .chip.ok{background:var(--jade-soft); color:var(--jade);}
+  .chip.pending{background:var(--gold-soft); color:var(--gold);}
+  .reg-row .detail{font-size:13.5px; color:var(--ink-soft);}
+  .reg-row .detail a{color:var(--ink-soft); text-decoration-color:var(--line);}
+
+  /* ---------- ROADMAP ---------- */
+  .roadmap-wrap{overflow-x:auto;}
+
+  /* ---------- ASK ---------- */
+  .ask-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  @media (max-width:860px){.ask-grid{grid-template-columns:1fr;}}
+  .role-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;}
+  .role-list li{display:flex; gap:14px; padding-bottom:14px; border-bottom:1px solid var(--line-soft);}
+  .role-list li:last-child{border-bottom:0;}
+  .role-list .n{font-family:var(--mono); color:var(--gold); font-size:13px; padding-top:2px;}
+  .role-list h4{font-family:var(--sans); font-weight:700; font-size:15px; margin:0 0 3px;}
+  .role-list p{font-size:13.5px; color:var(--ink-soft);}
+  .ask-card{
+    background:var(--bg-hero); color:var(--on-hero); border-radius:6px; padding:34px; height:fit-content;
+  }
+  .ask-card .eyebrow{color:var(--gold);}
+  .ask-card h3{color:var(--on-hero); font-size:22px; margin-top:10px;}
+  .ask-card p{color:var(--on-hero-soft); font-size:14.5px; margin-top:12px;}
+  .ask-card .btn-primary{margin-top:22px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:56px 0 60px; border-top:1px solid var(--line-soft);}
+  .foot-grid{display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap;}
+  .disclaimer{font-size:12.5px; color:var(--ink-faint); max-width:60ch; line-height:1.55;}
+  .sources{font-size:12px; color:var(--ink-faint); margin-top:28px;}
+  .sources ol{padding-left:18px; margin:8px 0 0;}
+  .sources li{margin-bottom:4px;}
+  .sources a{color:var(--ink-faint);}
+</style>
+
+<nav>
+  <div class="nav-row">
+    <div class="wordmark">
+      <b>Rasayana</b>
+      <span lang="ru">Virtual&nbsp;Lab</span>
+      <span lang="en">Virtual&nbsp;Lab</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:18px;">
+      <a href="#ask" style="font-size:13px; font-weight:700; text-decoration:none; display:none;" class="nav-cta"><span lang="ru">Инвесторам</span><span lang="en">For investors</span></a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button class="lang-btn" data-lang="ru" onclick="setLang('ru')" aria-pressed="true">RU</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" style="--hero-img:url('data:image/jpeg;base64,{{HERO_B64}}')">
+  <div class="container hero-inner">
+    <p class="eyebrow" style="color:var(--gold)"><span lang="ru">Фаза 2 · Молекулярный докинг завершён</span><span lang="en">Phase 2 · Molecular docking complete</span></p>
+    <h1>
+      <span lang="ru">От аюрведических текстов к геронауке — с доказательствами на уровне атомов</span>
+      <span lang="en">From Ayurvedic texts to geroscience — proven down to the atom</span>
+    </h1>
+    <p class="thesis">
+      <span lang="ru">Три вещества, независимо найденные традиционной медициной за столетия до молекулярной биологии, проверены вычислительными методами против шести белков-мишеней старения. Результат: количественная карта связывания, а не легенда.</span>
+      <span lang="en">Three compounds, independently identified by traditional medicine centuries before molecular biology existed, tested computationally against six aging-related protein targets. The result is a quantitative binding map — not a legend.</span>
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><b>39&nbsp;→&nbsp;3</b><span lang="ru">веществ отобрано в Фазе&nbsp;1</span><span lang="en">substances shortlisted in Phase&nbsp;1</span></div>
+      <div class="stat"><b>18</b><span lang="ru">докингов молекула×мишень</span><span lang="en">ligand×target docking runs</span></div>
+      <div class="stat"><b>&minus;9.7</b><span lang="ru">ккал/моль, лучшее связывание</span><span lang="en">kcal/mol, best affinity found</span></div>
+    </div>
+    <div class="hero-cta">
+      <a href="#ask" class="btn btn-primary"><span lang="ru">Что нужно проекту</span><span lang="en">What the project needs</span></a>
+      <a href="#science" class="btn btn-ghost"><span lang="ru">Смотреть данные</span><span lang="en">See the data</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- THESIS -->
+  <section id="thesis">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Гипотеза</span><span lang="en">The hypothesis</span></p>
+      <h2><span lang="ru">Народная фармакология как источник данных, а не легенда</span><span lang="en">Folk pharmacology as a dataset, not a legend</span></h2>
+    </div>
+    <div class="thesis-grid">
+      <div class="col lede">
+        <p><span lang="ru">Rasa Shastra (аюрведическая алхимия) и традиционная китайская медицина веками эмпирически отбирали вещества, замедляющие старение — методом проб на людях, без знания молекулярных механизмов.</span>
+        <span lang="en">Rasa Shastra (Ayurvedic alchemy) and Traditional Chinese Medicine spent centuries empirically selecting anti-aging substances — by trial on humans, with zero knowledge of molecular mechanism.</span></p>
+      </div>
+      <div class="col">
+        <p><span lang="ru">Современная геронаука умеет объяснять и проверять такие находки: белки-мишени старения (теломераза, сиртуины, mTOR, Nrf2) картированы, а молекулярный докинг позволяет количественно оценить, действительно ли конкретная молекула садится в карман конкретного белка — до дорогостоящих лабораторных испытаний.</span>
+        <span lang="en">Modern geroscience can now explain and test such findings: aging-related protein targets (telomerase, sirtuins, mTOR, Nrf2) are mapped, and molecular docking quantifies whether a specific molecule actually fits a specific protein's pocket — before expensive wet-lab work begins.</span></p>
+        <p style="margin-top:14px;"><span lang="ru">Мы соединили оба мира: взяли вещества с сильной эмпирической традицией и проверили их вычислительно против реальных 3D-структур мишеней.</span>
+        <span lang="en">We connected both worlds: took substances with a strong empirical tradition and tested them computationally against real 3D target structures.</span></p>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- PHASE 1 FUNNEL -->
+  <section id="phase1">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Фаза 1 · Завершена</span><span lang="en">Phase 1 · Complete</span></p>
+      <h2><span lang="ru">От 39 веществ до трёх финалистов</span><span lang="en">From 39 substances to three finalists</span></h2>
+      <p class="measure" style="margin-top:14px; color:var(--ink-soft); font-size:15px;">
+        <span lang="ru">Металлические рецепты (ртуть, свинец, ионное золото) отсеяны как токсичные. Рапамицин — сильнейший из найденных геропротекторов — исключён: требует рецепта и врачебного контроля. Большинство «мифических» рецептов оказались метафорами, не химией.</span>
+        <span lang="en">Metal-based recipes (mercury, lead, ionic gold) were filtered out as toxic. Rapamycin — the strongest geroprotector found — was excluded: it requires a prescription and medical supervision. Most "mythical" recipes turned out to be metaphors, not chemistry.</span>
+      </p>
+    </div>
+    <div class="funnel-wrap">
+      <figure>
+        <svg viewBox="0 0 920 220" role="img" aria-label="Воронка отбора: 39 веществ и 21 гипотеза проверены по трём критериям — доказанность, безопасность, юридическая реализуемость — до 3 финалистов" style="width:100%; max-width:920px; height:auto; font-family:var(--sans); color:var(--ink);">
+          <polygon points="40,20 880,20 740,90 180,90" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <text x="460" y="55" text-anchor="middle" font-size="15" fill="currentColor" font-weight="700">39 <tspan lang="ru">веществ · 21 гипотеза</tspan><tspan lang="en">substances · 21 hypotheses</tspan></text>
+          <line x1="460" y1="90" x2="460" y2="115" stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow)"/>
+          <text x="480" y="106" font-size="11.5" fill="var(--ink-faint)"><tspan lang="ru">фильтр: доказанность + безопасность + легальность</tspan><tspan lang="en">filter: evidence + safety + legality</tspan></text>
+          <polygon points="180,120 740,120 620,175 300,175" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <text x="460" y="152" text-anchor="middle" font-size="14" fill="currentColor">3 <tspan lang="ru">финалиста</tspan><tspan lang="en">finalists</tspan></text>
+          <line x1="460" y1="175" x2="460" y2="198" stroke="var(--gold)" stroke-width="1.6" marker-end="url(#arrowGold)"/>
+          <polygon points="410,198 510,198 460,216" fill="var(--gold)"/>
+          <text x="460" y="212" text-anchor="middle" font-size="12.5" fill="var(--gold)" font-weight="700" dy="14"><tspan lang="ru">цикластрагенол · амалаки · спермидин</tspan><tspan lang="en">cycloastragenol · amalaki · spermidine</tspan></text>
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="currentColor"/></marker>
+            <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="var(--gold)"/></marker>
+          </defs>
+        </svg>
+        <figcaption><span lang="ru">Воронка отбора Фазы 1: из 39 веществ и 21 гипотезы до трёх финалистов, прошедших все три критерия.</span><span lang="en">Phase 1 selection funnel: from 39 substances and 21 hypotheses down to three finalists passing all three criteria.</span></figcaption>
+      </figure>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- THREE MOLECULES -->
+  <section id="molecules">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Три финалиста</span><span lang="en">The three finalists</span></p>
+      <h2><span lang="ru">Разные традиции, разные механизмы, ни одного пересечения</span><span lang="en">Different traditions, different mechanisms, zero overlap</span></h2>
+    </div>
+    <div class="mol-grid">
+      <div class="mol-card">
+        <span class="tag"><span lang="ru">TCM · корень астрагала</span><span lang="en">TCM · astragalus root</span></span>
+        <h3>Cycloastragenol</h3>
+        <p class="src"><span lang="ru">Astragalus membranaceus (Huang Qi)</span><span lang="en">Astragalus membranaceus (Huang Qi)</span></p>
+        <p class="cid">PubChem CID 13943286 · C30H50O5 · MW 490.7</p>
+        <div class="mech">
+          <span lang="ru">Активирует теломеразу (hTERT), включает Nrf2, модулирует аутофагию.</span>
+          <span lang="en">Activates telomerase (hTERT), triggers Nrf2, modulates autophagy.</span>
+          <ul>
+            <li><span lang="ru">Мета-анализ 2024: 8 РКИ, 750 человек — удлинение теломер подтверждено</span><span lang="en">2024 meta-analysis: 8 RCTs, 750 subjects — telomere elongation confirmed</span></li>
+            <li><span lang="ru">Уже продаётся как TA-65® — $35–200/мес</span><span lang="en">Already sold as TA-65® — $35–200/month</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mol-card">
+        <span class="tag"><span lang="ru">Аюрведа · индийский крыжовник</span><span lang="en">Ayurveda · Indian gooseberry</span></span>
+        <h3><span lang="ru">Амалаки</span><span lang="en">Amalaki</span></h3>
+        <p class="src"><span lang="ru">Phyllanthus emblica — маркер: галловая кислота</span><span lang="en">Phyllanthus emblica — marker compound: gallic acid</span></p>
+        <p class="cid">PubChem CID 370 · C7H6O5 · MW 170.1</p>
+        <div class="mech">
+          <span lang="ru">Стабильный витамин C + танины (эмбликанин A/B), путь Nrf2, HSP, SOD/GSH-Px.</span>
+          <span lang="en">Stable vitamin C + tannins (emblicanin A/B), Nrf2 pathway, HSP, SOD/GSH-Px.</span>
+          <ul>
+            <li><span lang="ru">+60.5% выживания при оксидативном стрессе (Drosophila)</span><span lang="en">+60.5% survival under oxidative stress (Drosophila)</span></li>
+            <li><span lang="ru">8-недельное РКИ на людях — выносливость</span><span lang="en">8-week human RCT — endurance</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mol-card">
+        <span class="tag"><span lang="ru">Питание · зародыши пшеницы</span><span lang="en">Diet · wheat germ</span></span>
+        <h3><span lang="ru">Спермидин</span><span lang="en">Spermidine</span></h3>
+        <p class="src"><span lang="ru">Зародыши пшеницы, ферментированные продукты, соя</span><span lang="en">Wheat germ, fermented foods, soy</span></p>
+        <p class="cid">PubChem CID 1102 · C7H19N3 · MW 145.3</p>
+        <div class="mech">
+          <span lang="ru">Главный индуктор аутофагии: подавляет EP300, включает AMPK-FOXO3a.</span>
+          <span lang="en">Master autophagy inducer: inhibits EP300, activates AMPK-FOXO3a.</span>
+          <ul>
+            <li><span lang="ru">Продлевает жизнь дрожжам, мухам, червям, мышам</span><span lang="en">Extends lifespan in yeast, flies, worms, mice</span></li>
+            <li><span lang="ru">Безопасность у людей — подтверждена EFSA (лимит 6 мг/день)</span><span lang="en">Human safety confirmed by EFSA (6 mg/day limit)</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      <span lang="ru"><b>Исправлено в ходе работы:</b> в первоначальных материалах PubChem CID для цикластрагенола и спермидина были указаны неверно и вели на другие вещества. Значения выше — проверены напрямую в PubChem.</span>
+      <span lang="en"><b>Corrected during the work:</b> the original working notes listed incorrect PubChem CIDs for cycloastragenol and spermidine, pointing to unrelated compounds. Values above were verified directly against PubChem.</span>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- PHASE 2 RESULTS -->
+  <section id="science">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Фаза 2 · Данные</span><span lang="en">Phase 2 · Data</span></p>
+      <h2><span lang="ru">Молекулярный докинг: 18 пар молекула-мишень</span><span lang="en">Molecular docking: 18 ligand-target pairs</span></h2>
+      <p class="measure" style="margin-top:14px; color:var(--ink-soft); font-size:15px;">
+        <span lang="ru">AutoDock Vina против шести белков-мишеней старения (hTERT, SIRT1, mTORC1, Keap1, EP300, AMPK), структуры — из RCSB PDB. Каждое число — предсказанная энергия связывания в ккал/моль.</span>
+        <span lang="en">AutoDock Vina against six aging-related protein targets (hTERT, SIRT1, mTORC1, Keap1, EP300, AMPK), structures from RCSB PDB. Each number is a predicted binding free energy in kcal/mol.</span>
+      </p>
+    </div>
+    <div class="results-grid">
+      <div>
+        <div class="shot-card">
+          <img src="data:image/jpeg;base64,{{HERO_B64}}" alt="Цикластрагенол в активном сайте EP300, поза с лучшей энергией связывания -9.67 ккал/моль" loading="lazy">
+          <div class="shot-caption"><span lang="ru">Лучший результат: цикластрагенол в кармане EP300 — &minus;9.67 ккал/моль (уровень одобренных лекарств). EP300 — заявленная мишень спермидина, а не цикластрагенола: неожиданное перекрёстное связывание.</span>
+          <span lang="en">Best result: cycloastragenol in the EP300 pocket — &minus;9.67 kcal/mol (approved-drug range). EP300 is spermidine's designated target, not cycloastragenol's — an unexpected cross-hit.</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th><span lang="ru">Молекула</span><span lang="en">Molecule</span></th><th>hTERT</th><th>SIRT1</th><th>mTORC1<sup>*</sup></th><th>Keap1</th><th>EP300</th><th>AMPK</th></tr></thead>
+            <tbody>
+              <tr><td><span lang="ru">Цикластрагенол</span><span lang="en">Cycloastragenol</span></td><td class="num">-6.9</td><td class="num">-5.8</td><td class="num">-8.8</td><td class="num">-7.5</td><td class="num strong">-9.7</td><td class="num">-6.2</td></tr>
+              <tr><td><span lang="ru">Галловая к-та</span><span lang="en">Gallic acid</span></td><td class="num">-4.8</td><td class="num">-3.5</td><td class="num">-7.1</td><td class="num">-5.2</td><td class="num">-6.2</td><td class="num">-4.2</td></tr>
+              <tr><td><span lang="ru">Спермидин</span><span lang="en">Spermidine</span></td><td class="num">-3.8</td><td class="num">-2.8</td><td class="num">-5.0</td><td class="num">-4.1</td><td class="num">-4.8</td><td class="num">-3.1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="scale-legend">
+          <span><i class="swatch" style="background:#8fae86"></i><span lang="ru">хуже &minus;5: слабое</span><span lang="en">worse than &minus;5: weak</span></span>
+          <span><i class="swatch" style="background:#d9b25c"></i><span lang="ru">&minus;6…&minus;8: умеренное</span><span lang="en">&minus;6…&minus;8: moderate</span></span>
+          <span><i class="swatch" style="background:#c96a3f"></i><span lang="ru">&minus;9…&minus;11: сильное</span><span lang="en">&minus;9…&minus;11: strong</span></span>
+        </div>
+        <p class="cid" style="margin-top:14px;">* <span lang="ru">блайнд-докинг пониженной достоверности — нет со-кристаллизованного лиганда в структуре 5H64</span><span lang="en">low-confidence blind docking — no co-crystallized ligand in structure 5H64</span></p>
+        <div class="callout">
+          <span lang="ru">Цикластрагенол лидирует почти по всем мишеням. Связывание с hTERT (заявленный механизм активации теломеразы) — умеренное, не сильное: докинг частично, но не однозначно подтверждает эффект, наблюдаемый in vitro (+45% активности теломеразы). Направление требует уточнения на более полной структуре hTERT.</span>
+          <span lang="en">Cycloastragenol leads across nearly every target. Binding to hTERT (the proposed telomerase-activation mechanism) is moderate, not strong: docking partially, not conclusively, supports the in vitro effect (+45% telomerase activity). This needs a more complete hTERT structure to resolve.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- MARKET -->
+  <section id="market">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Рынок</span><span lang="en">Market</span></p>
+      <h2><span lang="ru">Спрос уже есть — и уже платит</span><span lang="en">Demand already exists — and already pays</span></h2>
+    </div>
+    <div class="market-grid">
+      <div class="market-card">
+        <b>$9.9B<sup>1</sup></b>
+        <span><span lang="ru">мировой рынок longevity-добавок в 2026, рост до $16.7B к 2033 (CAGR 7.7%)</span><span lang="en">global longevity supplements market in 2026, growing to $16.7B by 2033 (7.7% CAGR)</span></span>
+      </div>
+      <div class="market-card">
+        <b>$29B<sup>2</sup></b>
+        <span><span lang="ru">более широкий longevity-рынок в 2026 (диапазон оценок $27–32B)</span><span lang="en">broader longevity market in 2026 (estimate range $27–32B)</span></span>
+      </div>
+      <div class="market-card">
+        <b>$35&ndash;200<sup>3</sup></b>
+        <span><span lang="ru">уже платят в месяц за TA-65® — коммерческий продукт на основе одной из наших трёх молекул</span><span lang="en">already paid per month for TA-65® — a commercial product built on one of our three molecules</span></span>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- REGULATORY -->
+  <section id="regulatory">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Регуляторика ЕС</span><span lang="en">EU regulatory status</span></p>
+      <h2><span lang="ru">Разный статус — разная скорость выхода на рынок</span><span lang="en">Different status, different time-to-market</span></h2>
+    </div>
+    <div class="reg-list">
+      <div class="reg-row">
+        <span class="name"><span lang="ru">Спермидин</span><span lang="en">Spermidine</span></span>
+        <span class="chip ok"><span lang="ru">разрешён</span><span lang="en">authorized</span></span>
+        <span class="detail"><span lang="ru">Novel Food по Регламенту (ЕС) 2020/443 — экстракт зародышей пшеницы, лимит 6 мг/день. Готов к использованию в ЕС уже сейчас.</span><span lang="en">Novel Food under Implementing Regulation (EU) 2020/443 — wheat germ extract, 6 mg/day limit. Ready to use in the EU today.</span></span>
+      </div>
+      <div class="reg-row">
+        <span class="name"><span lang="ru">Амалаки / галловая к-та</span><span lang="en">Amalaki / gallic acid</span></span>
+        <span class="chip ok"><span lang="ru">традиционный статус</span><span lang="en">traditional status</span></span>
+        <span class="detail"><span lang="ru">Established food use, не подпадает под Novel Food как таковой — низкий регуляторный барьер.</span><span lang="en">Established food use, generally outside Novel Food scope — low regulatory barrier.</span></span>
+      </div>
+      <div class="reg-row">
+        <span class="name"><span lang="ru">Цикластрагенол (очищенный)</span><span lang="en">Cycloastragenol (purified)</span></span>
+        <span class="chip pending"><span lang="ru">требуется досье</span><span lang="en">dossier required</span></span>
+        <span class="detail"><span lang="ru">Как очищенное вещество (не цельный экстракт корня) требует подачи и одобрения досье Novel Food с токсикологическими данными — это основная регуляторная работа проекта.</span><span lang="en">As a purified compound (not the whole-root extract) it requires a Novel Food dossier with toxicological data — this is the project's main regulatory workstream.</span></span>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- ROADMAP -->
+  <section id="roadmap">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Дорожная карта</span><span lang="en">Roadmap</span></p>
+      <h2><span lang="ru">Типовой путь БАД-проекта от данных до полки</span><span lang="en">A typical supplement project's path from data to shelf</span></h2>
+      <p class="measure" style="margin-top:14px; color:var(--ink-soft); font-size:15px;">
+        <span lang="ru">Иллюстративный график, стандартный для категории пищевых добавок; сроки уточняются по мере переговоров с партнёрами.</span>
+        <span lang="en">An illustrative timeline typical for the dietary-supplement category; dates will firm up as partner talks progress.</span>
+      </p>
+    </div>
+    <div class="roadmap-wrap">
+      <svg viewBox="0 0 1000 250" role="img" aria-label="Дорожная карта из пяти этапов: докинг завершён, затем in vitro валидация, регуляторное досье и переговоры о поставке параллельно, GMP-формуляция, и пилотный запуск продаж" style="width:100%; min-width:760px; height:auto; font-family:var(--sans); color:var(--ink);">
+        <line x1="60" y1="60" x2="940" y2="60" stroke="var(--line)" stroke-width="2"/>
+        <!-- Node 1: done -->
+        <circle cx="90" cy="60" r="9" fill="var(--jade)"/>
+        <text x="90" y="30" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--jade)"><tspan lang="ru">Готово</tspan><tspan lang="en">Done</tspan></text>
+        <text x="90" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">In silico докинг</tspan><tspan lang="en">In silico docking</tspan></text>
+        <!-- Node 2 -->
+        <circle cx="300" cy="60" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <text x="300" y="30" text-anchor="middle" font-size="12.5" fill="var(--ink-faint)">6&ndash;9 <tspan lang="ru">мес</tspan><tspan lang="en">mo</tspan></text>
+        <text x="300" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">In vitro</tspan><tspan lang="en">In vitro</tspan><tspan> </tspan><tspan lang="ru">валидация</tspan><tspan lang="en">validation</tspan></text>
+        <!-- Node 3 -->
+        <circle cx="510" cy="60" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <text x="510" y="30" text-anchor="middle" font-size="12.5" fill="var(--ink-faint)">12&ndash;24 <tspan lang="ru">мес, параллельно</tspan><tspan lang="en">mo, parallel</tspan></text>
+        <text x="510" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">Досье Novel Food +</tspan><tspan lang="en">Novel Food dossier +</tspan></text>
+        <text x="510" y="106" text-anchor="middle" font-size="12"><tspan lang="ru">закупка сырья (Китай)</tspan><tspan lang="en">China sourcing deal</tspan></text>
+        <!-- Node 4 -->
+        <circle cx="720" cy="60" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <text x="720" y="30" text-anchor="middle" font-size="12.5" fill="var(--ink-faint)">6 <tspan lang="ru">мес</tspan><tspan lang="en">mo</tspan></text>
+        <text x="720" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">GMP-формуляция,</tspan><tspan lang="en">GMP formulation,</tspan></text>
+        <text x="720" y="106" text-anchor="middle" font-size="12"><tspan lang="ru">пилотная партия</tspan><tspan lang="en">pilot batch</tspan></text>
+        <!-- Node 5: gold -->
+        <circle cx="910" cy="60" r="9" fill="var(--gold)"/>
+        <text x="910" y="30" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--gold)">3&ndash;6 <tspan lang="ru">мес</tspan><tspan lang="en">mo</tspan></text>
+        <text x="910" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">Пилотный запуск,</tspan><tspan lang="en">Pilot launch,</tspan></text>
+        <text x="910" y="106" text-anchor="middle" font-size="12">EU</text>
+      </svg>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <!-- ASK -->
+  <section id="ask">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Что нужно проекту</span><span lang="en">What the project needs</span></p>
+      <h2><span lang="ru">Наука есть. Нужна команда, чтобы довести её до полки</span><span lang="en">The science exists. It needs a team to reach the shelf</span></h2>
+    </div>
+    <div class="ask-grid">
+      <ul class="role-list">
+        <li>
+          <span class="n">01</span>
+          <div><h4><span lang="ru">Регуляторный / юридический партнёр</span><span lang="en">Regulatory / legal partner</span></h4>
+          <p><span lang="ru">Подготовка и подача досье Novel Food в ЕС, параллельно — юрисдикции продажи.</span><span lang="en">Preparing and filing the EU Novel Food dossier, plus sales-jurisdiction structuring.</span></p></div>
+        </li>
+        <li>
+          <span class="n">02</span>
+          <div><h4><span lang="ru">Переговорщик по закупкам (Китай)</span><span lang="en">China sourcing negotiator</span></h4>
+          <p><span lang="ru">Контракт на поставку сырья, контроль качества, логистика.</span><span lang="en">Raw-material supply contract, quality control, logistics.</span></p></div>
+        </li>
+        <li>
+          <span class="n">03</span>
+          <div><h4><span lang="ru">Лабораторный партнёр (in vitro)</span><span lang="en">Wet-lab partner (in vitro)</span></h4>
+          <p><span lang="ru">Проверка находок докинга на реальных клеточных моделях.</span><span lang="en">Validating docking findings in real cell-based assays.</span></p></div>
+        </li>
+        <li>
+          <span class="n">04</span>
+          <div><h4><span lang="ru">Бизнес-девелопмент / коммерциализация</span><span lang="en">Business development / commercialization</span></h4>
+          <p><span lang="ru">Бренд, дистрибуция, выход на рынок ЕС.</span><span lang="en">Brand, distribution, EU market entry.</span></p></div>
+        </li>
+      </ul>
+      <div class="ask-card">
+        <p class="eyebrow"><span lang="ru">Инвестиции</span><span lang="en">Investment</span></p>
+        <h3><span lang="ru">Условия обсуждаются индивидуально</span><span lang="en">Terms discussed individually</span></h3>
+        <p><span lang="ru">Проект на стадии pre-seed: наука подтверждена вычислительно, юридическое лицо ещё не создано. Сумма раунда, доля и использование средств — на переговорах, при необходимости под NDA.</span>
+        <span lang="en">Pre-seed stage: the science is computationally validated, no legal entity yet. Round size, equity and use of funds are discussed in conversation, under NDA if needed.</span></p>
+        <a href="mailto:pylypchukandrii770@gmail.com?subject=Rasayana%20Virtual%20Lab" class="btn btn-primary"><span lang="ru">Написать по проекту</span><span lang="en">Get in touch</span></a>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="wordmark"><b>Rasayana Virtual Lab</b><span lang="ru">Pre-seed · 2026</span><span lang="en">Pre-seed · 2026</span></div>
+      <p class="disclaimer">
+        <span lang="ru">Проект находится на стадии исследования. Ни одно из веществ не продаётся и не позиционируется здесь как готовый продукт или средство лечения. Все научные данные — результат вычислительного (in silico) моделирования и требуют лабораторного подтверждения. Рыночные цифры — сторонние оценки со ссылками ниже.</span>
+        <span lang="en">This project is at the research stage. None of the substances are sold or presented here as a finished product or treatment. All scientific data comes from computational (in silico) modeling and requires wet-lab confirmation. Market figures are third-party estimates, sourced below.</span>
+      </p>
+    </div>
+    <div class="sources">
+      <span lang="ru">Источники:</span><span lang="en">Sources:</span>
+      <ol>
+        <li>Persistence Market Research — <a href="https://www.persistencemarketresearch.com/market-research/longevity-and-general-wellness-supplements-market.asp" target="_blank" rel="noopener">Longevity & General Wellness Supplements Market</a></li>
+        <li>SNS Insider, via Yahoo Finance — <a href="https://finance.yahoo.com/sectors/healthcare/articles/longevity-market-size-projected-reach-124200526.html" target="_blank" rel="noopener">Longevity Market Size Projection</a></li>
+        <li>T.A. Sciences — <span lang="ru">публичная розничная цена TA-65®</span><span lang="en">public retail pricing of TA-65®</span></li>
+        <li>European Commission — <a href="https://food.ec.europa.eu/food-safety/novel-food/authorisations/union-list-novel-foods_en" target="_blank" rel="noopener">Union List of Novel Foods</a></li>
+        <li>EUR-Lex — <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32020R0443" target="_blank" rel="noopener">Commission Implementing Regulation (EU) 2020/443</a></li>
+      </ol>
+    </div>
+  </div>
+</footer>

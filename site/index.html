@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rasayana Virtual Lab</title>
+<meta name="description" content="Виртуальная лаборатория геропротекторов: от аюрведических текстов до молекулярного докинга.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<style>
+  .mol-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media (max-width:860px){.mol-grid{grid-template-columns:1fr;}}
+  .mol-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:4px; padding:24px; min-width:0;}
+  .mol-card .n{font-family:var(--mono); color:var(--gold); font-size:12px;}
+  .mol-card h3{font-size:18px; margin-top:6px;}
+  .mol-card p{font-size:13.5px; color:var(--ink-soft); margin-top:8px;}
+  .reg-list{display:flex; flex-direction:column; gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:4px; overflow:hidden;}
+  .reg-row{display:grid; grid-template-columns:1.1fr auto 2fr; gap:18px; align-items:center; background:var(--bg-card); padding:18px 20px;}
+  @media (max-width:700px){.reg-row{grid-template-columns:1fr; gap:8px;}}
+  .reg-row .name{font-family:var(--serif); font-size:16px;}
+  .chip{font-family:var(--mono); font-size:11.5px; letter-spacing:.03em; padding:5px 11px; border-radius:999px; white-space:nowrap; justify-self:start;}
+  .chip.ok{background:var(--jade-soft); color:var(--jade);}
+  .chip.pending{background:var(--gold-soft); color:var(--gold);}
+  .funnel-wrap{overflow-x:auto;}
+  figcaption{margin-top:14px; font-size:13px; color:var(--ink-faint); max-width:60ch;}
+  .market-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media (max-width:860px){.market-grid{grid-template-columns:1fr;}}
+  .market-card{padding:24px; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:4px; min-width:0;}
+  .market-card b{display:block; font-family:var(--serif); font-size:30px; color:var(--jade); margin-bottom:6px;}
+  .market-card span{font-size:13.5px; color:var(--ink-soft);}
+  .market-card sup{font-family:var(--mono); font-size:10px; color:var(--ink-faint);}
+</style>
+</head>
+<body>
+<!--#include virtual="/assets/_nav.html" -->
+
+<header class="hero has-image" style="--hero-img:url('/assets/img/hero.jpg')">
+  <div class="container hero-inner">
+    <p class="eyebrow" style="color:var(--gold)"><span lang="ru">Фаза 2 · Молекулярный докинг завершён</span><span lang="en">Phase 2 · Molecular docking complete</span></p>
+    <h1>
+      <span lang="ru">От аюрведических текстов к геронауке — с доказательствами на уровне атомов</span>
+      <span lang="en">From Ayurvedic texts to geroscience — proven down to the atom</span>
+    </h1>
+    <p class="thesis">
+      <span lang="ru">Три вещества, независимо найденные традиционной медициной за столетия до молекулярной биологии, проверены вычислительными методами против шести белков-мишеней старения.</span>
+      <span lang="en">Three compounds, independently identified by traditional medicine centuries before molecular biology existed, tested computationally against six aging-related protein targets.</span>
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><b>39&nbsp;→&nbsp;3</b><span lang="ru">кандидата отобрано в Фазе 1</span><span lang="en">candidates shortlisted in Phase 1</span></div>
+      <div class="stat"><b>18</b><span lang="ru">докингов молекула×мишень</span><span lang="en">ligand×target docking runs</span></div>
+      <div class="stat"><b>&minus;9.7</b><span lang="ru">ккал/моль, лучшее связывание</span><span lang="en">kcal/mol, best affinity found</span></div>
+    </div>
+    <div class="hero-cta">
+      <a href="/lab.html" class="btn btn-primary"><span lang="ru">Посмотреть, как это работает</span><span lang="en">See how it works</span></a>
+      <a href="/ask.html" class="btn btn-ghost"><span lang="ru">Что нужно проекту</span><span lang="en">What the project needs</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <section id="thesis">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Гипотеза</span><span lang="en">The hypothesis</span></p>
+      <h2><span lang="ru">Народная фармакология как источник данных, а не легенда</span><span lang="en">Folk pharmacology as a dataset, not a legend</span></h2>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px;">
+      <div style="min-width:0;">
+        <p style="font-family:var(--serif); font-size:19px;"><span lang="ru">Rasa Shastra (аюрведическая алхимия) и традиционная китайская медицина веками эмпирически отбирали вещества, замедляющие старение — без знания молекулярных механизмов.</span>
+        <span lang="en">Rasa Shastra (Ayurvedic alchemy) and Traditional Chinese Medicine spent centuries empirically selecting anti-aging substances — with zero knowledge of molecular mechanism.</span></p>
+      </div>
+      <div style="min-width:0; color:var(--ink-soft);">
+        <p><span lang="ru">Современная геронаука умеет объяснять и проверять такие находки: белки-мишени старения картированы, а молекулярный докинг количественно оценивает, садится ли молекула в карман белка — до дорогостоящих лабораторных испытаний.</span>
+        <span lang="en">Modern geroscience can now explain and test such findings: aging-related protein targets are mapped, and molecular docking quantifies whether a molecule fits a protein's pocket — before expensive wet-lab work.</span></p>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="phase1">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Фаза 1 · Завершена</span><span lang="en">Phase 1 · Complete</span></p>
+      <h2><span lang="ru">От 39 веществ до трёх финалистов</span><span lang="en">From 39 substances to three finalists</span></h2>
+      <p class="measure" style="margin-top:14px; color:var(--ink-soft); font-size:15px;">
+        <span lang="ru">Металлические рецепты отсеяны как токсичные. Рапамицин — сильнейший из найденных геропротекторов — исключён: требует рецепта и врачебного контроля. Большинство «мифических» рецептов оказались метафорами, не химией.</span>
+        <span lang="en">Metal-based recipes were filtered out as toxic. Rapamycin — the strongest geroprotector found — was excluded: it requires a prescription and medical supervision. Most "mythical" recipes turned out to be metaphors, not chemistry.</span>
+      </p>
+    </div>
+    <div class="funnel-wrap">
+      <figure>
+        <svg viewBox="0 0 920 200" role="img" aria-label="Воронка отбора: 39 веществ и 21 гипотеза проверены по трём критериям до 3 финалистов" style="width:100%; max-width:920px; height:auto; font-family:var(--sans); color:var(--ink);">
+          <polygon points="40,20 880,20 740,85 180,85" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <text x="460" y="52" text-anchor="middle" font-size="15" fill="currentColor" font-weight="700">39 <tspan lang="ru">веществ · 21 гипотеза</tspan><tspan lang="en">substances · 21 hypotheses</tspan></text>
+          <line x1="460" y1="85" x2="460" y2="108" stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow)"/>
+          <text x="480" y="100" font-size="11.5" fill="var(--ink-faint)"><tspan lang="ru">фильтр: доказанность + безопасность + легальность</tspan><tspan lang="en">filter: evidence + safety + legality</tspan></text>
+          <polygon points="180,113 740,113 620,165 300,165" fill="none" stroke="var(--gold)" stroke-width="1.6"/>
+          <text x="460" y="144" text-anchor="middle" font-size="14" fill="var(--gold)" font-weight="700">3 <tspan lang="ru">финалиста</tspan><tspan lang="en">finalists</tspan></text>
+          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="currentColor"/></marker></defs>
+        </svg>
+        <figcaption><span lang="ru">Три финалиста представляют три независимые традиции (аюрведа, ТКМ, диетология) и три разных механизма старения — состав раскрывается квалифицированным инвесторам под NDA.</span><span lang="en">The three finalists represent three independent traditions (Ayurveda, TCM, dietary science) and three distinct aging mechanisms — composition disclosed to qualified investors under NDA.</span></figcaption>
+      </figure>
+    </div>
+    <div class="callout">
+      <span lang="ru"><b>Почему без конкретики.</b> Мы намеренно не публикуем названия веществ и мишеней здесь: имея эти данные, воспроизвести нашу работу можно было бы без нас. Полное досье — молекулы, механизмы, полные результаты докинга — раскрывается серьёзным инвесторам после разговора, под NDA.</span>
+      <span lang="en"><b>Why no specifics here.</b> We deliberately don't publish compound and target names on this page: with that data, our work could be reproduced without us. The full dossier — molecules, mechanisms, complete docking results — is shared with serious investors after a conversation, under NDA.</span>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="science">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Фаза 2 · Данные</span><span lang="en">Phase 2 · Data</span></p>
+      <h2><span lang="ru">Молекулярный докинг: 18 пар кандидат-мишень</span><span lang="en">Molecular docking: 18 candidate-target pairs</span></h2>
+      <p class="measure" style="margin-top:14px; color:var(--ink-soft); font-size:15px;">
+        <span lang="ru">AutoDock Vina против шести белков-мишеней старения (теломераза, сиртуин, регулятор аутофагии, путь Nrf2, ацетилтрансфераза, энергетический сенсор), структуры — из RCSB PDB.</span>
+        <span lang="en">AutoDock Vina against six aging-related protein targets (telomerase, a sirtuin, an autophagy regulator, the Nrf2 pathway, an acetyltransferase, an energy sensor), structures from RCSB PDB.</span>
+      </p>
+      <div class="callout jade" style="margin-top:20px;">
+        <span lang="ru"><b>Протокол докинга провалидирован.</b> Взяли известный лиганд из независимой структуры, построили для него новый 3D-конформер «вслепую» (как будто не знаем ответа) и состыковали заново. Результат воспроизвёл реальную кристаллографическую позу с точностью 0.37 Å — это на уровне эталонных бенчмарков в индустрии, подтверждает, что наш пайплайн находит физически верные позы связывания, а не случайные.</span>
+        <span lang="en"><b>The docking protocol has been validated.</b> We took a known ligand from an independent structure, built a fresh 3D conformer for it "blind" (as if we didn't know the answer), and redocked it. The result reproduced the real crystallographic pose to within 0.37 Å — benchmark-grade accuracy, confirming our pipeline finds physically correct binding poses, not random ones.</span>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:1.1fr 1fr; gap:40px; align-items:start;">
+      <div class="min0">
+        <div class="shot-card">
+          <img src="/assets/img/demo_caffeine.jpg" alt="Пример визуализации пайплайна на открытом тестовом веществе" loading="lazy">
+          <div class="shot-caption"><span lang="ru">Так выглядит визуализация нашего пайплайна (пример на открытом веществе — полная демонстрация на странице «Лаборатория»). Реальные структуры трёх кандидатов — в закрытом досье.</span>
+          <span lang="en">This is what our pipeline's visualization looks like (shown on a public example compound — full walkthrough on The Lab page). The real structures of our three candidates are in the confidential dossier.</span></div>
+        </div>
+      </div>
+      <div class="min0">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th><span lang="ru">Кандидат</span><span lang="en">Candidate</span></th><th><span lang="ru">Лучшая мишень</span><span lang="en">Best target</span></th><th><span lang="ru">Аффинность</span><span lang="en">Affinity</span></th></tr></thead>
+            <tbody>
+              <tr><td><span lang="ru">№2 (ТКМ)</span><span lang="en">#2 (TCM)</span></td><td class="mono">Target E</td><td class="num strong">-9.7</td></tr>
+              <tr><td><span lang="ru">№1 (аюрведа)</span><span lang="en">#1 (Ayurveda)</span></td><td class="mono">Target E</td><td class="num">-6.2</td></tr>
+              <tr><td><span lang="ru">№3 (диета)</span><span lang="en">#3 (diet)</span></td><td class="mono">Target E</td><td class="num">-4.8</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="cid" style="margin-top:14px; font-family:var(--mono); font-size:12px; color:var(--ink-faint);">
+          <span lang="ru">Шкала: хуже −5 слабое · −6…−8 умеренное · −9…−11 сильное (уровень одобренных лекарств)</span>
+          <span lang="en">Scale: worse than −5 weak · −6…−8 moderate · −9…−11 strong (approved-drug range)</span>
+        </p>
+        <div class="callout jade">
+          <span lang="ru">Любопытная деталь: у всех трёх кандидатов лучшей мишенью оказалась одна и та же — включая случай, когда эта мишень изначально не рассматривалась для конкретного кандидата. Совпадение само по себе может стать отдельным направлением исследования.</span>
+          <span lang="en">A curious detail: all three candidates share the same best-scoring target — including one case where that target wasn't originally proposed for that candidate at all. The overlap itself could become its own research thread.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="market">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Рынок</span><span lang="en">Market</span></p>
+      <h2><span lang="ru">Спрос уже есть — и уже платит</span><span lang="en">Demand already exists — and already pays</span></h2>
+    </div>
+    <div class="market-grid">
+      <div class="market-card">
+        <b>$9.9B<sup>1</sup></b>
+        <span><span lang="ru">мировой рынок longevity-добавок в 2026, рост до $16.7B к 2033 (CAGR 7.7%)</span><span lang="en">global longevity supplements market in 2026, growing to $16.7B by 2033 (7.7% CAGR)</span></span>
+      </div>
+      <div class="market-card">
+        <b>$29B<sup>2</sup></b>
+        <span><span lang="ru">более широкий longevity-рынок в 2026 (диапазон оценок $27–32B)</span><span lang="en">broader longevity market in 2026 (estimate range $27–32B)</span></span>
+      </div>
+      <div class="market-card">
+        <b>$35&ndash;200<sup>3</sup></b>
+        <span><span lang="ru">уже платят в месяц за коммерческий продукт на основе одного из классов наших кандидатов</span><span lang="en">already paid per month for a commercial product built on one of our candidates' compound classes</span></span>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="regulatory">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Регуляторика ЕС</span><span lang="en">EU regulatory status</span></p>
+      <h2><span lang="ru">Разный статус — разная скорость выхода на рынок</span><span lang="en">Different status, different time-to-market</span></h2>
+    </div>
+    <div class="reg-list">
+      <div class="reg-row">
+        <span class="name"><span lang="ru">Кандидат №3</span><span lang="en">Candidate #3</span></span>
+        <span class="chip ok"><span lang="ru">разрешён</span><span lang="en">authorized</span></span>
+        <span class="detail"><span lang="ru">Уже имеет статус Novel Food в ЕС — готов к использованию уже сейчас.</span><span lang="en">Already holds EU Novel Food status — usable today.</span></span>
+      </div>
+      <div class="reg-row">
+        <span class="name"><span lang="ru">Кандидат №2</span><span lang="en">Candidate #2</span></span>
+        <span class="chip ok"><span lang="ru">традиционный статус</span><span lang="en">traditional status</span></span>
+        <span class="detail"><span lang="ru">Established food use, низкий регуляторный барьер.</span><span lang="en">Established food use, low regulatory barrier.</span></span>
+      </div>
+      <div class="reg-row">
+        <span class="name"><span lang="ru">Кандидат №1</span><span lang="en">Candidate #1</span></span>
+        <span class="chip pending"><span lang="ru">требуется досье</span><span lang="en">dossier required</span></span>
+        <span class="detail"><span lang="ru">В очищенном виде требует стандартного досье Novel Food с токсикологическими данными.</span><span lang="en">In purified form requires a standard Novel Food dossier with toxicological data.</span></span>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="roadmap">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="ru">Дорожная карта</span><span lang="en">Roadmap</span></p>
+      <h2><span lang="ru">Типовой путь БАД-проекта от данных до полки</span><span lang="en">A typical supplement project's path from data to shelf</span></h2>
+    </div>
+    <div style="overflow-x:auto;">
+      <svg viewBox="0 0 1000 220" role="img" aria-label="Дорожная карта из пяти этапов" style="width:100%; min-width:760px; height:auto; font-family:var(--sans); color:var(--ink);">
+        <line x1="60" y1="60" x2="940" y2="60" stroke="var(--line)" stroke-width="2"/>
+        <circle cx="90" cy="60" r="9" fill="var(--jade)"/>
+        <text x="90" y="30" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--jade)"><tspan lang="ru">Готово</tspan><tspan lang="en">Done</tspan></text>
+        <text x="90" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">In silico докинг</tspan><tspan lang="en">In silico docking</tspan></text>
+        <circle cx="300" cy="60" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <text x="300" y="30" text-anchor="middle" font-size="12.5" fill="var(--ink-faint)">6&ndash;9 <tspan lang="ru">мес</tspan><tspan lang="en">mo</tspan></text>
+        <text x="300" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">In vitro валидация</tspan><tspan lang="en">In vitro validation</tspan></text>
+        <circle cx="510" cy="60" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <text x="510" y="30" text-anchor="middle" font-size="12.5" fill="var(--ink-faint)">12&ndash;24 <tspan lang="ru">мес, параллельно</tspan><tspan lang="en">mo, parallel</tspan></text>
+        <text x="510" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">Досье Novel Food +</tspan><tspan lang="en">Novel Food dossier +</tspan></text>
+        <text x="510" y="106" text-anchor="middle" font-size="12"><tspan lang="ru">закупка сырья</tspan><tspan lang="en">sourcing deal</tspan></text>
+        <circle cx="720" cy="60" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <text x="720" y="30" text-anchor="middle" font-size="12.5" fill="var(--ink-faint)">6 <tspan lang="ru">мес</tspan><tspan lang="en">mo</tspan></text>
+        <text x="720" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">GMP-формуляция,</tspan><tspan lang="en">GMP formulation,</tspan></text>
+        <text x="720" y="106" text-anchor="middle" font-size="12"><tspan lang="ru">пилотная партия</tspan><tspan lang="en">pilot batch</tspan></text>
+        <circle cx="910" cy="60" r="9" fill="var(--gold)"/>
+        <text x="910" y="30" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--gold)">3&ndash;6 <tspan lang="ru">мес</tspan><tspan lang="en">mo</tspan></text>
+        <text x="910" y="90" text-anchor="middle" font-size="12"><tspan lang="ru">Пилотный запуск, EU</tspan><tspan lang="en">Pilot launch, EU</tspan></text>
+      </svg>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="cta" style="padding-bottom:100px;">
+    <div class="callout" style="display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;">
+      <p style="max-width:52ch;"><span lang="ru">Хотите увидеть, как пайплайн работает вживую, и что именно мы предлагаем?</span><span lang="en">Want to see the pipeline actually run, and what exactly we're proposing?</span></p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/lab.html" class="btn btn-outline"><span lang="ru">Лаборатория</span><span lang="en">The Lab</span></a>
+        <a href="/ask.html" class="btn btn-primary"><span lang="ru">Что нужно проекту →</span><span lang="en">What we need →</span></a>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+<div class="container">
+  <div class="sources">
+    <span lang="ru">Источники:</span><span lang="en">Sources:</span>
+    <ol>
+      <li>Persistence Market Research — <a href="https://www.persistencemarketresearch.com/market-research/longevity-and-general-wellness-supplements-market.asp" target="_blank" rel="noopener">Longevity & General Wellness Supplements Market</a></li>
+      <li>SNS Insider, via Yahoo Finance — <a href="https://finance.yahoo.com/sectors/healthcare/articles/longevity-market-size-projected-reach-124200526.html" target="_blank" rel="noopener">Longevity Market Size Projection</a></li>
+      <li><span lang="ru">Публичная розничная цена сопоставимого коммерческого продукта</span><span lang="en">Public retail pricing of a comparable commercial product</span></li>
+    </ol>
+  </div>
+</div>
+</body>
+</html>

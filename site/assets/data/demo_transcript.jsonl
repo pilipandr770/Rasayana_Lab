@@ -1,0 +1,21 @@
+{"t": 0.0, "stage": "start", "message": "Демонстрационный прогон: кофеин -> аденозиновый рецептор A2A (PDB 3EML)"}
+{"t": 0.0, "stage": "fetch_molecule", "message": "Запрос к PubChem REST API: CID 2519 (кофеин)"}
+{"t": 0.33, "stage": "fetch_molecule", "message": "Получены свойства молекулы", "data": {"CID": 2519, "MolecularFormula": "C8H10N4O2", "MolecularWeight": "194.19", "ConnectivitySMILES": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C", "InChIKey": "RYYVLZVUVIJVGH-UHFFFAOYSA-N", "IUPACName": "1,3,7-trimethylpurine-2,6-dione"}}
+{"t": 0.64, "stage": "fetch_molecule", "message": "3D SDF сохранён: caffeine_2519.sdf"}
+{"t": 0.65, "stage": "lipinski", "message": "RDKit: расчёт свойств по правилу Липински (Rule of 5)"}
+{"t": 0.65, "stage": "lipinski", "message": "Готово", "data": {"MW": 194.19, "LogP": -1.03, "HBD": 0, "HBA": 3, "TPSA": 61.82}}
+{"t": 0.65, "stage": "fetch_target", "message": "Скачивание структуры 3EML с RCSB PDB (человеческий рецептор A2A)"}
+{"t": 0.81, "stage": "fetch_target", "message": "Структура загружена: 3EML.pdb", "data": {"co_crystallized_ligands": ["SO4", "STE", "ZMA"]}}
+{"t": 0.83, "stage": "fetch_target", "message": "Удалены вода/гетерогруппы, оставлен только белок для рецептора"}
+{"t": 0.83, "stage": "binding_site", "message": "Определение бокса докинга по со-кристаллизованному лиганду ZMA (ZM241385)"}
+{"t": 0.83, "stage": "binding_site", "message": "Бокс определён (высокая достоверность — есть со-кристаллизованный лиганд)", "data": {"center": [-9.255, -7.071, 56.203], "size": [20.0, 20.0, 20.165]}}
+{"t": 0.83, "stage": "prep_ligand", "message": "RDKit: генерация 3D-конформера (ETKDG + MMFF94)"}
+{"t": 0.88, "stage": "prep_ligand", "message": "Конвертация в PDBQT (meeko)"}
+{"t": 2.22, "stage": "prep_ligand", "message": "Лиганд готов: caffeine.pdbqt"}
+{"t": 2.22, "stage": "prep_receptor", "message": "meeko: добавление водородов/зарядов, подготовка рецептора для Vina"}
+{"t": 5.81, "stage": "prep_receptor", "message": "Рецептор готов: 3EML.pdbqt"}
+{"t": 5.81, "stage": "dock", "message": "Запуск AutoDock Vina (exhaustiveness=16, 5 поз)"}
+{"t": 8.11, "stage": "dock", "message": "Докинг завершён, лучшая аффинность: -5.79 ккал/моль", "data": {"all_modes": [-5.79, -5.78, -5.737, -5.532, -5.479]}}
+{"t": 8.11, "stage": "visualize", "message": "py3Dmol: рендер позы в активном сайте A2A"}
+{"t": 8.2, "stage": "visualize", "message": "Визуализация сохранена: caffeine__3EML.html"}
+{"t": 8.2, "stage": "done", "message": "Пайплайн завершён", "data": {"molecule": {"CID": 2519, "MolecularFormula": "C8H10N4O2", "MolecularWeight": "194.19", "ConnectivitySMILES": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C", "InChIKey": "RYYVLZVUVIJVGH-UHFFFAOYSA-N", "IUPACName": "1,3,7-trimethylpurine-2,6-dione"}, "lipinski": {"MW": 194.19, "LogP": -1.03, "HBD": 0, "HBA": 3, "TPSA": 61.82}, "box": {"center": [-9.255, -7.071, 56.203], "size": [20.0, 20.0, 20.165]}, "best_affinity_kcal_mol": -5.79, "all_modes": [-5.79, -5.78, -5.737, -5.532, -5.479]}}

@@ -1,0 +1,107 @@
+[
+  {
+    "pdb_id": "6E53",
+    "name": "TERT",
+    "role": "теломераза (каталитический домен, суррогат T. castaneum)",
+    "priority": 1,
+    "chains": [
+      "A",
+      "E"
+    ],
+    "n_residues": 622,
+    "co_crystallized_ligands": [
+      "HUV",
+      "MG"
+    ],
+    "clean_protein_file": "C:\\Users\\ПК\\rasayana-lab\\results\\pdb\\6E53_protein.pdb"
+  },
+  {
+    "pdb_id": "4ZZJ",
+    "name": "SIRT1",
+    "role": "деацетилаза",
+    "priority": 1,
+    "chains": [
+      "A",
+      "B"
+    ],
+    "n_residues": 400,
+    "co_crystallized_ligands": [
+      "4TQ",
+      "ALY",
+      "CNA",
+      "GOL",
+      "NLE",
+      "ZN"
+    ],
+    "clean_protein_file": "C:\\Users\\ПК\\rasayana-lab\\results\\pdb\\4ZZJ_protein.pdb"
+  },
+  {
+    "pdb_id": "4JSP",
+    "name": "mTOR",
+    "role": "киназный домен mTORC1 (ATP-карман)",
+    "priority": 1,
+    "chains": [
+      "B",
+      "D",
+      "A",
+      "C"
+    ],
+    "n_residues": 2756,
+    "co_crystallized_ligands": [
+      "AGS",
+      "MG"
+    ],
+    "clean_protein_file": "C:\\Users\\ПК\\rasayana-lab\\results\\pdb\\4JSP_protein.pdb"
+  },
+  {
+    "pdb_id": "2FLU",
+    "name": "Keap1",
+    "role": "регулятор Nrf2 пути",
+    "priority": 2,
+    "chains": [
+      "X",
+      "P"
+    ],
+    "n_residues": 634,
+    "co_crystallized_ligands": [],
+    "clean_protein_file": "C:\\Users\\ПК\\rasayana-lab\\results\\pdb\\2FLU_protein.pdb"
+  },
+  {
+    "pdb_id": "4PZS",
+    "name": "EP300",
+    "role": "ацетилтрансфераза (мишень спермидина)",
+    "priority": 2,
+    "chains": [
+      "A"
+    ],
+    "n_residues": 587,
+    "co_crystallized_ligands": [
+      "ACO",
+      "DMS"
+    ],
+    "clean_protein_file": "C:\\Users\\ПК\\rasayana-lab\\results\\pdb\\4PZS_protein.pdb"
+  },
+  {
+    "pdb_id": "4CFE",
+    "name": "AMPK",
+    "role": "сенсор энергии",
+    "priority": 2,
+    "chains": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ],
+    "n_residues": 1788,
+    "co_crystallized_ligands": [
+      "992",
+      "AMP",
+      "SEP",
+      "STU",
+      "TPO"
+    ],
+    "clean_protein_file": "C:\\Users\\ПК\\rasayana-lab\\results\\pdb\\4CFE_protein.pdb"
+  }
+]
