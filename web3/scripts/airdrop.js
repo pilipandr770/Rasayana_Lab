@@ -2,7 +2,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  const to = process.argv[process.argv.length - 1];
+  const to = process.env.AIRDROP_TO || process.argv[process.argv.length - 1];
   if (!to || !to.startsWith("0x")) {
     throw new Error("Укажи адрес получателя последним аргументом");
   }
