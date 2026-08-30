@@ -20,8 +20,90 @@ let rasaSigner = null;
 let rasaContract = null;
 let rasaReadContract = null;
 
+// --- EIP-6963: обнаружение НЕСКОЛЬКИХ установленных кошельков (MetaMask,
+// Coinbase Wallet и т.д.), чтобы дать пользователю выбрать нужный, а не
+// зависеть от того, какое расширение "перехватило" window.ethereum первым.
+const rasaDetectedProviders = new Map();
+window.addEventListener("eip6963:announceProvider", (event) => {
+  rasaDetectedProviders.set(event.detail.info.uuid, event.detail);
+});
+function rasaRequestProviders() {
+  window.dispatchEvent(new Event("eip6963:requestProvider"));
+}
+rasaRequestProviders();
+
 function rasaCurLang() {
   return document.documentElement.getAttribute("data-lang") || "ru";
+}
+
+function rasaShowWalletPicker(providers) {
+  return new Promise((resolve) => {
+    const overlay = document.createElement("div");
+    overlay.style.cssText = "position:fixed;inset:0;background:rgba(10,12,20,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;";
+
+    const box = document.createElement("div");
+    box.style.cssText = "background:#fff;color:#1A1D2B;border-radius:10px;padding:24px;min-width:280px;max-width:340px;width:100%;font-family:'PT Sans',Arial,sans-serif;box-shadow:0 20px 60px rgba(0,0,0,.3);";
+
+    const title = document.createElement("div");
+    title.textContent = rasaCurLang() === "ru" ? "Выберите кошелёк" : "Choose a wallet";
+    title.style.cssText = "font-weight:700;margin-bottom:16px;font-size:16px;";
+    box.appendChild(title);
+
+    providers.forEach(({ info, provider }) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.style.cssText = "display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;margin-bottom:8px;border:1px solid #DDD;border-radius:6px;background:#fff;cursor:pointer;font-size:14px;text-align:left;";
+      btn.onmouseenter = () => { btn.style.borderColor = "#9C6A1B"; };
+      btn.onmouseleave = () => { btn.style.borderColor = "#DDD"; };
+      if (info.icon) {
+        const img = document.createElement("img");
+        img.src = info.icon;
+        img.style.cssText = "width:24px;height:24px;border-radius:4px;flex:none;";
+        btn.appendChild(img);
+      }
+      const label = document.createElement("span");
+      label.textContent = info.name;
+      btn.appendChild(label);
+      btn.onclick = () => { document.body.removeChild(overlay); resolve(provider); };
+      box.appendChild(btn);
+    });
+
+    const cancelBtn = document.createElement("button");
+    cancelBtn.type = "button";
+    cancelBtn.textContent = rasaCurLang() === "ru" ? "Отмена" : "Cancel";
+    cancelBtn.style.cssText = "width:100%;padding:10px;margin-top:6px;border:none;background:transparent;color:#888;cursor:pointer;font-size:13px;";
+    cancelBtn.onclick = () => { document.body.removeChild(overlay); resolve(null); };
+    box.appendChild(cancelBtn);
+
+    overlay.appendChild(box);
+    overlay.onclick = (e) => { if (e.target === overlay) { document.body.removeChild(overlay); resolve(null); } };
+    document.body.appendChild(overlay);
+  });
+}
+
+async function rasaPickProvider() {
+  // Даём кошелькам время объявиться через EIP-6963 (обычно происходит синхронно/почти мгновенно)
+  rasaRequestProviders();
+  await new Promise((r) => setTimeout(r, 150));
+
+  const providers = Array.from(rasaDetectedProviders.values());
+
+  if (providers.length > 1) {
+    const chosen = await rasaShowWalletPicker(providers);
+    if (!chosen) {
+      throw new Error(rasaCurLang() === "ru" ? "Подключение отменено" : "Connection cancelled");
+    }
+    return chosen;
+  }
+  if (providers.length === 1) {
+    return providers[0].provider;
+  }
+  if (window.ethereum) {
+    return window.ethereum;
+  }
+  throw new Error(rasaCurLang() === "ru"
+    ? "Не найден кошелёк. Установите расширение браузера (MetaMask, Coinbase Wallet и т.п.)."
+    : "No wallet found. Please install a browser wallet extension (MetaMask, Coinbase Wallet, etc.).");
 }
 
 async function rasaGetReadContract() {
@@ -35,27 +117,24 @@ async function rasaGetReadContract() {
 }
 
 async function rasaConnectWallet() {
-  if (!window.ethereum) {
-    throw new Error(rasaCurLang() === "ru"
-      ? "Не найден кошелёк (MetaMask). Установите расширение браузера MetaMask."
-      : "No wallet found (MetaMask). Please install the MetaMask browser extension.");
-  }
+  const injected = await rasaPickProvider();
+
   const abiResp = await fetch("/assets/membership_abi.json");
   const abi = await abiResp.json();
 
-  rasaProvider = new ethers.BrowserProvider(window.ethereum);
+  rasaProvider = new ethers.BrowserProvider(injected);
   await rasaProvider.send("eth_requestAccounts", []);
 
   const network = await rasaProvider.getNetwork();
   if (network.chainId !== 11155111n) {
     try {
-      await window.ethereum.request({
+      await injected.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: SEPOLIA_CHAIN_ID_HEX }],
       });
     } catch (switchError) {
       if (switchError.code === 4902) {
-        await window.ethereum.request({
+        await injected.request({
           method: "wallet_addEthereumChain",
           params: [{
             chainId: SEPOLIA_CHAIN_ID_HEX,
@@ -69,7 +148,7 @@ async function rasaConnectWallet() {
         throw switchError;
       }
     }
-    rasaProvider = new ethers.BrowserProvider(window.ethereum);
+    rasaProvider = new ethers.BrowserProvider(injected);
   }
 
   rasaSigner = await rasaProvider.getSigner();
