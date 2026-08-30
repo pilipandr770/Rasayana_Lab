@@ -3,7 +3,7 @@
 // членский токен с прогрессивной кривой цены. Реальных денег здесь нет:
 // оплата тестовым ETH, ноль монетарной стоимости.
 
-const RASA_CONTRACT_ADDRESS = "0xFEa77eAf7bE46ec845801eAE93dE6d156e223d49";
+const RASA_CONTRACT_ADDRESS = "0x2eff941e36D62c54B754dbd099b5726A2b29f226";
 const SEPOLIA_CHAIN_ID_HEX = "0xaa36a7"; // 11155111
 
 const TIER_LABELS = {
@@ -81,12 +81,16 @@ function rasaShowWalletPicker(providers) {
   });
 }
 
-async function rasaPickProvider() {
-  // Даём кошелькам время объявиться через EIP-6963 (некоторым расширениям нужно чуть больше времени)
+const RASA_REMEMBER_KEY = "rasa_wallet_rdns";
+
+async function rasaWaitForProviders() {
   rasaRequestProviders();
   await new Promise((r) => setTimeout(r, 350));
+  return Array.from(rasaDetectedProviders.values());
+}
 
-  const providers = Array.from(rasaDetectedProviders.values());
+async function rasaPickProvider() {
+  const providers = await rasaWaitForProviders();
 
   if (providers.length >= 1) {
     // Показываем выбор всегда, даже если найден один кошелёк — чтобы было видно,
@@ -94,6 +98,10 @@ async function rasaPickProvider() {
     const chosen = await rasaShowWalletPicker(providers);
     if (!chosen) {
       throw new Error(rasaCurLang() === "ru" ? "Подключение отменено" : "Connection cancelled");
+    }
+    const match = providers.find((p) => p.provider === chosen);
+    if (match) {
+      try { localStorage.setItem(RASA_REMEMBER_KEY, match.info.rdns); } catch (e) {}
     }
     return chosen;
   }
@@ -103,6 +111,28 @@ async function rasaPickProvider() {
   throw new Error(rasaCurLang() === "ru"
     ? "Не найден кошелёк. Установите расширение браузера (MetaMask, Coinbase Wallet и т.п.)."
     : "No wallet found. Please install a browser wallet extension (MetaMask, Coinbase Wallet, etc.).");
+}
+
+/// Тихая попытка восстановить подключение на новой странице — без всплывающих
+/// окон. Срабатывает только если сайт уже был явно авторизован в этом кошельке
+/// ранее (через eth_accounts, который не спрашивает разрешения повторно).
+async function rasaTryAutoReconnect() {
+  let rememberedRdns = null;
+  try { rememberedRdns = localStorage.getItem(RASA_REMEMBER_KEY); } catch (e) {}
+  if (!rememberedRdns) return null;
+
+  const providers = await rasaWaitForProviders();
+  const match = providers.find((p) => p.info.rdns === rememberedRdns);
+  const injected = match ? match.provider : window.ethereum;
+  if (!injected) return null;
+
+  try {
+    const accounts = await injected.request({ method: "eth_accounts" });
+    if (!accounts || accounts.length === 0) return null;
+    return await rasaFinishConnect(injected);
+  } catch (e) {
+    return null;
+  }
 }
 
 async function rasaGetReadContract() {
@@ -115,25 +145,11 @@ async function rasaGetReadContract() {
   return rasaReadContract;
 }
 
-async function rasaConnectWallet() {
-  const injected = await rasaPickProvider();
-
+async function rasaFinishConnect(injected) {
   const abiResp = await fetch("/assets/membership_abi.json");
   const abi = await abiResp.json();
 
   rasaProvider = new ethers.BrowserProvider(injected);
-  try {
-    await rasaProvider.send("eth_requestAccounts", []);
-  } catch (e) {
-    const innerCode = e?.info?.error?.code ?? e?.error?.code ?? e?.code;
-    if (innerCode === -32002) {
-      throw new Error(rasaCurLang() === "ru"
-        ? "В кошельке уже есть незавершённый запрос на подключение. Откройте расширение кошелька напрямую (иконка в панели браузера), подтвердите или отклоните его там, затем попробуйте снова."
-        : "Your wallet already has a pending connection request. Open the wallet extension directly (toolbar icon), approve or dismiss it there, then try again.");
-    }
-    throw e;
-  }
-
   const network = await rasaProvider.getNetwork();
   if (network.chainId !== 11155111n) {
     try {
@@ -163,6 +179,25 @@ async function rasaConnectWallet() {
   rasaSigner = await rasaProvider.getSigner();
   rasaContract = new ethers.Contract(RASA_CONTRACT_ADDRESS, abi, rasaSigner);
   return rasaSigner.getAddress();
+}
+
+async function rasaConnectWallet() {
+  const injected = await rasaPickProvider();
+
+  rasaProvider = new ethers.BrowserProvider(injected);
+  try {
+    await rasaProvider.send("eth_requestAccounts", []);
+  } catch (e) {
+    const innerCode = e?.info?.error?.code ?? e?.error?.code ?? e?.code;
+    if (innerCode === -32002) {
+      throw new Error(rasaCurLang() === "ru"
+        ? "В кошельке уже есть незавершённый запрос на подключение. Откройте расширение кошелька напрямую (иконка в панели браузера), подтвердите или отклоните его там, затем попробуйте снова."
+        : "Your wallet already has a pending connection request. Open the wallet extension directly (toolbar icon), approve or dismiss it there, then try again.");
+    }
+    throw e;
+  }
+
+  return rasaFinishConnect(injected);
 }
 
 async function rasaGetMemberInfo(address) {

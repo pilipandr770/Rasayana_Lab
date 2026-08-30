@@ -108,17 +108,29 @@ function renderProducts() {
   }).join("");
 }
 
+async function applyConnectedInfo(address) {
+  const info = await rasaGetMemberInfo(address);
+  discountPct = info.discountPct;
+  document.getElementById("connectBtn").style.display = "none";
+  document.getElementById("memberInfo").innerHTML = tr(
+    `Подключено: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} токенов · уровень ${info.tierLabel} · скидка <b>${info.discountPct}%</b>`,
+    `Connected: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} tokens · tier ${info.tierLabel} · discount <b>${info.discountPct}%</b>`
+  );
+  renderProducts();
+}
+
+async function onLoadTryAutoReconnectShop() {
+  try {
+    const address = await rasaTryAutoReconnect();
+    if (address) await applyConnectedInfo(address);
+  } catch (e) { /* тихо игнорируем */ }
+}
+document.addEventListener("DOMContentLoaded", onLoadTryAutoReconnectShop);
+
 async function onConnectShop() {
   try {
     const address = await rasaConnectWallet();
-    const info = await rasaGetMemberInfo(address);
-    discountPct = info.discountPct;
-    document.getElementById("connectBtn").style.display = "none";
-    document.getElementById("memberInfo").innerHTML = tr(
-      `Подключено: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} токенов · уровень ${info.tierLabel} · скидка <b>${info.discountPct}%</b>`,
-      `Connected: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} tokens · tier ${info.tierLabel} · discount <b>${info.discountPct}%</b>`
-    );
-    renderProducts();
+    await applyConnectedInfo(address);
   } catch (e) {
     alert(tr("Ошибка подключения: ", "Connection error: ") + (e.message || e));
   }

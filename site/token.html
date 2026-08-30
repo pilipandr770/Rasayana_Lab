@@ -50,8 +50,8 @@
 <div class="container" style="padding-top:56px; padding-bottom:100px;">
 
   <div class="demo-banner">
-    <span lang="ru"><b>Это тестовая демонстрация.</b> Токен нетрансферабелен (soulbound) — его нельзя продать или передать, это не финансовый инструмент. Сеть — Sepolia testnet, оплата тестовым ETH без реальной денежной стоимости. Контракт: <a href="https://sepolia.etherscan.io/address/0xFEa77eAf7bE46ec845801eAE93dE6d156e223d49" target="_blank" rel="noopener" class="mono">0xFEa7...3d49 ↗</a></span>
-    <span lang="en"><b>This is a test demonstration.</b> The token is non-transferable (soulbound) — it cannot be sold or transferred, it is not a financial instrument. Network: Sepolia testnet, paid in test ETH with zero monetary value. Contract: <a href="https://sepolia.etherscan.io/address/0xFEa77eAf7bE46ec845801eAE93dE6d156e223d49" target="_blank" rel="noopener" class="mono">0xFEa7...3d49 ↗</a></span>
+    <span lang="ru"><b>Это тестовая демонстрация.</b> Токен нетрансферабелен (soulbound) — его нельзя продать или передать, это не финансовый инструмент. Сеть — Sepolia testnet, оплата тестовым ETH без реальной денежной стоимости. Контракт: <a href="https://sepolia.etherscan.io/address/0x2eff941e36D62c54B754dbd099b5726A2b29f226" target="_blank" rel="noopener" class="mono">0x2eff9...9f226 ↗</a></span>
+    <span lang="en"><b>This is a test demonstration.</b> The token is non-transferable (soulbound) — it cannot be sold or transferred, it is not a financial instrument. Network: Sepolia testnet, paid in test ETH with zero monetary value. Contract: <a href="https://sepolia.etherscan.io/address/0x2eff941e36D62c54B754dbd099b5726A2b29f226" target="_blank" rel="noopener" class="mono">0x2eff9...9f226 ↗</a></span>
   </div>
 
   <div class="token-card">
@@ -107,6 +107,20 @@
 <script>
 let currentAddress = null;
 let currentBalance = 0;
+
+async function onLoadTryAutoReconnect() {
+  try {
+    const address = await rasaTryAutoReconnect();
+    if (!address) return;
+    currentAddress = address;
+    document.getElementById("connectBtn").style.display = "none";
+    const addrEl = document.getElementById("walletAddr");
+    addrEl.style.display = "block";
+    addrEl.textContent = currentAddress.slice(0, 6) + "..." + currentAddress.slice(-4);
+    await refreshInfo();
+  } catch (e) { /* тихо игнорируем — просто покажем кнопку подключения */ }
+}
+document.addEventListener("DOMContentLoaded", onLoadTryAutoReconnect);
 
 async function onConnect() {
   try {

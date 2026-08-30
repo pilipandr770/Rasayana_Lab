@@ -51,6 +51,16 @@ contract RasayanaMembership {
         emit Claimed(msg.sender);
     }
 
+    /// @notice Владелец может выдать бесплатный токен любому адресу без газа с его
+    /// стороны (для демо/показа инвесторам — получателю не нужен тестовый ETH).
+    function airdrop(address to) external onlyOwner {
+        require(!hasClaimedFree[to], "already claimed");
+        hasClaimedFree[to] = true;
+        balanceOf[to] += 1;
+        totalSupply += 1;
+        emit Claimed(to);
+    }
+
     /// @notice Цена именно n-го токена в кошельке (n>=2, т.к. 1-й бесплатный)
     function priceForNth(uint256 n) public view returns (uint256 price) {
         require(n >= 2, "first token is free");
