@@ -36,10 +36,9 @@ async function rasaGetReadContract() {
 
 async function rasaConnectWallet() {
   if (!window.ethereum) {
-    alert(rasaCurLang() === "ru"
+    throw new Error(rasaCurLang() === "ru"
       ? "Не найден кошелёк (MetaMask). Установите расширение браузера MetaMask."
       : "No wallet found (MetaMask). Please install the MetaMask browser extension.");
-    return null;
   }
   const abiResp = await fetch("/assets/membership_abi.json");
   const abi = await abiResp.json();
