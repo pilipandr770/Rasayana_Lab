@@ -1,8 +1,14 @@
 .claude/
+web3/.env
+web3/node_modules/
+web3/artifacts/
+web3/cache/
 venv/
 __pycache__/
 *.pyc
 deploy/.htpasswd
+.env
+api/node_modules/
 bin/
 results/pdb/*.pdb
 results/receptors/*.pdbqt

@@ -10,3 +10,17 @@ services:
       - "traefik.http.routers.rasayana.tls.certresolver=cfdns"
       - "traefik.http.services.rasayana.loadbalancer.server.port=80"
     restart: unless-stopped
+
+  api:
+    build:
+      context: ./api
+    environment:
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rasayana-api.rule=Host(`rasayana.andrii-it.de`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.rasayana-api.entrypoints=websecure"
+      - "traefik.http.routers.rasayana-api.tls.certresolver=cfdns"
+      - "traefik.http.routers.rasayana-api.priority=100"
+      - "traefik.http.services.rasayana-api.loadbalancer.server.port=3000"
+    restart: unless-stopped
