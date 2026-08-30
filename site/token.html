@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rasayana — Membership Token</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<style>
+  .demo-banner{background:var(--gold-soft); border:1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius:4px; padding:14px 18px; font-size:13.5px; color:var(--ink-soft); margin-bottom:32px;}
+  .demo-banner b{color:var(--ink);}
+  .token-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:8px; padding:32px; max-width:640px; box-shadow:var(--shadow);}
+  .wallet-row{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:24px;}
+  .wallet-addr{font-family:var(--mono); font-size:13px; color:var(--ink-soft); background:var(--bg-raised); padding:8px 12px; border-radius:4px;}
+  .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:24px 0;}
+  .stat-box{text-align:center; padding:16px; background:var(--bg-raised); border-radius:6px;}
+  .stat-box b{display:block; font-family:var(--serif); font-size:26px; color:var(--jade);}
+  .stat-box span{font-size:11.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.03em;}
+  .buy-row{display:flex; gap:12px; align-items:center; margin-top:20px; flex-wrap:wrap;}
+  .buy-row input{width:80px; padding:10px; border:1px solid var(--line); border-radius:4px; font-family:var(--mono); font-size:15px; background:var(--bg); color:var(--ink);}
+  .quote{font-family:var(--mono); font-size:13px; color:var(--ink-faint); margin-top:10px;}
+  .status-msg{margin-top:16px; padding:12px 14px; border-radius:4px; font-size:13.5px; display:none;}
+  .status-msg.show{display:block;}
+  .status-msg.ok{background:var(--jade-soft); color:var(--jade);}
+  .status-msg.err{background:var(--vermillion-soft); color:var(--vermillion);}
+  .status-msg.pending{background:var(--gold-soft); color:var(--gold);}
+  .tier-table{width:100%; font-size:13px; margin-top:32px; max-width:640px;}
+  .tier-table th, .tier-table td{padding:8px 10px; border-bottom:1px solid var(--line-soft); text-align:left;}
+  .tier-table th{color:var(--ink-faint); font-size:11px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+<!--#include virtual="/assets/_nav.html" -->
+
+<header class="hero">
+  <div class="container hero-inner">
+    <p class="eyebrow"><span lang="ru">Демонстрация токена</span><span lang="en">Token demonstration</span></p>
+    <h1><span lang="ru">Членский токен Rasayana</span><span lang="en">Rasayana Membership Token</span></h1>
+    <p class="thesis">
+      <span lang="ru">Подключите кошелёк, получите бесплатный первый токен и попробуйте купить ещё — по реальной прогрессивной кривой цены, зашитой прямо в контракт.</span>
+      <span lang="en">Connect a wallet, claim your free first token, and try buying more — on a real progressive price curve baked directly into the contract.</span>
+    </p>
+  </div>
+</header>
+
+<main>
+<div class="container" style="padding-top:56px; padding-bottom:100px;">
+
+  <div class="demo-banner">
+    <span lang="ru"><b>Это тестовая демонстрация.</b> Токен нетрансферабелен (soulbound) — его нельзя продать или передать, это не финансовый инструмент. Сеть — Sepolia testnet, оплата тестовым ETH без реальной денежной стоимости. Контракт: <a href="https://sepolia.etherscan.io/address/0xFEa77eAf7bE46ec845801eAE93dE6d156e223d49" target="_blank" rel="noopener" class="mono">0xFEa7...3d49 ↗</a></span>
+    <span lang="en"><b>This is a test demonstration.</b> The token is non-transferable (soulbound) — it cannot be sold or transferred, it is not a financial instrument. Network: Sepolia testnet, paid in test ETH with zero monetary value. Contract: <a href="https://sepolia.etherscan.io/address/0xFEa77eAf7bE46ec845801eAE93dE6d156e223d49" target="_blank" rel="noopener" class="mono">0xFEa7...3d49 ↗</a></span>
+  </div>
+
+  <div class="token-card">
+    <div class="wallet-row">
+      <div>
+        <p class="eyebrow"><span lang="ru">Кошелёк</span><span lang="en">Wallet</span></p>
+        <div id="walletAddr" class="wallet-addr" style="margin-top:6px; display:none;"></div>
+      </div>
+      <button class="btn btn-primary" id="connectBtn" onclick="onConnect()"><span lang="ru">Подключить кошелёк</span><span lang="en">Connect Wallet</span></button>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-box"><b id="statBalance">—</b><span lang="ru">Токенов</span><span lang="en">Tokens</span></div>
+      <div class="stat-box"><b id="statTier">—</b><span lang="ru">Уровень</span><span lang="en">Tier</span></div>
+      <div class="stat-box"><b id="statDiscount">—</b><span lang="ru">Скидка</span><span lang="en">Discount</span></div>
+    </div>
+
+    <div id="claimSection" style="display:none;">
+      <button class="btn btn-outline" id="claimBtn" onclick="onClaim()" style="width:100%;">
+        <span lang="ru">🎁 Получить бесплатный первый токен</span><span lang="en">🎁 Claim your free first token</span>
+      </button>
+    </div>
+
+    <div id="buySection" style="display:none;">
+      <div class="buy-row">
+        <label style="font-size:13.5px; color:var(--ink-soft);"><span lang="ru">Купить ещё:</span><span lang="en">Buy more:</span></label>
+        <input type="number" id="buyQty" min="1" value="1" oninput="updateQuote()">
+        <button class="btn btn-primary" id="buyBtn" onclick="onBuy()"><span lang="ru">Купить</span><span lang="en">Buy</span></button>
+      </div>
+      <p class="quote" id="quoteText"></p>
+    </div>
+
+    <div id="statusMsg" class="status-msg"></div>
+  </div>
+
+  <table class="tier-table">
+    <thead><tr><th><span lang="ru">Токенов</span><span lang="en">Tokens</span></th><th><span lang="ru">Уровень</span><span lang="en">Tier</span></th><th><span lang="ru">Скидка</span><span lang="en">Discount</span></th></tr></thead>
+    <tbody>
+      <tr><td>1&ndash;4</td><td>Member</td><td>1&ndash;4%</td></tr>
+      <tr><td>5&ndash;19</td><td>Silver</td><td>5&ndash;19% <span style="color:var(--ink-faint)">(<span lang="ru">капа</span><span lang="en">cap</span> 25%)</span></td></tr>
+      <tr><td>20&ndash;49</td><td>Gold</td><td>25%</td></tr>
+      <tr><td>50&ndash;99</td><td>Platinum</td><td>25%</td></tr>
+      <tr><td>100</td><td>Founding Member</td><td>25% + <span lang="ru">приоритет</span><span lang="en">priority</span></td></tr>
+    </tbody>
+  </table>
+
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+
+<script src="/assets/web3.js"></script>
+<script>
+let currentAddress = null;
+let currentBalance = 0;
+
+async function onConnect() {
+  try {
+    setStatus("pending", tr("Подключение кошелька...", "Connecting wallet..."));
+    currentAddress = await rasaConnectWallet();
+    document.getElementById("connectBtn").style.display = "none";
+    const addrEl = document.getElementById("walletAddr");
+    addrEl.style.display = "block";
+    addrEl.textContent = currentAddress.slice(0, 6) + "..." + currentAddress.slice(-4);
+    await refreshInfo();
+    setStatus(null);
+  } catch (e) {
+    setStatus("err", tr("Ошибка подключения: ", "Connection error: ") + (e.message || e));
+  }
+}
+
+async function refreshInfo() {
+  const info = await rasaGetMemberInfo(currentAddress);
+  currentBalance = info.balance;
+  document.getElementById("statBalance").textContent = info.balance;
+  document.getElementById("statTier").textContent = info.tierLabel;
+  document.getElementById("statDiscount").textContent = info.discountPct + "%";
+  document.getElementById("claimSection").style.display = info.balance === 0 ? "block" : "none";
+  document.getElementById("buySection").style.display = info.balance > 0 ? "block" : "none";
+  if (info.balance > 0) updateQuote();
+}
+
+async function updateQuote() {
+  if (!rasaContract || currentBalance === 0) return;
+  const qty = parseInt(document.getElementById("buyQty").value) || 1;
+  try {
+    const cost = await rasaContract.quoteCost(currentAddress, qty);
+    const costEth = ethers.formatEther(cost);
+    document.getElementById("quoteText").textContent = tr(
+      `Стоимость: ${costEth} test ETH за ${qty} шт.`,
+      `Cost: ${costEth} test ETH for ${qty} token(s)`
+    );
+  } catch (e) {
+    document.getElementById("quoteText").textContent = "";
+  }
+}
+
+async function onClaim() {
+  try {
+    setStatus("pending", tr("Отправка транзакции...", "Sending transaction..."));
+    const tx = await rasaContract.claimFree();
+    await tx.wait();
+    setStatus("ok", tr("Готово! Первый токен получен.", "Done! Your first token has been claimed."));
+    await refreshInfo();
+  } catch (e) {
+    setStatus("err", tr("Ошибка: ", "Error: ") + (e.reason || e.message || e));
+  }
+}
+
+async function onBuy() {
+  try {
+    const qty = parseInt(document.getElementById("buyQty").value) || 1;
+    setStatus("pending", tr("Отправка транзакции...", "Sending transaction..."));
+    const cost = await rasaContract.quoteCost(currentAddress, qty);
+    const tx = await rasaContract.buy(qty, { value: cost });
+    await tx.wait();
+    setStatus("ok", tr("Готово! Токены куплены.", "Done! Tokens purchased."));
+    await refreshInfo();
+  } catch (e) {
+    setStatus("err", tr("Ошибка: ", "Error: ") + (e.reason || e.message || e));
+  }
+}
+
+function setStatus(type, text) {
+  const el = document.getElementById("statusMsg");
+  if (!type) { el.className = "status-msg"; return; }
+  el.className = "status-msg show " + type;
+  el.textContent = text;
+}
+
+function tr(ru, en) {
+  return (document.documentElement.getAttribute("data-lang") || "ru") === "ru" ? ru : en;
+}
+</script>
+</body>
+</html>

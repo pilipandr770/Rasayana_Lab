@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rasayana — Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<style>
+  .demo-banner{background:var(--gold-soft); border:1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius:4px; padding:14px 18px; font-size:13.5px; color:var(--ink-soft); margin-bottom:32px;}
+  .demo-banner b{color:var(--ink);}
+  .member-bar{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:16px 20px; margin-bottom:32px;}
+  .member-bar .info{font-size:13.5px; color:var(--ink-soft);}
+  .member-bar .info b{color:var(--jade); font-family:var(--mono);}
+  .product-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media (max-width:860px){.product-grid{grid-template-columns:1fr;}}
+  .product-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:8px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column;}
+  .product-img{height:160px; background:linear-gradient(135deg, var(--bg-hero), var(--jade-soft)); display:flex; align-items:center; justify-content:center; font-size:44px;}
+  .product-body{padding:20px; display:flex; flex-direction:column; gap:10px; flex:1;}
+  .product-body h3{font-size:17px;}
+  .product-body p{font-size:13px; color:var(--ink-soft); flex:1;}
+  .price-row{display:flex; align-items:baseline; gap:10px; margin-top:6px;}
+  .price-base{font-family:var(--mono); font-size:14px; color:var(--ink-faint); text-decoration:line-through;}
+  .price-final{font-family:var(--serif); font-size:24px; color:var(--ink);}
+  .price-final.discounted{color:var(--vermillion);}
+  .discount-tag{font-family:var(--mono); font-size:11px; background:var(--jade-soft); color:var(--jade); padding:3px 8px; border-radius:999px;}
+</style>
+</head>
+<body>
+<!--#include virtual="/assets/_nav.html" -->
+
+<header class="hero">
+  <div class="container hero-inner">
+    <p class="eyebrow"><span lang="ru">Демонстрация магазина</span><span lang="en">Shop demonstration</span></p>
+    <h1><span lang="ru">Витрина с ценой по токену</span><span lang="en">Storefront with token-based pricing</span></h1>
+    <p class="thesis">
+      <span lang="ru">Без подключённого кошелька — обычная цена. Подключите кошелёк с членским токеном — увидите скидку в реальном времени.</span>
+      <span lang="en">Without a connected wallet — regular price. Connect a wallet holding the membership token — see the discount applied live.</span>
+    </p>
+  </div>
+</header>
+
+<main>
+<div class="container" style="padding-top:56px; padding-bottom:100px;">
+
+  <div class="demo-banner">
+    <span lang="ru"><b>Демо-товары.</b> Оплата — Stripe в тестовом режиме, реальные деньги не списываются. Цена пересчитывается на основе баланса вашего членского токена (см. страницу «Токен»).</span>
+    <span lang="en"><b>Demo products.</b> Payment via Stripe test mode — no real money is charged. Price is recalculated based on your membership token balance (see the Token page).</span>
+  </div>
+
+  <div class="member-bar">
+    <div class="info" id="memberInfo">
+      <span lang="ru">Кошелёк не подключён — показана обычная цена.</span>
+      <span lang="en">Wallet not connected — showing regular price.</span>
+    </div>
+    <button class="btn btn-primary" id="connectBtn" onclick="onConnectShop()"><span lang="ru">Подключить кошелёк</span><span lang="en">Connect Wallet</span></button>
+  </div>
+
+  <div class="product-grid" id="productGrid"></div>
+
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+
+<script src="/assets/web3.js"></script>
+<script>
+const PRODUCTS = [
+  { id: "stack30", icon: "🌿", price: 89,
+    name: { ru: "Rasayana Longevity Stack — 30 дней", en: "Rasayana Longevity Stack — 30 days" },
+    desc: { ru: "Комплекс на основе трёх кандидатов исследования (ожидается после Novel Food)", en: "A complex based on the three research candidates (pending Novel Food approval)" } },
+  { id: "stack90", icon: "🧪", price: 229,
+    name: { ru: "Rasayana Longevity Stack — 90 дней", en: "Rasayana Longevity Stack — 90 days" },
+    desc: { ru: "Квартальный запас, выгоднее поштучной покупки", en: "Quarterly supply, better value than monthly" } },
+  { id: "founding", icon: "⭐", price: 499,
+    name: { ru: "Founding Supporter Bundle", en: "Founding Supporter Bundle" },
+    desc: { ru: "Годовой запас + доступ к закрытым обновлениям исследования", en: "Annual supply + access to private research updates" } },
+];
+
+let discountPct = 0;
+
+function tr(ru, en) { return (document.documentElement.getAttribute("data-lang") || "ru") === "ru" ? ru : en; }
+
+function renderProducts() {
+  const grid = document.getElementById("productGrid");
+  grid.innerHTML = PRODUCTS.map(p => {
+    const finalPrice = (p.price * (1 - discountPct / 100)).toFixed(2);
+    const showDiscount = discountPct > 0;
+    return `
+      <div class="product-card">
+        <div class="product-img">${p.icon}</div>
+        <div class="product-body">
+          <h3>${tr(p.name.ru, p.name.en)}</h3>
+          <p>${tr(p.desc.ru, p.desc.en)}</p>
+          <div class="price-row">
+            ${showDiscount ? `<span class="price-base">$${p.price}</span>` : ""}
+            <span class="price-final ${showDiscount ? "discounted" : ""}">$${finalPrice}</span>
+            ${showDiscount ? `<span class="discount-tag">-${discountPct}%</span>` : ""}
+          </div>
+          <button class="btn btn-primary" onclick="onCheckout('${p.id}', ${finalPrice})" style="margin-top:8px;">
+            ${tr("Купить (тест)", "Buy (test)")}
+          </button>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+async function onConnectShop() {
+  try {
+    const address = await rasaConnectWallet();
+    const info = await rasaGetMemberInfo(address);
+    discountPct = info.discountPct;
+    document.getElementById("connectBtn").style.display = "none";
+    document.getElementById("memberInfo").innerHTML = tr(
+      `Подключено: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} токенов · уровень ${info.tierLabel} · скидка <b>${info.discountPct}%</b>`,
+      `Connected: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} tokens · tier ${info.tierLabel} · discount <b>${info.discountPct}%</b>`
+    );
+    renderProducts();
+  } catch (e) {
+    alert(tr("Ошибка подключения: ", "Connection error: ") + (e.message || e));
+  }
+}
+
+async function onCheckout(productId, price) {
+  try {
+    const resp = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId, price }),
+    });
+    if (!resp.ok) throw new Error(await resp.text());
+    const data = await resp.json();
+    window.location.href = data.url;
+  } catch (e) {
+    alert(tr("Оплата пока не настроена: ", "Payment not configured yet: ") + (e.message || e));
+  }
+}
+
+renderProducts();
+</script>
+</body>
+</html>
