@@ -82,21 +82,20 @@ function rasaShowWalletPicker(providers) {
 }
 
 async function rasaPickProvider() {
-  // Даём кошелькам время объявиться через EIP-6963 (обычно происходит синхронно/почти мгновенно)
+  // Даём кошелькам время объявиться через EIP-6963 (некоторым расширениям нужно чуть больше времени)
   rasaRequestProviders();
-  await new Promise((r) => setTimeout(r, 150));
+  await new Promise((r) => setTimeout(r, 350));
 
   const providers = Array.from(rasaDetectedProviders.values());
 
-  if (providers.length > 1) {
+  if (providers.length >= 1) {
+    // Показываем выбор всегда, даже если найден один кошелёк — чтобы было видно,
+    // какое именно расширение будет использовано (некоторые конфликтуют между собой).
     const chosen = await rasaShowWalletPicker(providers);
     if (!chosen) {
       throw new Error(rasaCurLang() === "ru" ? "Подключение отменено" : "Connection cancelled");
     }
     return chosen;
-  }
-  if (providers.length === 1) {
-    return providers[0].provider;
   }
   if (window.ethereum) {
     return window.ethereum;
