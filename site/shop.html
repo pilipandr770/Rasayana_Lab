@@ -81,14 +81,33 @@ const PRODUCTS = [
 ];
 
 let discountPct = 0;
+let currentTier = 0;
+let currentWallet = null;
+let openTier = 0;
+const TIER_NAMES = ["—", "Member", "Silver", "Gold", "Platinum", "Founding Member"];
 
 function tr(ru, en) { return (document.documentElement.getAttribute("data-lang") || "ru") === "ru" ? ru : en; }
 
+async function loadOpenTier() {
+  try {
+    const resp = await fetch("/api/settings/open-tier");
+    const data = await resp.json();
+    openTier = data.openTier || 0;
+  } catch (e) { openTier = 0; }
+}
+
 function renderProducts() {
   const grid = document.getElementById("productGrid");
+  const locked = currentWallet !== null && currentTier < openTier;
   grid.innerHTML = PRODUCTS.map(p => {
     const finalPrice = (p.price * (1 - discountPct / 100)).toFixed(2);
     const showDiscount = discountPct > 0;
+    const buyControl = locked
+      ? `<div class="callout" style="margin-top:8px; padding:10px 12px; font-size:12.5px;">${tr(
+          `Открытие для вашего уровня — при достижении уровня ${TIER_NAMES[openTier]}`,
+          `Opens for your tier — once you reach ${TIER_NAMES[openTier]}`
+        )}</div>`
+      : `<button class="btn btn-primary" onclick="onCheckout('${p.id}', ${finalPrice})" style="margin-top:8px;">${tr("Купить (тест)", "Buy (test)")}</button>`;
     return `
       <div class="product-card">
         <div class="product-img">${p.icon}</div>
@@ -100,9 +119,7 @@ function renderProducts() {
             <span class="price-final ${showDiscount ? "discounted" : ""}">$${finalPrice}</span>
             ${showDiscount ? `<span class="discount-tag">-${discountPct}%</span>` : ""}
           </div>
-          <button class="btn btn-primary" onclick="onCheckout('${p.id}', ${finalPrice})" style="margin-top:8px;">
-            ${tr("Купить (тест)", "Buy (test)")}
-          </button>
+          ${buyControl}
         </div>
       </div>`;
   }).join("");
@@ -111,6 +128,8 @@ function renderProducts() {
 async function applyConnectedInfo(address) {
   const info = await rasaGetMemberInfo(address);
   discountPct = info.discountPct;
+  currentTier = info.tier;
+  currentWallet = address;
   document.getElementById("connectBtn").style.display = "none";
   document.getElementById("memberInfo").innerHTML = tr(
     `Подключено: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} токенов · уровень ${info.tierLabel} · скидка <b>${info.discountPct}%</b>`,
@@ -141,7 +160,7 @@ async function onCheckout(productId, price) {
     const resp = await fetch("/api/create-checkout-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId, price }),
+      body: JSON.stringify({ productId, price, wallet: currentWallet, name: (PRODUCTS.find(p => p.id === productId) || {}).name?.[document.documentElement.getAttribute("data-lang") || "ru"] }),
     });
     if (!resp.ok) throw new Error(await resp.text());
     const data = await resp.json();
@@ -151,7 +170,7 @@ async function onCheckout(productId, price) {
   }
 }
 
-renderProducts();
+loadOpenTier().then(renderProducts);
 </script>
 </body>
 </html>

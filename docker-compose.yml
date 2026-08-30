@@ -16,6 +16,13 @@ services:
       context: ./api
     environment:
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      DEPLOYER_PRIVATE_KEY: ${DEPLOYER_PRIVATE_KEY}
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      SEPOLIA_RPC_URL: https://ethereum-sepolia-rpc.publicnode.com
+      CONTRACT_ADDRESS: 0x2eff941e36D62c54B754dbd099b5726A2b29f226
+    volumes:
+      - rasayana-api-data:/app/data
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.rasayana-api.rule=Host(`rasayana.andrii-it.de`) && PathPrefix(`/api`)"
@@ -24,3 +31,6 @@ services:
       - "traefik.http.routers.rasayana-api.priority=100"
       - "traefik.http.services.rasayana-api.loadbalancer.server.port=3000"
     restart: unless-stopped
+
+volumes:
+  rasayana-api-data:

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rasayana — My Account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<style>
+  .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:24px 0; max-width:640px;}
+  .stat-box{text-align:center; padding:16px; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px;}
+  .stat-box b{display:block; font-family:var(--serif); font-size:26px; color:var(--jade);}
+  .stat-box span{font-size:11.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.03em;}
+  table.orders{width:100%; border-collapse:collapse; font-size:13.5px; margin-top:16px;}
+  table.orders th, table.orders td{padding:10px 12px; border-bottom:1px solid var(--line-soft); text-align:left;}
+  table.orders th{color:var(--ink-faint); font-size:11px; text-transform:uppercase;}
+  .status-pill{font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:999px;}
+  .status-pill.pending{background:var(--gold-soft); color:var(--gold);}
+  .status-pill.paid{background:var(--jade-soft); color:var(--jade);}
+  .status-pill.fulfilled{background:var(--jade-soft); color:var(--jade);}
+  .empty-state{padding:28px; text-align:center; color:var(--ink-faint); background:var(--bg-card); border:1px dashed var(--line); border-radius:6px; margin-top:16px;}
+</style>
+</head>
+<body>
+<!--#include virtual="/assets/_nav.html" -->
+
+<header class="hero">
+  <div class="container hero-inner">
+    <p class="eyebrow"><span lang="ru">Личный кабинет</span><span lang="en">My Account</span></p>
+    <h1><span lang="ru">Ваш членский статус и заказы</span><span lang="en">Your membership and orders</span></h1>
+  </div>
+</header>
+
+<main>
+<div class="container" style="padding-top:56px; padding-bottom:100px;">
+
+  <div class="wallet-row" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:8px;">
+    <div id="walletAddr" class="mono" style="font-size:13px; color:var(--ink-soft);"></div>
+    <button class="btn btn-primary" id="connectBtn" onclick="onConnect()"><span lang="ru">Подключить кошелёк</span><span lang="en">Connect Wallet</span></button>
+  </div>
+
+  <div class="stat-grid" id="statGrid" style="display:none;">
+    <div class="stat-box"><b id="statBalance">—</b><span lang="ru">Токенов</span><span lang="en">Tokens</span></div>
+    <div class="stat-box"><b id="statTier">—</b><span lang="ru">Уровень</span><span lang="en">Tier</span></div>
+    <div class="stat-box"><b id="statDiscount">—</b><span lang="ru">Скидка</span><span lang="en">Discount</span></div>
+  </div>
+
+  <div id="ordersSection" style="display:none;">
+    <p class="eyebrow" style="margin-top:32px;"><span lang="ru">История заказов</span><span lang="en">Order history</span></p>
+    <div id="ordersContainer"></div>
+  </div>
+
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+
+<script src="/assets/web3.js"></script>
+<script>
+function tr(ru, en) { return (document.documentElement.getAttribute("data-lang") || "ru") === "ru" ? ru : en; }
+
+async function loadAccount(address) {
+  document.getElementById("connectBtn").style.display = "none";
+  document.getElementById("walletAddr").textContent = address;
+  document.getElementById("statGrid").style.display = "grid";
+
+  const info = await rasaGetMemberInfo(address);
+  document.getElementById("statBalance").textContent = info.balance;
+  document.getElementById("statTier").textContent = info.tierLabel;
+  document.getElementById("statDiscount").textContent = info.discountPct + "%";
+
+  const resp = await fetch("/api/orders?wallet=" + encodeURIComponent(address));
+  const orders = await resp.json();
+  const section = document.getElementById("ordersSection");
+  const container = document.getElementById("ordersContainer");
+  section.style.display = "block";
+
+  if (!orders.length) {
+    container.innerHTML = `<div class="empty-state">${tr("Заказов пока нет — загляните в магазин.", "No orders yet — check out the shop.")}</div>`;
+    return;
+  }
+
+  container.innerHTML = `<table class="orders"><thead><tr>
+      <th>${tr("Товар","Product")}</th><th>${tr("Сумма","Amount")}</th><th>${tr("Статус","Status")}</th><th>${tr("Дата","Date")}</th>
+    </tr></thead><tbody>
+    ${orders.map(o => `<tr>
+      <td>${o.productName || o.productId}</td>
+      <td class="mono">$${Number(o.amount).toFixed(2)}</td>
+      <td><span class="status-pill ${o.status}">${o.status}</span></td>
+      <td class="mono">${new Date(o.createdAt).toLocaleDateString()}</td>
+    </tr>`).join("")}
+    </tbody></table>`;
+}
+
+async function onConnect() {
+  try {
+    const address = await rasaConnectWallet();
+    await loadAccount(address);
+  } catch (e) {
+    alert(tr("Ошибка подключения: ", "Connection error: ") + (e.message || e));
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const address = await rasaTryAutoReconnect();
+    if (address) await loadAccount(address);
+  } catch (e) { /* тихо игнорируем */ }
+});
+</script>
+</body>
+</html>

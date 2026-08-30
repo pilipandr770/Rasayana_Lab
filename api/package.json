@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "ethers": "^6.13.4",
     "express": "^4.19.2",
     "stripe": "^16.12.0"
   }

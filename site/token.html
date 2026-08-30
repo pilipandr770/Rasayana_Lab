@@ -70,9 +70,21 @@
     </div>
 
     <div id="claimSection" style="display:none;">
+      <p class="eyebrow" style="margin-bottom:10px;"><span lang="ru">Условия для бесплатного токена</span><span lang="en">Conditions for the free token</span></p>
+      <input type="email" id="leadEmail" placeholder="you@example.com" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); font-size:14px; margin-bottom:10px;">
+      <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin-bottom:6px;">
+        <input type="checkbox" id="leadTelegram"> <span lang="ru">Подписался(лась) на Telegram-канал проекта</span><span lang="en">Subscribed to the project's Telegram channel</span>
+      </label>
+      <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin-bottom:6px;">
+        <input type="checkbox" id="leadLike"> <span lang="ru">Поставил(а) лайк последнему посту</span><span lang="en">Liked the latest post</span>
+      </label>
+      <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin-bottom:14px;">
+        <input type="checkbox" id="leadRepost"> <span lang="ru">Сделал(а) репост</span><span lang="en">Reposted</span>
+      </label>
       <button class="btn btn-outline" id="claimBtn" onclick="onClaim()" style="width:100%;">
         <span lang="ru">🎁 Получить бесплатный первый токен</span><span lang="en">🎁 Claim your free first token</span>
       </button>
+      <p class="cid" style="margin-top:8px; font-size:11.5px;"><span lang="ru">Ссылки на соцсети появятся здесь, когда каналы будут запущены — пока форма фиксирует ваш интерес.</span><span lang="en">Social links will appear here once the channels launch — for now this form just records your interest.</span></p>
     </div>
 
     <div id="buySection" style="display:none;">
@@ -164,14 +176,30 @@ async function updateQuote() {
 }
 
 async function onClaim() {
+  const email = document.getElementById("leadEmail").value.trim();
+  if (!email) {
+    setStatus("err", tr("Укажите email", "Please enter an email"));
+    return;
+  }
   try {
-    setStatus("pending", tr("Отправка транзакции...", "Sending transaction..."));
-    const tx = await rasaContract.claimFree();
-    await tx.wait();
+    setStatus("pending", tr("Проверка и выдача токена...", "Verifying and issuing your token..."));
+    const resp = await fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        wallet: currentAddress,
+        email,
+        subscribedTelegram: document.getElementById("leadTelegram").checked,
+        likedX: document.getElementById("leadLike").checked,
+        repostedX: document.getElementById("leadRepost").checked,
+      }),
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || "request failed");
     setStatus("ok", tr("Готово! Первый токен получен.", "Done! Your first token has been claimed."));
     await refreshInfo();
   } catch (e) {
-    setStatus("err", tr("Ошибка: ", "Error: ") + (e.reason || e.message || e));
+    setStatus("err", tr("Ошибка: ", "Error: ") + (e.message || e));
   }
 }
 

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Rasayana — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<style>
+  .tabs{display:flex; gap:8px; margin-bottom:24px; border-bottom:1px solid var(--line-soft);}
+  .tab-btn{padding:10px 16px; background:none; border:none; cursor:pointer; font-size:14px; color:var(--ink-faint); border-bottom:2px solid transparent;}
+  .tab-btn.active{color:var(--ink); border-color:var(--gold); font-weight:700;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  table.admin{width:100%; border-collapse:collapse; font-size:13px;}
+  table.admin th, table.admin td{padding:9px 10px; border-bottom:1px solid var(--line-soft); text-align:left;}
+  table.admin th{color:var(--ink-faint); font-size:10.5px; text-transform:uppercase;}
+  .table-wrap{overflow-x:auto; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:6px 14px;}
+  .login-box{max-width:340px; margin:80px auto; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:8px; padding:28px;}
+  .login-box input{width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-bottom:12px;}
+  .tier-form{display:flex; gap:10px; align-items:center; margin-bottom:24px;}
+  .tier-form select{padding:8px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink);}
+  .small-btn{font-size:12px; padding:5px 10px; border-radius:4px; border:1px solid var(--line); background:var(--bg-card); cursor:pointer;}
+</style>
+</head>
+<body>
+<!--#include virtual="/assets/_nav.html" -->
+
+<main>
+<div class="container" style="padding-top:56px; padding-bottom:100px;">
+
+  <div id="loginBox" class="login-box">
+    <p class="eyebrow" style="margin-bottom:14px;">Admin</p>
+    <input type="password" id="adminTokenInput" placeholder="Admin token / password">
+    <button class="btn btn-primary" style="width:100%;" onclick="tryLogin()">Login</button>
+    <p id="loginErr" style="color:var(--vermillion); font-size:12.5px; margin-top:10px; display:none;">Invalid token</p>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+    <h1 style="font-family:var(--serif); font-size:26px; margin-bottom:24px;">Rasayana Admin</h1>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('leads')">Leads</button>
+      <button class="tab-btn" onclick="showTab('orders')">Orders</button>
+      <button class="tab-btn" onclick="showTab('queue')">Queue</button>
+    </div>
+
+    <div id="tab-leads" class="tab-panel active">
+      <div class="table-wrap"><table class="admin" id="leadsTable"><thead><tr><th>Wallet</th><th>Email</th><th>Telegram</th><th>Like</th><th>Repost</th><th>Date</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div id="tab-orders" class="tab-panel">
+      <div class="table-wrap"><table class="admin" id="ordersTable"><thead><tr><th>ID</th><th>Wallet</th><th>Product</th><th>Amount</th><th>Status</th><th>Shipping</th><th>Date</th><th></th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div id="tab-queue" class="tab-panel">
+      <p style="color:var(--ink-soft); font-size:14px; margin-bottom:16px;">Current tier required to buy in the shop. Members below this tier see a "coming soon" message instead of the buy button.</p>
+      <div class="tier-form">
+        <select id="tierSelect">
+          <option value="0">0 — Open to everyone</option>
+          <option value="1">1 — Member (1-4 tokens)</option>
+          <option value="2">2 — Silver (5-19 tokens)</option>
+          <option value="3">3 — Gold (20-49 tokens)</option>
+          <option value="4">4 — Platinum (50-99 tokens)</option>
+          <option value="5">5 — Founding Member (100 tokens)</option>
+        </select>
+        <button class="btn btn-primary" onclick="saveTier()">Save</button>
+        <span id="tierSaved" style="color:var(--jade); font-size:13px; display:none;">Saved ✓</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+
+<script>
+let adminToken = null;
+
+function tryLogin() {
+  adminToken = document.getElementById("adminTokenInput").value.trim();
+  fetch("/api/admin/leads", { headers: { "X-Admin-Token": adminToken } }).then(async (resp) => {
+    if (!resp.ok) {
+      document.getElementById("loginErr").style.display = "block";
+      adminToken = null;
+      return;
+    }
+    try { localStorage.setItem("rasa_admin_token", adminToken); } catch (e) {}
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+    loadAll();
+  });
+}
+
+function showTab(name) {
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+  event.target.classList.add("active");
+  document.getElementById("tab-" + name).classList.add("active");
+}
+
+async function adminFetch(url, opts = {}) {
+  opts.headers = Object.assign({}, opts.headers, { "X-Admin-Token": adminToken, "Content-Type": "application/json" });
+  return fetch(url, opts);
+}
+
+async function loadLeads() {
+  const resp = await adminFetch("/api/admin/leads");
+  const leads = await resp.json();
+  document.querySelector("#leadsTable tbody").innerHTML = leads.map(l => `
+    <tr><td class="mono">${l.wallet.slice(0,8)}...</td><td>${l.email}</td>
+    <td>${l.subscribedTelegram ? "✓" : "—"}</td><td>${l.likedX ? "✓" : "—"}</td><td>${l.repostedX ? "✓" : "—"}</td>
+    <td class="mono">${new Date(l.createdAt).toLocaleDateString()}</td></tr>`).join("") || "<tr><td colspan=6>No leads yet</td></tr>";
+}
+
+async function loadOrders() {
+  const resp = await adminFetch("/api/admin/orders");
+  const orders = await resp.json();
+  document.querySelector("#ordersTable tbody").innerHTML = orders.map(o => `
+    <tr><td>${o.id}</td><td class="mono">${o.wallet ? o.wallet.slice(0,8) + "..." : "—"}</td><td>${o.productName || o.productId}</td>
+    <td class="mono">$${Number(o.amount).toFixed(2)}</td><td>${o.status}</td>
+    <td style="font-size:11px;">${o.shippingName || "—"}${o.shippingAddress ? "<br>" + o.shippingAddress : ""}</td>
+    <td class="mono">${new Date(o.createdAt).toLocaleDateString()}</td>
+    <td>${o.status !== "fulfilled" ? `<button class="small-btn" onclick="fulfillOrder(${o.id})">Mark fulfilled</button>` : ""}</td></tr>`).join("") || "<tr><td colspan=8>No orders yet</td></tr>";
+}
+
+async function fulfillOrder(id) {
+  await adminFetch(`/api/admin/orders/${id}/fulfill`, { method: "POST" });
+  loadOrders();
+}
+
+async function loadQueue() {
+  const resp = await fetch("/api/settings/open-tier");
+  const data = await resp.json();
+  document.getElementById("tierSelect").value = data.openTier;
+}
+
+async function saveTier() {
+  const tier = document.getElementById("tierSelect").value;
+  await adminFetch("/api/admin/settings/open-tier", { method: "POST", body: JSON.stringify({ openTier: Number(tier) }) });
+  const saved = document.getElementById("tierSaved");
+  saved.style.display = "inline";
+  setTimeout(() => saved.style.display = "none", 2000);
+}
+
+function loadAll() {
+  loadLeads();
+  loadOrders();
+  loadQueue();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  let saved = null;
+  try { saved = localStorage.getItem("rasa_admin_token"); } catch (e) {}
+  if (saved) {
+    document.getElementById("adminTokenInput").value = saved;
+    tryLogin();
+  }
+});
+</script>
+</body>
+</html>
