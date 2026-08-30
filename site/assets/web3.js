@@ -125,7 +125,8 @@ async function rasaConnectWallet() {
   try {
     await rasaProvider.send("eth_requestAccounts", []);
   } catch (e) {
-    if (e && e.error && e.error.code === -32002) {
+    const innerCode = e?.info?.error?.code ?? e?.error?.code ?? e?.code;
+    if (innerCode === -32002) {
       throw new Error(rasaCurLang() === "ru"
         ? "В кошельке уже есть незавершённый запрос на подключение. Откройте расширение кошелька напрямую (иконка в панели браузера), подтвердите или отклоните его там, затем попробуйте снова."
         : "Your wallet already has a pending connection request. Open the wallet extension directly (toolbar icon), approve or dismiss it there, then try again.");
