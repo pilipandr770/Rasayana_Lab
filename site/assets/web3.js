@@ -122,7 +122,16 @@ async function rasaConnectWallet() {
   const abi = await abiResp.json();
 
   rasaProvider = new ethers.BrowserProvider(injected);
-  await rasaProvider.send("eth_requestAccounts", []);
+  try {
+    await rasaProvider.send("eth_requestAccounts", []);
+  } catch (e) {
+    if (e && e.error && e.error.code === -32002) {
+      throw new Error(rasaCurLang() === "ru"
+        ? "В кошельке уже есть незавершённый запрос на подключение. Откройте расширение кошелька напрямую (иконка в панели браузера), подтвердите или отклоните его там, затем попробуйте снова."
+        : "Your wallet already has a pending connection request. Open the wallet extension directly (toolbar icon), approve or dismiss it there, then try again.");
+    }
+    throw e;
+  }
 
   const network = await rasaProvider.getNetwork();
   if (network.chainId !== 11155111n) {
