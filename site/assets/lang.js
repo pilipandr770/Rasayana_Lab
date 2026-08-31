@@ -1,7 +1,7 @@
 (function(){
   var saved = null;
   try { saved = localStorage.getItem('rasayana_lang'); } catch(e) {}
-  document.documentElement.setAttribute('data-lang', saved || 'ru');
+  document.documentElement.setAttribute('data-lang', saved || 'uk');
 })();
 function setLang(lang){
   document.documentElement.setAttribute('data-lang', lang);
@@ -11,7 +11,7 @@ function setLang(lang){
   });
 }
 document.addEventListener('DOMContentLoaded', function(){
-  var cur = document.documentElement.getAttribute('data-lang') || 'ru';
+  var cur = document.documentElement.getAttribute('data-lang') || 'uk';
   document.querySelectorAll('.lang-btn').forEach(function(b){
     b.setAttribute('aria-pressed', b.dataset.lang === cur ? 'true' : 'false');
   });

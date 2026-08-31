@@ -7,12 +7,12 @@ const RASA_CONTRACT_ADDRESS = "0x2eff941e36D62c54B754dbd099b5726A2b29f226";
 const SEPOLIA_CHAIN_ID_HEX = "0xaa36a7"; // 11155111
 
 const TIER_LABELS = {
-  0: { ru: "Нет токена", en: "No token" },
-  1: { ru: "Member", en: "Member" },
-  2: { ru: "Silver", en: "Silver" },
-  3: { ru: "Gold", en: "Gold" },
-  4: { ru: "Platinum", en: "Platinum" },
-  5: { ru: "Founding Member", en: "Founding Member" },
+  0: { uk: "Немає токена", en: "No token", de: "Kein Token" },
+  1: { uk: "Member", en: "Member", de: "Member" },
+  2: { uk: "Silver", en: "Silver", de: "Silver" },
+  3: { uk: "Gold", en: "Gold", de: "Gold" },
+  4: { uk: "Platinum", en: "Platinum", de: "Platinum" },
+  5: { uk: "Founding Member", en: "Founding Member", de: "Founding Member" },
 };
 
 let rasaProvider = null;
@@ -33,7 +33,14 @@ function rasaRequestProviders() {
 rasaRequestProviders();
 
 function rasaCurLang() {
-  return document.documentElement.getAttribute("data-lang") || "ru";
+  return document.documentElement.getAttribute("data-lang") || "uk";
+}
+
+function rasaTr(uk, en, de) {
+  const l = rasaCurLang();
+  if (l === "uk") return uk;
+  if (l === "de") return de || en;
+  return en;
 }
 
 function rasaShowWalletPicker(providers) {
@@ -45,7 +52,7 @@ function rasaShowWalletPicker(providers) {
     box.style.cssText = "background:#fff;color:#1A1D2B;border-radius:10px;padding:24px;min-width:280px;max-width:340px;width:100%;font-family:'PT Sans',Arial,sans-serif;box-shadow:0 20px 60px rgba(0,0,0,.3);";
 
     const title = document.createElement("div");
-    title.textContent = rasaCurLang() === "ru" ? "Выберите кошелёк" : "Choose a wallet";
+    title.textContent = rasaTr("Оберіть гаманець", "Choose a wallet", "Wallet auswählen");
     title.style.cssText = "font-weight:700;margin-bottom:16px;font-size:16px;";
     box.appendChild(title);
 
@@ -70,7 +77,7 @@ function rasaShowWalletPicker(providers) {
 
     const cancelBtn = document.createElement("button");
     cancelBtn.type = "button";
-    cancelBtn.textContent = rasaCurLang() === "ru" ? "Отмена" : "Cancel";
+    cancelBtn.textContent = rasaTr("Скасувати", "Cancel", "Abbrechen");
     cancelBtn.style.cssText = "width:100%;padding:10px;margin-top:6px;border:none;background:transparent;color:#888;cursor:pointer;font-size:13px;";
     cancelBtn.onclick = () => { document.body.removeChild(overlay); resolve(null); };
     box.appendChild(cancelBtn);
@@ -97,7 +104,7 @@ async function rasaPickProvider() {
     // какое именно расширение будет использовано (некоторые конфликтуют между собой).
     const chosen = await rasaShowWalletPicker(providers);
     if (!chosen) {
-      throw new Error(rasaCurLang() === "ru" ? "Подключение отменено" : "Connection cancelled");
+      throw new Error(rasaTr("Підключення скасовано", "Connection cancelled", "Verbindung abgebrochen"));
     }
     const match = providers.find((p) => p.provider === chosen);
     if (match) {
@@ -108,9 +115,11 @@ async function rasaPickProvider() {
   if (window.ethereum) {
     return window.ethereum;
   }
-  throw new Error(rasaCurLang() === "ru"
-    ? "Не найден кошелёк. Установите расширение браузера (MetaMask, Coinbase Wallet и т.п.)."
-    : "No wallet found. Please install a browser wallet extension (MetaMask, Coinbase Wallet, etc.).");
+  throw new Error(rasaTr(
+    "Гаманець не знайдено. Встановіть розширення браузера (MetaMask, Coinbase Wallet тощо).",
+    "No wallet found. Please install a browser wallet extension (MetaMask, Coinbase Wallet, etc.).",
+    "Keine Wallet gefunden. Bitte installieren Sie eine Browser-Wallet-Erweiterung (MetaMask, Coinbase Wallet usw.)."
+  ));
 }
 
 /// Тихая попытка восстановить подключение на новой странице — без всплывающих
@@ -190,9 +199,11 @@ async function rasaConnectWallet() {
   } catch (e) {
     const innerCode = e?.info?.error?.code ?? e?.error?.code ?? e?.code;
     if (innerCode === -32002) {
-      throw new Error(rasaCurLang() === "ru"
-        ? "В кошельке уже есть незавершённый запрос на подключение. Откройте расширение кошелька напрямую (иконка в панели браузера), подтвердите или отклоните его там, затем попробуйте снова."
-        : "Your wallet already has a pending connection request. Open the wallet extension directly (toolbar icon), approve or dismiss it there, then try again.");
+      throw new Error(rasaTr(
+        "У гаманці вже є незавершений запит на підключення. Відкрийте розширення гаманця напряму (іконка на панелі браузера), підтвердьте або відхиліть його там, потім спробуйте знову.",
+        "Your wallet already has a pending connection request. Open the wallet extension directly (toolbar icon), approve or dismiss it there, then try again.",
+        "Ihre Wallet hat bereits eine ausstehende Verbindungsanfrage. Öffnen Sie die Wallet-Erweiterung direkt (Symbol in der Toolbar), bestätigen oder verwerfen Sie sie dort, und versuchen Sie es erneut."
+      ));
     }
     throw e;
   }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,10 +47,10 @@
 
 <header class="hero">
   <div class="container hero-inner">
-    <p class="eyebrow"><span lang="ru">Живая демонстрация</span><span lang="en">Live demonstration</span><span lang="de">Live-Demonstration</span></p>
-    <h1><span lang="ru">Тот же пайплайн, на открытом примере</span><span lang="en">The same pipeline, on a public example</span><span lang="de">Dieselbe Pipeline, an einem öffentlichen Beispiel</span></h1>
+    <p class="eyebrow"><span lang="uk">Жива демонстрація</span><span lang="en">Live demonstration</span><span lang="de">Live-Demonstration</span></p>
+    <h1><span lang="uk">Той самий пайплайн на відкритому прикладі</span><span lang="en">The same pipeline, on a public example</span><span lang="de">Dieselbe Pipeline, an einem öffentlichen Beispiel</span></h1>
     <p class="thesis">
-      <span lang="ru">Ниже — настоящий прогон нашего инструмента (не наши закрытые вещества, а нейтральный учебный пример: кофеин против аденозинового рецептора A2A), с реальными логами и таймингами. Это не имитация — это тот же код, что считал Фазу 2.</span>
+      <span lang="uk">Нижче — справжній прогін нашого інструменту (не наші закриті речовини, а нейтральний навчальний приклад: кофеїн проти аденозинового рецептора A2A), з реальними логами й таймінгами. Це не імітація — це той самий код, що рахував Фазу 2.</span>
       <span lang="en">Below is a real run of our actual tool (not our confidential compounds — a neutral textbook example: caffeine against the adenosine A2A receptor), with real logs and timings. This isn't a mockup — it's the same code that produced Phase 2.</span>
       <span lang="de">Unten sehen Sie einen echten Lauf unseres tatsächlichen Tools (nicht unsere vertraulichen Substanzen — ein neutrales Lehrbuchbeispiel: Koffein gegen den Adenosin-A2A-Rezeptor), mit echten Logs und Zeitmessungen. Das ist keine Simulation — es ist derselbe Code, der Phase 2 berechnet hat.</span>
     </p>
@@ -71,8 +71,8 @@
         <div class="terminal-body" id="termBody"></div>
       </div>
       <div class="lab-controls">
-        <button class="btn btn-primary" id="playBtn" onclick="playDemo()"><span lang="ru">▶ Запустить прогон</span><span lang="en">▶ Run the pipeline</span><span lang="de">▶ Lauf starten</span></button>
-        <button class="btn btn-outline" onclick="resetDemo()"><span lang="ru">⟲ Сначала</span><span lang="en">⟲ Restart</span><span lang="de">⟲ Neu starten</span></button>
+        <button class="btn btn-primary" id="playBtn" onclick="playDemo()"><span lang="uk">▶ Запустити прогін</span><span lang="en">▶ Run the pipeline</span><span lang="de">▶ Lauf starten</span></button>
+        <button class="btn btn-outline" onclick="resetDemo()"><span lang="uk">⟲ Спочатку</span><span lang="en">⟲ Restart</span><span lang="de">⟲ Neu starten</span></button>
         <span class="lab-progress" id="progressText"></span>
       </div>
       <div class="stage-list" id="stageList"></div>
@@ -81,14 +81,14 @@
     <div>
       <div class="result-card" id="resultCard">
         <img src="/assets/img/demo_caffeine.jpg" alt="Кофеин в активном сайте рецептора A2A">
-        <p class="eyebrow"><span lang="ru">Результат</span><span lang="en">Result</span><span lang="de">Ergebnis</span></p>
+        <p class="eyebrow"><span lang="uk">Результат</span><span lang="en">Result</span><span lang="de">Ergebnis</span></p>
         <div class="affinity">&minus;5.79 <span style="font-size:17.5px; color:var(--ink-faint); font-family:var(--sans);">kcal/mol</span></div>
         <dl>
           <dt>Molecule</dt><dd>Caffeine (PubChem CID 2519)</dd>
           <dt>Target</dt><dd>Adenosine A2A receptor (PDB 3EML)</dd>
           <dt>MW / LogP</dt><dd>194.19 / &minus;1.03</dd>
           <dt>TPSA</dt><dd>61.82 Å²</dd>
-          <dt lang="ru">Время расчёта</dt><dt lang="en">Compute time</dt><dt lang="de">Rechenzeit</dt><dd>~9.6s</dd>
+          <dt lang="uk">Час розрахунку</dt><dt lang="en">Compute time</dt><dt lang="de">Rechenzeit</dt><dd>~9.6s</dd>
         </dl>
       </div>
     </div>
@@ -96,17 +96,17 @@
 
   <section id="how" style="padding-top:80px;">
     <div class="sec-head">
-      <p class="eyebrow"><span lang="ru">Как это работает</span><span lang="en">How this works</span><span lang="de">Wie das funktioniert</span></p>
-      <h2><span lang="ru">Один и тот же инструмент — любая пара молекула-мишень</span><span lang="en">One tool, any molecule-target pair</span><span lang="de">Ein Werkzeug — jedes Molekül-Zielprotein-Paar</span></h2>
+      <p class="eyebrow"><span lang="uk">Як це працює</span><span lang="en">How this works</span><span lang="de">Wie das funktioniert</span></p>
+      <h2><span lang="uk">Один і той самий інструмент — будь-яка пара молекула-мішень</span><span lang="en">One tool, any molecule-target pair</span><span lang="de">Ein Werkzeug — jedes Molekül-Zielprotein-Paar</span></h2>
     </div>
     <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px;">
-      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">01</p><p style="margin-top:8px; font-size:16px;"><span lang="ru">Молекула из PubChem: SMILES, формула, вес</span><span lang="en">Molecule from PubChem: SMILES, formula, weight</span><span lang="de">Molekül aus PubChem: SMILES, Formel, Gewicht</span></p></div>
-      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">02</p><p style="margin-top:8px; font-size:16px;"><span lang="ru">3D-структура белка из RCSB PDB</span><span lang="en">3D protein structure from RCSB PDB</span><span lang="de">3D-Proteinstruktur aus der RCSB PDB</span></p></div>
-      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">03</p><p style="margin-top:8px; font-size:16px;"><span lang="ru">AutoDock Vina: реальная физика связывания</span><span lang="en">AutoDock Vina: real binding physics</span><span lang="de">AutoDock Vina: reale Bindungsphysik</span></p></div>
-      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">04</p><p style="margin-top:8px; font-size:16px;"><span lang="ru">3D-визуализация позы в кармане белка</span><span lang="en">3D visualization of the pose in the pocket</span><span lang="de">3D-Visualisierung der Pose in der Bindetasche</span></p></div>
+      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">01</p><p style="margin-top:8px; font-size:16px;"><span lang="uk">Молекула з PubChem: SMILES, формула, вага</span><span lang="en">Molecule from PubChem: SMILES, formula, weight</span><span lang="de">Molekül aus PubChem: SMILES, Formel, Gewicht</span></p></div>
+      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">02</p><p style="margin-top:8px; font-size:16px;"><span lang="uk">3D-структура білка з RCSB PDB</span><span lang="en">3D protein structure from RCSB PDB</span><span lang="de">3D-Proteinstruktur aus der RCSB PDB</span></p></div>
+      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">03</p><p style="margin-top:8px; font-size:16px;"><span lang="uk">AutoDock Vina: реальна фізика зв'язування</span><span lang="en">AutoDock Vina: real binding physics</span><span lang="de">AutoDock Vina: reale Bindungsphysik</span></p></div>
+      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">04</p><p style="margin-top:8px; font-size:16px;"><span lang="uk">3D-візуалізація пози в кишені білка</span><span lang="en">3D visualization of the pose in the pocket</span><span lang="de">3D-Visualisierung der Pose in der Bindetasche</span></p></div>
     </div>
     <p style="margin-top:28px; color:var(--ink-soft); max-width:70ch;">
-      <span lang="ru">В Фазе 2 этот же пайплайн отработал 18 раз подряд без ручного вмешательства — на трёх реальных кандидатах против шести мишеней. Полные данные того прогона — в закрытом разделе для инвесторов.</span>
+      <span lang="uk">У Фазі 2 цей самий пайплайн відпрацював 18 разів поспіль без ручного втручання — на трьох реальних кандидатах проти шести мішеней. Повні дані того прогону — у закритому розділі для інвесторів.</span>
       <span lang="en">In Phase 2, this exact pipeline ran 18 times in a row without manual intervention — on three real candidates against six targets. The full results of that run live in the investor-only section.</span>
       <span lang="de">In Phase 2 lief genau diese Pipeline 18 Mal hintereinander ohne manuellen Eingriff — an drei realen Kandidaten gegen sechs Zielproteine. Die vollständigen Ergebnisse dieses Laufs finden Sie im investorenexklusiven Bereich.</span>
     </p>
@@ -118,16 +118,16 @@
 
 <script>
 var STAGE_LABELS = {
-  start: {ru: 'старт', en: 'start', de: 'Start'},
-  fetch_molecule: {ru: 'молекула', en: 'molecule', de: 'Molekül'},
-  lipinski: {ru: 'липински', en: 'lipinski', de: 'Lipinski'},
-  fetch_target: {ru: 'мишень', en: 'target', de: 'Zielprotein'},
-  binding_site: {ru: 'карман', en: 'pocket', de: 'Tasche'},
-  prep_ligand: {ru: 'лиганд', en: 'ligand', de: 'Ligand'},
-  prep_receptor: {ru: 'рецептор', en: 'receptor', de: 'Rezeptor'},
-  dock: {ru: 'докинг', en: 'docking', de: 'Docking'},
-  visualize: {ru: 'визуализация', en: 'visualization', de: 'Visualisierung'},
-  done: {ru: 'готово', en: 'done', de: 'fertig'}
+  start: {uk: 'старт', en: 'start', de: 'Start'},
+  fetch_molecule: {uk: 'молекула', en: 'molecule', de: 'Molekül'},
+  lipinski: {uk: 'ліпінскі', en: 'lipinski', de: 'Lipinski'},
+  fetch_target: {uk: 'мішень', en: 'target', de: 'Zielprotein'},
+  binding_site: {uk: 'кишеня', en: 'pocket', de: 'Tasche'},
+  prep_ligand: {uk: 'ліганд', en: 'ligand', de: 'Ligand'},
+  prep_receptor: {uk: 'рецептор', en: 'receptor', de: 'Rezeptor'},
+  dock: {uk: 'докінг', en: 'docking', de: 'Docking'},
+  visualize: {uk: 'візуалізація', en: 'visualization', de: 'Visualisierung'},
+  done: {uk: 'готово', en: 'done', de: 'fertig'}
 };
 var STAGE_COLORS = {
   start:'#8890B0', fetch_molecule:'#7DA6E1', lipinski:'#7DA6E1', fetch_target:'#D7A85C',
@@ -138,7 +138,7 @@ var entries = [];
 var playing = false;
 var idx = 0;
 
-function curLang(){ return document.documentElement.getAttribute('data-lang') || 'ru'; }
+function curLang(){ return document.documentElement.getAttribute('data-lang') || 'uk'; }
 
 function buildStagePills(){
   var seen = {}; var order = [];

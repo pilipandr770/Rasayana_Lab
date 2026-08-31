@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,8 +29,8 @@
 
 <header class="hero">
   <div class="container hero-inner">
-    <p class="eyebrow"><span lang="ru">Личный кабинет</span><span lang="en">My Account</span><span lang="de">Mein Konto</span></p>
-    <h1><span lang="ru">Ваш членский статус и заказы</span><span lang="en">Your membership and orders</span><span lang="de">Ihr Mitgliedsstatus und Ihre Bestellungen</span></h1>
+    <p class="eyebrow"><span lang="uk">Особистий кабінет</span><span lang="en">My Account</span><span lang="de">Mein Konto</span></p>
+    <h1><span lang="uk">Ваш членський статус і замовлення</span><span lang="en">Your membership and orders</span><span lang="de">Ihr Mitgliedsstatus und Ihre Bestellungen</span></h1>
   </div>
 </header>
 
@@ -39,17 +39,17 @@
 
   <div class="wallet-row" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:8px;">
     <div id="walletAddr" class="mono" style="font-size:15px; color:var(--ink-soft);"></div>
-    <button class="btn btn-primary" id="connectBtn" onclick="onConnect()"><span lang="ru">Подключить кошелёк</span><span lang="en">Connect Wallet</span><span lang="de">Wallet verbinden</span></button>
+    <button class="btn btn-primary" id="connectBtn" onclick="onConnect()"><span lang="uk">Підключити гаманець</span><span lang="en">Connect Wallet</span><span lang="de">Wallet verbinden</span></button>
   </div>
 
   <div class="stat-grid" id="statGrid" style="display:none;">
-    <div class="stat-box"><b id="statBalance">—</b><span lang="ru">Токенов</span><span lang="en">Tokens</span><span lang="de">Token</span></div>
-    <div class="stat-box"><b id="statTier">—</b><span lang="ru">Уровень</span><span lang="en">Tier</span><span lang="de">Stufe</span></div>
-    <div class="stat-box"><b id="statDiscount">—</b><span lang="ru">Скидка</span><span lang="en">Discount</span><span lang="de">Rabatt</span></div>
+    <div class="stat-box"><b id="statBalance">—</b><span lang="uk">Токенів</span><span lang="en">Tokens</span><span lang="de">Token</span></div>
+    <div class="stat-box"><b id="statTier">—</b><span lang="uk">Рівень</span><span lang="en">Tier</span><span lang="de">Stufe</span></div>
+    <div class="stat-box"><b id="statDiscount">—</b><span lang="uk">Знижка</span><span lang="en">Discount</span><span lang="de">Rabatt</span></div>
   </div>
 
   <div id="ordersSection" style="display:none;">
-    <p class="eyebrow" style="margin-top:32px;"><span lang="ru">История заказов</span><span lang="en">Order history</span><span lang="de">Bestellverlauf</span></p>
+    <p class="eyebrow" style="margin-top:32px;"><span lang="uk">Історія замовлень</span><span lang="en">Order history</span><span lang="de">Bestellverlauf</span></p>
     <div id="ordersContainer"></div>
   </div>
 
@@ -60,9 +60,9 @@
 
 <script src="/assets/web3.js"></script>
 <script>
-function tr(ru, en, de) {
-  const l = document.documentElement.getAttribute("data-lang") || "ru";
-  if (l === "ru") return ru;
+function tr(uk, en, de) {
+  const l = document.documentElement.getAttribute("data-lang") || "uk";
+  if (l === "uk") return uk;
   if (l === "de") return de || en;
   return en;
 }
@@ -84,12 +84,12 @@ async function loadAccount(address) {
   section.style.display = "block";
 
   if (!orders.length) {
-    container.innerHTML = `<div class="empty-state">${tr("Заказов пока нет — загляните в магазин.", "No orders yet — check out the shop.", "Noch keine Bestellungen — schauen Sie im Shop vorbei.")}</div>`;
+    container.innerHTML = `<div class="empty-state">${tr("Замовлень поки немає — загляньте в магазин.", "No orders yet — check out the shop.", "Noch keine Bestellungen — schauen Sie im Shop vorbei.")}</div>`;
     return;
   }
 
   container.innerHTML = `<table class="orders"><thead><tr>
-      <th>${tr("Товар","Product","Produkt")}</th><th>${tr("Сумма","Amount","Betrag")}</th><th>${tr("Статус","Status","Status")}</th><th>${tr("Дата","Date","Datum")}</th>
+      <th>${tr("Товар","Product","Produkt")}</th><th>${tr("Сума","Amount","Betrag")}</th><th>${tr("Статус","Status","Status")}</th><th>${tr("Дата","Date","Datum")}</th>
     </tr></thead><tbody>
     ${orders.map(o => `<tr>
       <td>${o.productName || o.productId}</td>
@@ -105,7 +105,7 @@ async function onConnect() {
     const address = await rasaConnectWallet();
     await loadAccount(address);
   } catch (e) {
-    alert(tr("Ошибка подключения: ", "Connection error: ", "Verbindungsfehler: ") + (e.message || e));
+    alert(tr("Помилка підключення: ", "Connection error: ", "Verbindungsfehler: ") + (e.message || e));
   }
 }
 
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     const address = await rasaTryAutoReconnect();
     if (address) await loadAccount(address);
-  } catch (e) { /* тихо игнорируем */ }
+  } catch (e) { /* тихо ігноруємо */ }
 });
 </script>
 </body>

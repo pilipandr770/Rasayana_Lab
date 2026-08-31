@@ -36,8 +36,8 @@
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:18.5px; line-height:1.6; -webkit-font-smoothing:antialiased;}
-body [lang="ru"],body [lang="en"],body [lang="de"]{display:none !important;}
-html[data-lang="ru"] body [lang="ru"]{display:inline !important;}
+body [lang="uk"],body [lang="en"],body [lang="de"]{display:none !important;}
+html[data-lang="uk"] body [lang="uk"]{display:inline !important;}
 html[data-lang="en"] body [lang="en"]{display:inline !important;}
 html[data-lang="de"] body [lang="de"]{display:inline !important;}
 @media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
