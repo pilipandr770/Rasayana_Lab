@@ -12,12 +12,12 @@
 <style>
   .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:24px 0; max-width:640px;}
   .stat-box{text-align:center; padding:16px; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px;}
-  .stat-box b{display:block; font-family:var(--serif); font-size:26px; color:var(--jade);}
-  .stat-box span{font-size:11.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.03em;}
-  table.orders{width:100%; border-collapse:collapse; font-size:13.5px; margin-top:16px;}
+  .stat-box b{display:block; font-family:var(--serif); font-size:30px; color:var(--jade);}
+  .stat-box span{font-size:13px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.03em;}
+  table.orders{width:100%; border-collapse:collapse; font-size:15.5px; margin-top:16px;}
   table.orders th, table.orders td{padding:10px 12px; border-bottom:1px solid var(--line-soft); text-align:left;}
-  table.orders th{color:var(--ink-faint); font-size:11px; text-transform:uppercase;}
-  .status-pill{font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:999px;}
+  table.orders th{color:var(--ink-faint); font-size:12.5px; text-transform:uppercase;}
+  .status-pill{font-family:var(--mono); font-size:12.5px; padding:3px 9px; border-radius:999px;}
   .status-pill.pending{background:var(--gold-soft); color:var(--gold);}
   .status-pill.paid{background:var(--jade-soft); color:var(--jade);}
   .status-pill.fulfilled{background:var(--jade-soft); color:var(--jade);}
@@ -38,7 +38,7 @@
 <div class="container" style="padding-top:56px; padding-bottom:100px;">
 
   <div class="wallet-row" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:8px;">
-    <div id="walletAddr" class="mono" style="font-size:13px; color:var(--ink-soft);"></div>
+    <div id="walletAddr" class="mono" style="font-size:15px; color:var(--ink-soft);"></div>
     <button class="btn btn-primary" id="connectBtn" onclick="onConnect()"><span lang="ru">Подключить кошелёк</span><span lang="en">Connect Wallet</span></button>
   </div>
 

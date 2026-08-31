@@ -10,23 +10,23 @@
 <script src="/assets/lang.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
 <style>
-  .demo-banner{background:var(--gold-soft); border:1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius:4px; padding:14px 18px; font-size:13.5px; color:var(--ink-soft); margin-bottom:32px;}
+  .demo-banner{background:var(--gold-soft); border:1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius:4px; padding:14px 18px; font-size:15.5px; color:var(--ink-soft); margin-bottom:32px;}
   .demo-banner b{color:var(--ink);}
   .member-bar{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:16px 20px; margin-bottom:32px;}
-  .member-bar .info{font-size:13.5px; color:var(--ink-soft);}
+  .member-bar .info{font-size:15.5px; color:var(--ink-soft);}
   .member-bar .info b{color:var(--jade); font-family:var(--mono);}
   .product-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
   @media (max-width:860px){.product-grid{grid-template-columns:1fr;}}
   .product-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:8px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column;}
-  .product-img{height:160px; background:linear-gradient(135deg, var(--bg-hero), var(--jade-soft)); display:flex; align-items:center; justify-content:center; font-size:44px;}
+  .product-img{height:160px; background:linear-gradient(135deg, var(--bg-hero), var(--jade-soft)); display:flex; align-items:center; justify-content:center; font-size:50.5px;}
   .product-body{padding:20px; display:flex; flex-direction:column; gap:10px; flex:1;}
-  .product-body h3{font-size:17px;}
-  .product-body p{font-size:13px; color:var(--ink-soft); flex:1;}
+  .product-body h3{font-size:19.5px;}
+  .product-body p{font-size:15px; color:var(--ink-soft); flex:1;}
   .price-row{display:flex; align-items:baseline; gap:10px; margin-top:6px;}
-  .price-base{font-family:var(--mono); font-size:14px; color:var(--ink-faint); text-decoration:line-through;}
-  .price-final{font-family:var(--serif); font-size:24px; color:var(--ink);}
+  .price-base{font-family:var(--mono); font-size:16px; color:var(--ink-faint); text-decoration:line-through;}
+  .price-final{font-family:var(--serif); font-size:27.5px; color:var(--ink);}
   .price-final.discounted{color:var(--vermillion);}
-  .discount-tag{font-family:var(--mono); font-size:11px; background:var(--jade-soft); color:var(--jade); padding:3px 8px; border-radius:999px;}
+  .discount-tag{font-family:var(--mono); font-size:12.5px; background:var(--jade-soft); color:var(--jade); padding:3px 8px; border-radius:999px;}
 </style>
 </head>
 <body>
@@ -103,7 +103,7 @@ function renderProducts() {
     const finalPrice = (p.price * (1 - discountPct / 100)).toFixed(2);
     const showDiscount = discountPct > 0;
     const buyControl = locked
-      ? `<div class="callout" style="margin-top:8px; padding:10px 12px; font-size:12.5px;">${tr(
+      ? `<div class="callout" style="margin-top:8px; padding:10px 12px; font-size:14.5px;">${tr(
           `Открытие для вашего уровня — при достижении уровня ${TIER_NAMES[openTier]}`,
           `Opens for your tier — once you reach ${TIER_NAMES[openTier]}`
         )}</div>`

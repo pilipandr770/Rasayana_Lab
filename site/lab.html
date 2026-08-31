@@ -17,8 +17,8 @@
   }
   .terminal-bar{display:flex; align-items:center; gap:8px; padding:10px 14px; background:#151A30; border-bottom:1px solid #262C4C;}
   .terminal-bar .dot{width:10px; height:10px; border-radius:50%;}
-  .terminal-bar .title{margin-left:8px; font-family:var(--mono); font-size:12px; color:#8890B0;}
-  .terminal-body{padding:18px 16px; height:420px; overflow-y:auto; font-family:var(--mono); font-size:13px; line-height:1.7;}
+  .terminal-bar .title{margin-left:8px; font-family:var(--mono); font-size:14px; color:#8890B0;}
+  .terminal-body{padding:18px 16px; height:420px; overflow-y:auto; font-family:var(--mono); font-size:15px; line-height:1.7;}
   .terminal-body .line{white-space:pre-wrap; word-break:break-word; opacity:0; animation:fadein .25s ease forwards;}
   @keyframes fadein{ from{opacity:0; transform:translateY(2px);} to{opacity:1; transform:none;} }
   .terminal-body .t{color:#5B6289;}
@@ -28,16 +28,16 @@
   .cursor{display:inline-block; width:8px; height:14px; background:#7DE1C3; animation:blink 1s step-end infinite; vertical-align:text-bottom;}
   @keyframes blink{50%{opacity:0;}}
   .lab-controls{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; align-items:center;}
-  .lab-progress{font-family:var(--mono); font-size:12px; color:var(--ink-faint);}
+  .lab-progress{font-family:var(--mono); font-size:14px; color:var(--ink-faint);}
   .result-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:22px; margin-top:0; opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease;}
   .result-card.show{opacity:1; transform:none;}
   .result-card img{width:100%; border-radius:4px; margin-bottom:14px; display:block;}
-  .result-card dl{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13.5px; margin:0;}
-  .result-card dt{color:var(--ink-faint); font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.03em;}
+  .result-card dl{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:15.5px; margin:0;}
+  .result-card dt{color:var(--ink-faint); font-family:var(--mono); font-size:13px; text-transform:uppercase; letter-spacing:.03em;}
   .result-card dd{margin:0; font-family:var(--mono);}
-  .result-card .affinity{font-family:var(--serif); font-size:28px; color:var(--vermillion); margin:14px 0 4px;}
+  .result-card .affinity{font-family:var(--serif); font-size:32px; color:var(--vermillion); margin:14px 0 4px;}
   .stage-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
-  .stage-pill{font-family:var(--mono); font-size:11px; padding:5px 10px; border-radius:999px; border:1px solid var(--line); color:var(--ink-faint);}
+  .stage-pill{font-family:var(--mono); font-size:12.5px; padding:5px 10px; border-radius:999px; border:1px solid var(--line); color:var(--ink-faint);}
   .stage-pill.active{border-color:var(--gold); color:var(--gold); background:var(--gold-soft);}
   .stage-pill.done{border-color:var(--jade); color:var(--jade); background:var(--jade-soft);}
 </style>
@@ -81,7 +81,7 @@
       <div class="result-card" id="resultCard">
         <img src="/assets/img/demo_caffeine.jpg" alt="Кофеин в активном сайте рецептора A2A">
         <p class="eyebrow"><span lang="ru">Результат</span><span lang="en">Result</span></p>
-        <div class="affinity">&minus;5.79 <span style="font-size:15px; color:var(--ink-faint); font-family:var(--sans);">kcal/mol</span></div>
+        <div class="affinity">&minus;5.79 <span style="font-size:17.5px; color:var(--ink-faint); font-family:var(--sans);">kcal/mol</span></div>
         <dl>
           <dt>Molecule</dt><dd>Caffeine (PubChem CID 2519)</dd>
           <dt>Target</dt><dd>Adenosine A2A receptor (PDB 3EML)</dd>
@@ -99,10 +99,10 @@
       <h2><span lang="ru">Один и тот же инструмент — любая пара молекула-мишень</span><span lang="en">One tool, any molecule-target pair</span></h2>
     </div>
     <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px;">
-      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">01</p><p style="margin-top:8px; font-size:14px;"><span lang="ru">Молекула из PubChem: SMILES, формула, вес</span><span lang="en">Molecule from PubChem: SMILES, formula, weight</span></p></div>
-      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">02</p><p style="margin-top:8px; font-size:14px;"><span lang="ru">3D-структура белка из RCSB PDB</span><span lang="en">3D protein structure from RCSB PDB</span></p></div>
-      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">03</p><p style="margin-top:8px; font-size:14px;"><span lang="ru">AutoDock Vina: реальная физика связывания</span><span lang="en">AutoDock Vina: real binding physics</span></p></div>
-      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">04</p><p style="margin-top:8px; font-size:14px;"><span lang="ru">3D-визуализация позы в кармане белка</span><span lang="en">3D visualization of the pose in the pocket</span></p></div>
+      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">01</p><p style="margin-top:8px; font-size:16px;"><span lang="ru">Молекула из PubChem: SMILES, формула, вес</span><span lang="en">Molecule from PubChem: SMILES, formula, weight</span></p></div>
+      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">02</p><p style="margin-top:8px; font-size:16px;"><span lang="ru">3D-структура белка из RCSB PDB</span><span lang="en">3D protein structure from RCSB PDB</span></p></div>
+      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">03</p><p style="margin-top:8px; font-size:16px;"><span lang="ru">AutoDock Vina: реальная физика связывания</span><span lang="en">AutoDock Vina: real binding physics</span></p></div>
+      <div class="result-card show" style="padding:18px;"><p class="eyebrow" style="color:var(--jade)">04</p><p style="margin-top:8px; font-size:16px;"><span lang="ru">3D-визуализация позы в кармане белка</span><span lang="en">3D visualization of the pose in the pocket</span></p></div>
     </div>
     <p style="margin-top:28px; color:var(--ink-soft); max-width:70ch;">
       <span lang="ru">В Фазе 2 этот же пайплайн отработал 18 раз подряд без ручного вмешательства — на трёх реальных кандидатах против шести мишеней. Полные данные того прогона — в закрытом разделе для инвесторов.</span>

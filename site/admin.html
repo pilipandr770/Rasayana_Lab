@@ -11,19 +11,19 @@
 <script src="/assets/lang.js"></script>
 <style>
   .tabs{display:flex; gap:8px; margin-bottom:24px; border-bottom:1px solid var(--line-soft);}
-  .tab-btn{padding:10px 16px; background:none; border:none; cursor:pointer; font-size:14px; color:var(--ink-faint); border-bottom:2px solid transparent;}
+  .tab-btn{padding:10px 16px; background:none; border:none; cursor:pointer; font-size:16px; color:var(--ink-faint); border-bottom:2px solid transparent;}
   .tab-btn.active{color:var(--ink); border-color:var(--gold); font-weight:700;}
   .tab-panel{display:none;}
   .tab-panel.active{display:block;}
-  table.admin{width:100%; border-collapse:collapse; font-size:13px;}
+  table.admin{width:100%; border-collapse:collapse; font-size:15px;}
   table.admin th, table.admin td{padding:9px 10px; border-bottom:1px solid var(--line-soft); text-align:left;}
-  table.admin th{color:var(--ink-faint); font-size:10.5px; text-transform:uppercase;}
+  table.admin th{color:var(--ink-faint); font-size:12px; text-transform:uppercase;}
   .table-wrap{overflow-x:auto; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:6px 14px;}
   .login-box{max-width:340px; margin:80px auto; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:8px; padding:28px;}
   .login-box input{width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-bottom:12px;}
   .tier-form{display:flex; gap:10px; align-items:center; margin-bottom:24px;}
   .tier-form select{padding:8px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink);}
-  .small-btn{font-size:12px; padding:5px 10px; border-radius:4px; border:1px solid var(--line); background:var(--bg-card); cursor:pointer;}
+  .small-btn{font-size:14px; padding:5px 10px; border-radius:4px; border:1px solid var(--line); background:var(--bg-card); cursor:pointer;}
 </style>
 </head>
 <body>
@@ -36,11 +36,11 @@
     <p class="eyebrow" style="margin-bottom:14px;">Admin</p>
     <input type="password" id="adminTokenInput" placeholder="Admin token / password">
     <button class="btn btn-primary" style="width:100%;" onclick="tryLogin()">Login</button>
-    <p id="loginErr" style="color:var(--vermillion); font-size:12.5px; margin-top:10px; display:none;">Invalid token</p>
+    <p id="loginErr" style="color:var(--vermillion); font-size:14.5px; margin-top:10px; display:none;">Invalid token</p>
   </div>
 
   <div id="dashboard" style="display:none;">
-    <h1 style="font-family:var(--serif); font-size:26px; margin-bottom:24px;">Rasayana Admin</h1>
+    <h1 style="font-family:var(--serif); font-size:30px; margin-bottom:24px;">Rasayana Admin</h1>
 
     <div class="tabs">
       <button class="tab-btn active" onclick="showTab('leads')">Leads</button>
@@ -58,7 +58,7 @@
     </div>
 
     <div id="tab-queue" class="tab-panel">
-      <p style="color:var(--ink-soft); font-size:14px; margin-bottom:16px;">Current tier required to buy in the shop. Members below this tier see a "coming soon" message instead of the buy button.</p>
+      <p style="color:var(--ink-soft); font-size:16px; margin-bottom:16px;">Current tier required to buy in the shop. Members below this tier see a "coming soon" message instead of the buy button.</p>
       <div class="tier-form">
         <select id="tierSelect">
           <option value="0">0 — Open to everyone</option>
@@ -69,25 +69,25 @@
           <option value="5">5 — Founding Member (100 tokens)</option>
         </select>
         <button class="btn btn-primary" onclick="saveTier()">Save</button>
-        <span id="tierSaved" style="color:var(--jade); font-size:13px; display:none;">Saved ✓</span>
+        <span id="tierSaved" style="color:var(--jade); font-size:15px; display:none;">Saved ✓</span>
       </div>
     </div>
 
     <div id="tab-social" class="tab-panel">
-      <p style="color:var(--ink-soft); font-size:14px; margin-bottom:16px;">Links shown in the site header. Leave blank to hide that icon.</p>
+      <p style="color:var(--ink-soft); font-size:16px; margin-bottom:16px;">Links shown in the site header. Leave blank to hide that icon.</p>
       <div style="max-width:460px; display:flex; flex-direction:column; gap:12px;">
-        <label style="font-size:13px; color:var(--ink-soft);">Telegram
+        <label style="font-size:15px; color:var(--ink-soft);">Telegram
           <input type="url" id="socialTelegram" placeholder="https://t.me/yourchannel" style="width:100%; padding:9px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-top:4px;">
         </label>
-        <label style="font-size:13px; color:var(--ink-soft);">X / Twitter
+        <label style="font-size:15px; color:var(--ink-soft);">X / Twitter
           <input type="url" id="socialTwitter" placeholder="https://x.com/yourhandle" style="width:100%; padding:9px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-top:4px;">
         </label>
-        <label style="font-size:13px; color:var(--ink-soft);">Instagram
+        <label style="font-size:15px; color:var(--ink-soft);">Instagram
           <input type="url" id="socialInstagram" placeholder="https://instagram.com/yourhandle" style="width:100%; padding:9px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-top:4px;">
         </label>
         <div>
           <button class="btn btn-primary" onclick="saveSocial()">Save</button>
-          <span id="socialSaved" style="color:var(--jade); font-size:13px; display:none; margin-left:8px;">Saved ✓</span>
+          <span id="socialSaved" style="color:var(--jade); font-size:15px; display:none; margin-left:8px;">Saved ✓</span>
         </div>
       </div>
     </div>
@@ -143,7 +143,7 @@ async function loadOrders() {
   document.querySelector("#ordersTable tbody").innerHTML = orders.map(o => `
     <tr><td>${o.id}</td><td class="mono">${o.wallet ? o.wallet.slice(0,8) + "..." : "—"}</td><td>${o.productName || o.productId}</td>
     <td class="mono">$${Number(o.amount).toFixed(2)}</td><td>${o.status}</td>
-    <td style="font-size:11px;">${o.shippingName || "—"}${o.shippingAddress ? "<br>" + o.shippingAddress : ""}</td>
+    <td style="font-size:12.5px;">${o.shippingName || "—"}${o.shippingAddress ? "<br>" + o.shippingAddress : ""}</td>
     <td class="mono">${new Date(o.createdAt).toLocaleDateString()}</td>
     <td>${o.status !== "fulfilled" ? `<button class="small-btn" onclick="fulfillOrder(${o.id})">Mark fulfilled</button>` : ""}</td></tr>`).join("") || "<tr><td colspan=8>No orders yet</td></tr>";
 }

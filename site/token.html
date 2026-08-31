@@ -10,26 +10,26 @@
 <script src="/assets/lang.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
 <style>
-  .demo-banner{background:var(--gold-soft); border:1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius:4px; padding:14px 18px; font-size:13.5px; color:var(--ink-soft); margin-bottom:32px;}
+  .demo-banner{background:var(--gold-soft); border:1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius:4px; padding:14px 18px; font-size:15.5px; color:var(--ink-soft); margin-bottom:32px;}
   .demo-banner b{color:var(--ink);}
   .token-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:8px; padding:32px; max-width:640px; box-shadow:var(--shadow);}
   .wallet-row{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:24px;}
-  .wallet-addr{font-family:var(--mono); font-size:13px; color:var(--ink-soft); background:var(--bg-raised); padding:8px 12px; border-radius:4px;}
+  .wallet-addr{font-family:var(--mono); font-size:15px; color:var(--ink-soft); background:var(--bg-raised); padding:8px 12px; border-radius:4px;}
   .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:24px 0;}
   .stat-box{text-align:center; padding:16px; background:var(--bg-raised); border-radius:6px;}
-  .stat-box b{display:block; font-family:var(--serif); font-size:26px; color:var(--jade);}
-  .stat-box span{font-size:11.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.03em;}
+  .stat-box b{display:block; font-family:var(--serif); font-size:30px; color:var(--jade);}
+  .stat-box span{font-size:13px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.03em;}
   .buy-row{display:flex; gap:12px; align-items:center; margin-top:20px; flex-wrap:wrap;}
-  .buy-row input{width:80px; padding:10px; border:1px solid var(--line); border-radius:4px; font-family:var(--mono); font-size:15px; background:var(--bg); color:var(--ink);}
-  .quote{font-family:var(--mono); font-size:13px; color:var(--ink-faint); margin-top:10px;}
-  .status-msg{margin-top:16px; padding:12px 14px; border-radius:4px; font-size:13.5px; display:none;}
+  .buy-row input{width:80px; padding:10px; border:1px solid var(--line); border-radius:4px; font-family:var(--mono); font-size:17.5px; background:var(--bg); color:var(--ink);}
+  .quote{font-family:var(--mono); font-size:15px; color:var(--ink-faint); margin-top:10px;}
+  .status-msg{margin-top:16px; padding:12px 14px; border-radius:4px; font-size:15.5px; display:none;}
   .status-msg.show{display:block;}
   .status-msg.ok{background:var(--jade-soft); color:var(--jade);}
   .status-msg.err{background:var(--vermillion-soft); color:var(--vermillion);}
   .status-msg.pending{background:var(--gold-soft); color:var(--gold);}
-  .tier-table{width:100%; font-size:13px; margin-top:32px; max-width:640px;}
+  .tier-table{width:100%; font-size:15px; margin-top:32px; max-width:640px;}
   .tier-table th, .tier-table td{padding:8px 10px; border-bottom:1px solid var(--line-soft); text-align:left;}
-  .tier-table th{color:var(--ink-faint); font-size:11px; text-transform:uppercase;}
+  .tier-table th{color:var(--ink-faint); font-size:12.5px; text-transform:uppercase;}
 </style>
 </head>
 <body>
@@ -71,25 +71,25 @@
 
     <div id="claimSection" style="display:none;">
       <p class="eyebrow" style="margin-bottom:10px;"><span lang="ru">Условия для бесплатного токена</span><span lang="en">Conditions for the free token</span></p>
-      <input type="email" id="leadEmail" placeholder="you@example.com" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); font-size:14px; margin-bottom:10px;">
-      <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin-bottom:6px;">
+      <input type="email" id="leadEmail" placeholder="you@example.com" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); font-size:16px; margin-bottom:10px;">
+      <label style="display:flex; align-items:center; gap:8px; font-size:15px; color:var(--ink-soft); margin-bottom:6px;">
         <input type="checkbox" id="leadTelegram"> <span lang="ru">Подписался(лась) на Telegram-канал проекта</span><span lang="en">Subscribed to the project's Telegram channel</span>
       </label>
-      <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin-bottom:6px;">
+      <label style="display:flex; align-items:center; gap:8px; font-size:15px; color:var(--ink-soft); margin-bottom:6px;">
         <input type="checkbox" id="leadLike"> <span lang="ru">Поставил(а) лайк последнему посту</span><span lang="en">Liked the latest post</span>
       </label>
-      <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin-bottom:14px;">
+      <label style="display:flex; align-items:center; gap:8px; font-size:15px; color:var(--ink-soft); margin-bottom:14px;">
         <input type="checkbox" id="leadRepost"> <span lang="ru">Сделал(а) репост</span><span lang="en">Reposted</span>
       </label>
       <button class="btn btn-outline" id="claimBtn" onclick="onClaim()" style="width:100%;">
         <span lang="ru">🎁 Получить бесплатный первый токен</span><span lang="en">🎁 Claim your free first token</span>
       </button>
-      <p class="cid" style="margin-top:8px; font-size:11.5px;"><span lang="ru">Ссылки на соцсети появятся здесь, когда каналы будут запущены — пока форма фиксирует ваш интерес.</span><span lang="en">Social links will appear here once the channels launch — for now this form just records your interest.</span></p>
+      <p class="cid" style="margin-top:8px; font-size:13px;"><span lang="ru">Ссылки на соцсети появятся здесь, когда каналы будут запущены — пока форма фиксирует ваш интерес.</span><span lang="en">Social links will appear here once the channels launch — for now this form just records your interest.</span></p>
     </div>
 
     <div id="buySection" style="display:none;">
       <div class="buy-row">
-        <label style="font-size:13.5px; color:var(--ink-soft);"><span lang="ru">Купить ещё:</span><span lang="en">Buy more:</span></label>
+        <label style="font-size:15.5px; color:var(--ink-soft);"><span lang="ru">Купить ещё:</span><span lang="en">Buy more:</span></label>
         <input type="number" id="buyQty" min="1" value="1" oninput="updateQuote()">
         <button class="btn btn-primary" id="buyBtn" onclick="onBuy()"><span lang="ru">Купить</span><span lang="en">Buy</span></button>
       </div>
