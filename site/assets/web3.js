@@ -3,7 +3,7 @@
 // членский токен с прогрессивной кривой цены. Реальных денег здесь нет:
 // оплата тестовым ETH, ноль монетарной стоимости.
 
-const RASA_CONTRACT_ADDRESS = "0x2eff941e36D62c54B754dbd099b5726A2b29f226";
+const RASA_CONTRACT_ADDRESS = "0x36Da05224E9D98e9f4008f487466802F4f8701FE";
 const SEPOLIA_CHAIN_ID_HEX = "0xaa36a7"; // 11155111
 
 const TIER_LABELS = {

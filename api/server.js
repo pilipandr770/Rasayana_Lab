@@ -9,7 +9,7 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
 app.use(cors());
 
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || "0x2eff941e36D62c54B754dbd099b5726A2b29f226";
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || "0x36Da05224E9D98e9f4008f487466802F4f8701FE";
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL || "https://ethereum-sepolia-rpc.publicnode.com";
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 

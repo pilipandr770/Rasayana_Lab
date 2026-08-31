@@ -61,6 +61,20 @@ contract RasayanaMembership {
         emit Claimed(to);
     }
 
+    /// @notice Владелец может напрямую выставить баланс любому адресу (демо-кошельки,
+    /// админ/founder-статус) — в обход прогрессивной кривой цены и лимита на бесплатный клейм.
+    function adminSetBalance(address account, uint256 newBalance) external onlyOwner {
+        uint256 old = balanceOf[account];
+        if (newBalance > old) {
+            totalSupply += (newBalance - old);
+        } else {
+            totalSupply -= (old - newBalance);
+        }
+        balanceOf[account] = newBalance;
+        hasClaimedFree[account] = true;
+        emit Claimed(account);
+    }
+
     /// @notice Цена именно n-го токена в кошельке (n>=2, т.к. 1-й бесплатный)
     function priceForNth(uint256 n) public view returns (uint256 price) {
         require(n >= 2, "first token is free");
