@@ -34,11 +34,12 @@
 
 <header class="hero">
   <div class="container hero-inner">
-    <p class="eyebrow"><span lang="ru">Демонстрация магазина</span><span lang="en">Shop demonstration</span></p>
-    <h1><span lang="ru">Витрина с ценой по токену</span><span lang="en">Storefront with token-based pricing</span></h1>
+    <p class="eyebrow"><span lang="ru">Демонстрация магазина</span><span lang="en">Shop demonstration</span><span lang="de">Shop-Demonstration</span></p>
+    <h1><span lang="ru">Витрина с ценой по токену</span><span lang="en">Storefront with token-based pricing</span><span lang="de">Schaufenster mit tokenbasierter Preisgestaltung</span></h1>
     <p class="thesis">
       <span lang="ru">Без подключённого кошелька — обычная цена. Подключите кошелёк с членским токеном — увидите скидку в реальном времени.</span>
       <span lang="en">Without a connected wallet — regular price. Connect a wallet holding the membership token — see the discount applied live.</span>
+      <span lang="de">Ohne verbundene Wallet gilt der reguläre Preis. Verbinden Sie eine Wallet mit Mitglieds-Token — der Rabatt wird live angewendet.</span>
     </p>
   </div>
 </header>
@@ -49,14 +50,16 @@
   <div class="demo-banner">
     <span lang="ru"><b>Демо-товары.</b> Оплата — Stripe в тестовом режиме, реальные деньги не списываются. Цена пересчитывается на основе баланса вашего членского токена (см. страницу «Токен»).</span>
     <span lang="en"><b>Demo products.</b> Payment via Stripe test mode — no real money is charged. Price is recalculated based on your membership token balance (see the Token page).</span>
+    <span lang="de"><b>Demo-Produkte.</b> Zahlung über Stripe im Testmodus — es wird kein echtes Geld abgebucht. Der Preis wird auf Basis Ihres Mitglieds-Token-Bestands neu berechnet (siehe Seite „Token").</span>
   </div>
 
   <div class="member-bar">
     <div class="info" id="memberInfo">
       <span lang="ru">Кошелёк не подключён — показана обычная цена.</span>
       <span lang="en">Wallet not connected — showing regular price.</span>
+      <span lang="de">Wallet nicht verbunden — regulärer Preis wird angezeigt.</span>
     </div>
-    <button class="btn btn-primary" id="connectBtn" onclick="onConnectShop()"><span lang="ru">Подключить кошелёк</span><span lang="en">Connect Wallet</span></button>
+    <button class="btn btn-primary" id="connectBtn" onclick="onConnectShop()"><span lang="ru">Подключить кошелёк</span><span lang="en">Connect Wallet</span><span lang="de">Wallet verbinden</span></button>
   </div>
 
   <div class="product-grid" id="productGrid"></div>
@@ -70,14 +73,14 @@
 <script>
 const PRODUCTS = [
   { id: "stack30", icon: "🌿", price: 89,
-    name: { ru: "Rasayana Longevity Stack — 30 дней", en: "Rasayana Longevity Stack — 30 days" },
-    desc: { ru: "Комплекс на основе трёх кандидатов исследования (ожидается после Novel Food)", en: "A complex based on the three research candidates (pending Novel Food approval)" } },
+    name: { ru: "Rasayana Longevity Stack — 30 дней", en: "Rasayana Longevity Stack — 30 days", de: "Rasayana Longevity Stack — 30 Tage" },
+    desc: { ru: "Комплекс на основе трёх кандидатов исследования (ожидается после Novel Food)", en: "A complex based on the three research candidates (pending Novel Food approval)", de: "Ein Komplex auf Basis der drei Forschungskandidaten (ausstehend bis zur Novel-Food-Zulassung)" } },
   { id: "stack90", icon: "🧪", price: 229,
-    name: { ru: "Rasayana Longevity Stack — 90 дней", en: "Rasayana Longevity Stack — 90 days" },
-    desc: { ru: "Квартальный запас, выгоднее поштучной покупки", en: "Quarterly supply, better value than monthly" } },
+    name: { ru: "Rasayana Longevity Stack — 90 дней", en: "Rasayana Longevity Stack — 90 days", de: "Rasayana Longevity Stack — 90 Tage" },
+    desc: { ru: "Квартальный запас, выгоднее поштучной покупки", en: "Quarterly supply, better value than monthly", de: "Vorrat für ein Quartal, günstiger als der Einzelkauf" } },
   { id: "founding", icon: "⭐", price: 499,
-    name: { ru: "Founding Supporter Bundle", en: "Founding Supporter Bundle" },
-    desc: { ru: "Годовой запас + доступ к закрытым обновлениям исследования", en: "Annual supply + access to private research updates" } },
+    name: { ru: "Founding Supporter Bundle", en: "Founding Supporter Bundle", de: "Founding Supporter Bundle" },
+    desc: { ru: "Годовой запас + доступ к закрытым обновлениям исследования", en: "Annual supply + access to private research updates", de: "Jahresvorrat + Zugang zu exklusiven Forschungs-Updates" } },
 ];
 
 let discountPct = 0;
@@ -86,7 +89,12 @@ let currentWallet = null;
 let openTier = 0;
 const TIER_NAMES = ["—", "Member", "Silver", "Gold", "Platinum", "Founding Member"];
 
-function tr(ru, en) { return (document.documentElement.getAttribute("data-lang") || "ru") === "ru" ? ru : en; }
+function tr(ru, en, de) {
+  const l = document.documentElement.getAttribute("data-lang") || "ru";
+  if (l === "ru") return ru;
+  if (l === "de") return de || en;
+  return en;
+}
 
 async function loadOpenTier() {
   try {
@@ -105,15 +113,16 @@ function renderProducts() {
     const buyControl = locked
       ? `<div class="callout" style="margin-top:8px; padding:10px 12px; font-size:14.5px;">${tr(
           `Открытие для вашего уровня — при достижении уровня ${TIER_NAMES[openTier]}`,
-          `Opens for your tier — once you reach ${TIER_NAMES[openTier]}`
+          `Opens for your tier — once you reach ${TIER_NAMES[openTier]}`,
+          `Öffnet für Ihre Stufe — sobald Sie Stufe ${TIER_NAMES[openTier]} erreichen`
         )}</div>`
-      : `<button class="btn btn-primary" onclick="onCheckout('${p.id}', ${finalPrice})" style="margin-top:8px;">${tr("Купить (тест)", "Buy (test)")}</button>`;
+      : `<button class="btn btn-primary" onclick="onCheckout('${p.id}', ${finalPrice})" style="margin-top:8px;">${tr("Купить (тест)", "Buy (test)", "Kaufen (Test)")}</button>`;
     return `
       <div class="product-card">
         <div class="product-img">${p.icon}</div>
         <div class="product-body">
-          <h3>${tr(p.name.ru, p.name.en)}</h3>
-          <p>${tr(p.desc.ru, p.desc.en)}</p>
+          <h3>${tr(p.name.ru, p.name.en, p.name.de)}</h3>
+          <p>${tr(p.desc.ru, p.desc.en, p.desc.de)}</p>
           <div class="price-row">
             ${showDiscount ? `<span class="price-base">$${p.price}</span>` : ""}
             <span class="price-final ${showDiscount ? "discounted" : ""}">$${finalPrice}</span>
@@ -133,7 +142,8 @@ async function applyConnectedInfo(address) {
   document.getElementById("connectBtn").style.display = "none";
   document.getElementById("memberInfo").innerHTML = tr(
     `Подключено: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} токенов · уровень ${info.tierLabel} · скидка <b>${info.discountPct}%</b>`,
-    `Connected: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} tokens · tier ${info.tierLabel} · discount <b>${info.discountPct}%</b>`
+    `Connected: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} tokens · tier ${info.tierLabel} · discount <b>${info.discountPct}%</b>`,
+    `Verbunden: <b>${address.slice(0,6)}...${address.slice(-4)}</b> · ${info.balance} Token · Stufe ${info.tierLabel} · Rabatt <b>${info.discountPct}%</b>`
   );
   renderProducts();
 }
@@ -151,7 +161,7 @@ async function onConnectShop() {
     const address = await rasaConnectWallet();
     await applyConnectedInfo(address);
   } catch (e) {
-    alert(tr("Ошибка подключения: ", "Connection error: ") + (e.message || e));
+    alert(tr("Ошибка подключения: ", "Connection error: ", "Verbindungsfehler: ") + (e.message || e));
   }
 }
 
@@ -166,7 +176,7 @@ async function onCheckout(productId, price) {
     const data = await resp.json();
     window.location.href = data.url;
   } catch (e) {
-    alert(tr("Оплата пока не настроена: ", "Payment not configured yet: ") + (e.message || e));
+    alert(tr("Оплата пока не настроена: ", "Payment not configured yet: ", "Zahlung ist noch nicht konfiguriert: ") + (e.message || e));
   }
 }
 
