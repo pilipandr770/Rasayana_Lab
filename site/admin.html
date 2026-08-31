@@ -46,6 +46,7 @@
       <button class="tab-btn active" onclick="showTab('leads')">Leads</button>
       <button class="tab-btn" onclick="showTab('orders')">Orders</button>
       <button class="tab-btn" onclick="showTab('queue')">Queue</button>
+      <button class="tab-btn" onclick="showTab('social')">Social</button>
     </div>
 
     <div id="tab-leads" class="tab-panel active">
@@ -69,6 +70,25 @@
         </select>
         <button class="btn btn-primary" onclick="saveTier()">Save</button>
         <span id="tierSaved" style="color:var(--jade); font-size:13px; display:none;">Saved ✓</span>
+      </div>
+    </div>
+
+    <div id="tab-social" class="tab-panel">
+      <p style="color:var(--ink-soft); font-size:14px; margin-bottom:16px;">Links shown in the site header. Leave blank to hide that icon.</p>
+      <div style="max-width:460px; display:flex; flex-direction:column; gap:12px;">
+        <label style="font-size:13px; color:var(--ink-soft);">Telegram
+          <input type="url" id="socialTelegram" placeholder="https://t.me/yourchannel" style="width:100%; padding:9px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-top:4px;">
+        </label>
+        <label style="font-size:13px; color:var(--ink-soft);">X / Twitter
+          <input type="url" id="socialTwitter" placeholder="https://x.com/yourhandle" style="width:100%; padding:9px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-top:4px;">
+        </label>
+        <label style="font-size:13px; color:var(--ink-soft);">Instagram
+          <input type="url" id="socialInstagram" placeholder="https://instagram.com/yourhandle" style="width:100%; padding:9px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-top:4px;">
+        </label>
+        <div>
+          <button class="btn btn-primary" onclick="saveSocial()">Save</button>
+          <span id="socialSaved" style="color:var(--jade); font-size:13px; display:none; margin-left:8px;">Saved ✓</span>
+        </div>
       </div>
     </div>
   </div>
@@ -147,10 +167,31 @@ async function saveTier() {
   setTimeout(() => saved.style.display = "none", 2000);
 }
 
+async function loadSocial() {
+  const resp = await fetch("/api/settings/social-links");
+  const data = await resp.json();
+  document.getElementById("socialTelegram").value = data.telegram || "";
+  document.getElementById("socialTwitter").value = data.twitter || "";
+  document.getElementById("socialInstagram").value = data.instagram || "";
+}
+
+async function saveSocial() {
+  const value = {
+    telegram: document.getElementById("socialTelegram").value.trim(),
+    twitter: document.getElementById("socialTwitter").value.trim(),
+    instagram: document.getElementById("socialInstagram").value.trim(),
+  };
+  await adminFetch("/api/admin/settings/social-links", { method: "POST", body: JSON.stringify(value) });
+  const saved = document.getElementById("socialSaved");
+  saved.style.display = "inline";
+  setTimeout(() => saved.style.display = "none", 2000);
+}
+
 function loadAll() {
   loadLeads();
   loadOrders();
   loadQueue();
+  loadSocial();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

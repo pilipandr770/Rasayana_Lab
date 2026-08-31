@@ -9,7 +9,10 @@ function ensureDb() {
   const dir = path.dirname(DB_PATH);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(DB_PATH)) {
-    fs.writeFileSync(DB_PATH, JSON.stringify({ leads: [], orders: [], settings: { openTier: 0 } }, null, 2));
+    fs.writeFileSync(DB_PATH, JSON.stringify({
+      leads: [], orders: [],
+      settings: { openTier: 0, socialLinks: { telegram: "", twitter: "", instagram: "" } },
+    }, null, 2));
   }
 }
 

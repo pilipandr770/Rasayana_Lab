@@ -14,9 +14,30 @@
       <a href="/account.html"><span lang="ru">Кабинет</span><span lang="en">Account</span></a>
       <a href="/ask.html"><span lang="ru">Что нужно</span><span lang="en">What we need</span></a>
     </div>
+    <div class="nav-social" id="navSocial" style="display:flex; gap:10px; align-items:center;"></div>
     <div class="lang-switch" role="group" aria-label="Language">
       <button class="lang-btn" data-lang="ru" onclick="setLang('ru')" aria-pressed="true">RU</button>
       <button class="lang-btn" data-lang="en" onclick="setLang('en')" aria-pressed="false">EN</button>
     </div>
   </div>
 </nav>
+<script>
+(function () {
+  var ICONS = {
+    telegram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.6 18.6 20.36c-.25 1.1-.9 1.37-1.83.85l-5.06-3.73-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.16 9.4-8.5c.41-.36-.09-.56-.63-.2L6.7 13.47l-5.02-1.57c-1.09-.34-1.11-1.09.23-1.61L20.6 3.44c.91-.33 1.7.2 1.34 1.16Z"/></svg>',
+    twitter: '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2.5h3.3l-7.2 8.23 8.47 11.27h-6.63l-5.2-6.8-5.94 6.8H1.74l7.7-8.8L1.34 2.5h6.8l4.7 6.22Zm-1.16 17.6h1.83L7.02 4.34H5.06Z"/></svg>',
+    instagram: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>',
+  };
+  fetch("/api/settings/social-links").then(function (r) { return r.json(); }).then(function (links) {
+    var el = document.getElementById("navSocial");
+    if (!el || !links) return;
+    var html = "";
+    ["telegram", "twitter", "instagram"].forEach(function (key) {
+      if (links[key]) {
+        html += '<a href="' + links[key] + '" target="_blank" rel="noopener" style="color:inherit; opacity:0.7; display:flex;" aria-label="' + key + '">' + ICONS[key] + "</a>";
+      }
+    });
+    el.innerHTML = html;
+  }).catch(function () {});
+})();
+</script>

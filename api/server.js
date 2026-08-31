@@ -116,6 +116,17 @@ app.get("/api/settings/open-tier", (req, res) => {
   res.json({ openTier: db.getSetting("openTier") ?? 0 });
 });
 
+// --- Соцсети (управляются из админки, показываются в хедере) ---
+app.get("/api/settings/social-links", (req, res) => {
+  res.json(db.getSetting("socialLinks") || { telegram: "", twitter: "", instagram: "" });
+});
+app.post("/api/admin/settings/social-links", requireAdmin, (req, res) => {
+  const { telegram, twitter, instagram } = req.body || {};
+  const value = { telegram: telegram || "", twitter: twitter || "", instagram: instagram || "" };
+  db.setSetting("socialLinks", value);
+  res.json(value);
+});
+
 // --- Airdrop с условиями (лид-форма) ---
 app.post("/api/leads", async (req, res) => {
   try {
