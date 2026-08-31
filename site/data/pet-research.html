@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Rasayana — Pet Track Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<style>
+  .confidential-banner{background:var(--vermillion); color:#fff; text-align:center; padding:10px; font-size:14.5px; font-weight:700; letter-spacing:.04em;}
+  .back-link{display:inline-flex; align-items:center; gap:6px; font-size:14px; color:var(--ink-faint); text-decoration:none; margin-bottom:8px;}
+  .back-link:hover{color:var(--gold);}
+  .stat-strip{display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:8px; overflow:hidden; margin-top:28px;}
+  .stat-strip .cell{background:var(--bg-card); padding:16px 14px;}
+  .stat-strip .cell b{display:block; font-family:var(--mono); font-size:22px; color:var(--gold);}
+  .stat-strip .cell span{font-size:12px; color:var(--ink-faint);}
+  @media (max-width:760px){.stat-strip{grid-template-columns:repeat(3,1fr);}}
+
+  .disc-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  @media (max-width:900px){.disc-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:600px){.disc-grid{grid-template-columns:1fr;}}
+  .disc-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:16px 18px; min-width:0;}
+  .disc-card .tag{display:block; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:7px;}
+  .disc-card p{font-size:14px; color:var(--ink-soft); margin:0;}
+  .disc-card strong{color:var(--ink);}
+
+  .bars{display:flex; flex-direction:column; gap:9px;}
+  .bar-row{display:grid; grid-template-columns:64px 1fr 30px; align-items:center; gap:12px;}
+  .bar-row .code{font-family:var(--mono); font-size:13px; color:var(--ink-soft);}
+  .bar-track{position:relative; height:16px; background:var(--bg-raised); border-radius:4px; overflow:hidden;}
+  .bar-fill{position:absolute; inset:0 auto 0 0; border-radius:4px;}
+  .bar-row .score{font-family:var(--mono); font-size:13.5px; text-align:right; font-weight:700;}
+  .bar-legend{display:flex; gap:20px; font-size:13px; color:var(--ink-soft); margin-bottom:14px;}
+  .bar-legend .sw{display:inline-flex; align-items:center; gap:6px;}
+  .bar-legend .dot{width:9px; height:9px; border-radius:2px; display:inline-block;}
+
+  .hyp-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;}
+  @media (max-width:860px){.hyp-grid{grid-template-columns:1fr;}}
+  .hyp-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:20px 22px; display:flex; flex-direction:column; gap:9px; min-width:0;}
+  .hyp-top{display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+  .hyp-code{font-family:var(--mono); font-size:12.5px; color:var(--ink-faint);}
+  .hyp-score{font-family:var(--mono); font-weight:700; font-size:19px; color:var(--gold); line-height:1;}
+  .hyp-score span{font-size:11px; color:var(--ink-faint); font-weight:400;}
+  .hyp-card h3{margin:0; font-size:17px; font-family:var(--sans); font-weight:700;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:6px;}
+  .hyp-chip{font-family:var(--sans); font-size:11.5px; padding:3px 9px; border-radius:999px; border:1px solid var(--line); color:var(--ink-soft); background:var(--bg-raised);}
+  .hyp-chip.good{color:var(--jade); border-color:color-mix(in srgb, var(--jade) 40%, var(--line)); background:var(--jade-soft);}
+  .hyp-chip.warn{color:var(--gold); border-color:color-mix(in srgb, var(--gold) 40%, var(--line)); background:var(--gold-soft);}
+  .hyp-card p{margin:0; font-size:14px; color:var(--ink-soft);}
+  .hyp-card .gap{font-size:13px; color:var(--ink-faint); border-top:1px dashed var(--line); padding-top:9px;}
+  .hyp-card .gap b{color:var(--ink-soft); font-weight:700;}
+
+  .compact-table{width:100%; font-size:13.5px; border-collapse:collapse;}
+  .compact-table td{padding:10px 12px; border-bottom:1px solid var(--line-soft); vertical-align:top;}
+  .compact-table td.code{font-family:var(--mono); color:var(--ink-faint); width:44px;}
+  .compact-table td.score{font-family:var(--mono); color:var(--gold); font-weight:700; text-align:right; width:50px; white-space:nowrap;}
+  .compact-table small{display:block; color:var(--ink-faint); font-size:12px; margin-top:3px;}
+
+  details.guardrails summary{cursor:pointer; font-size:14.5px; color:var(--ink-soft); padding:10px 0; list-style:none; display:flex; align-items:center; gap:8px;}
+  details.guardrails summary::-webkit-details-marker{display:none;}
+  details.guardrails summary::before{content:"▸"; color:var(--gold);}
+  details.guardrails[open] summary::before{content:"▾";}
+  .guard-item{padding:12px 0; border-top:1px solid var(--line-soft); font-size:13.5px; color:var(--ink-soft);}
+  .guard-item b{color:var(--ink);}
+
+  .tier-block{margin-bottom:26px;}
+  .tier-head{display:flex; align-items:center; gap:10px; margin-bottom:11px;}
+  .tier-dot{width:10px; height:10px; border-radius:50%; flex:none;}
+  .tier-head h3{margin:0; font-size:15px; font-weight:700;}
+  .tier-count{font-family:var(--mono); font-size:12.5px; color:var(--ink-faint);}
+  .sub-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:9px;}
+  .sub-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:5px; padding:10px 12px;}
+  .sub-card .name{font-size:13.5px; font-weight:700;}
+  .sub-card .trad{font-size:11px; color:var(--ink-faint); margin-top:2px;}
+
+  .lesson-box{background:var(--gold-soft); border:1px solid color-mix(in srgb, var(--gold) 35%, transparent); border-radius:6px; padding:18px 20px; margin-bottom:12px;}
+  .lesson-box.crit{background:var(--vermillion-soft); border-color:color-mix(in srgb, var(--vermillion) 35%, transparent);}
+  .lesson-box h3{margin:0 0 7px; font-size:16px; font-family:var(--serif);}
+  .lesson-box p{margin:0; font-size:14px; color:var(--ink-soft);}
+
+  .src-cats{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px;}
+  .src-cat h4{font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); margin:0 0 9px; font-weight:700;}
+  .src-cat ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px;}
+  .src-cat li{font-size:13px;}
+  .src-cat a{color:var(--ink-soft); text-decoration:none; border-bottom:1px solid var(--line);}
+  .src-cat a:hover{color:var(--gold); border-color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="confidential-banner">
+  <span lang="uk">КОНФІДЕНЦІЙНО — дані лише для інвесторів, не поширювати</span>
+  <span lang="en">CONFIDENTIAL — investor-only data, do not distribute</span>
+  <span lang="de">VERTRAULICH — nur für Investoren, nicht weiterverbreiten</span>
+</div>
+<!--#include virtual="/assets/_nav.html" -->
+
+<header class="hero">
+  <div class="container hero-inner">
+    <a href="/data/" class="back-link"><span lang="uk">← Повне досьє</span><span lang="en">← Full dossier</span><span lang="de">← Vollständiges Dossier</span></a>
+    <p class="eyebrow"><span lang="uk">Додатковий трек · Дослідницький журнал</span><span lang="en">Supplementary track · Research journal</span><span lang="de">Zusätzlicher Track · Forschungsjournal</span></p>
+    <h1><span lang="uk">Методологія швидкого паралельного треку: тварини</span><span lang="en">Methodology behind the fast parallel track: animals</span><span lang="de">Methodik hinter dem schnellen Parallel-Track: Tiere</span></h1>
+    <p class="thesis">
+      <span lang="uk">Той самий тезис проєкту — «народна фармакологія як джерело даних, а не легенда» — застосований до другого ринку: продовження життя собак. Нижче не інша ідея, а розширення тієї самої методології (докінг тут не застосовувався; це літературний / gap-аналіз з базою даних і ранжуванням гіпотез), яка обґрунтовує «швидкий паралельний B2B-трек через ринок харчування для тварин», згаданий у розділі регуляторики вище.</span>
+      <span lang="en">The same project thesis — "folk pharmacology as a dataset, not a legend" — applied to a second market: dog lifespan extension. What follows isn't a different idea but an extension of the same methodology (no docking here; this is a literature / gap-analysis exercise with a database and ranked hypotheses), and it's what substantiates the "fast parallel B2B track via the animal-nutrition market" mentioned in the regulatory section above.</span>
+      <span lang="de">Dieselbe Projektthese — „Volksheilkunde als Datenquelle, nicht als Legende" — angewandt auf einen zweiten Markt: die Verlängerung der Lebensdauer von Hunden. Das Folgende ist keine andere Idee, sondern eine Erweiterung derselben Methodik (kein Docking hier; dies ist eine Literatur-/Gap-Analyse mit Datenbank und rangierten Hypothesen), die den oben erwähnten "schnellen parallelen B2B-Track über den Tierernährungsmarkt" untermauert.</span>
+    </p>
+    <div class="stat-strip">
+      <div class="cell"><b>167</b><span lang="uk">джерел</span><span lang="en">sources</span><span lang="de">Quellen</span></div>
+      <div class="cell"><b>39</b><span lang="uk">речовин</span><span lang="en">substances</span><span lang="de">Substanzen</span></div>
+      <div class="cell"><b>10</b><span lang="uk">сполук</span><span lang="en">compounds</span><span lang="de">Verbindungen</span></div>
+      <div class="cell"><b>22</b><span lang="uk">механізми</span><span lang="en">mechanisms</span><span lang="de">Mechanismen</span></div>
+      <div class="cell"><b>72</b><span lang="uk">дослідження</span><span lang="en">studies</span><span lang="de">Studien</span></div>
+      <div class="cell"><b>24</b><span lang="uk">гіпотези</span><span lang="en">hypotheses</span><span lang="de">Hypothesen</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <section style="padding-top:48px;">
+    <div class="callout">
+      <span lang="uk">Жодного синтезу і жодних експериментів на тваринах. Все нижче — зіставлення першоджерел (Rasa Shastra, західна алхімія) із рецензованою сучасною ветеринарною геронтологією, згорнуте в базу даних і ранжований список гіпотез. Орієнтир-мета — гіпотетичне подовження життя собаки на 15%; ключова знахідка нижче — ця мета вже відтворена доведеною наукою без жодної алхімії (ограничение калорий, Kealy et al.).</span>
+      <span lang="en">No synthesis and no animal experiments. Everything below is a comparison of primary sources (Rasa Shastra, Western alchemy) against peer-reviewed modern veterinary geroscience, distilled into a database and a ranked list of hypotheses. The target — a hypothetical 15% dog-lifespan extension — turns out to already be matched by proven mainstream science alone (caloric restriction, Kealy et al.), with no alchemy involved.</span>
+      <span lang="de">Keine Synthese und keine Tierversuche. Alles Folgende ist ein Abgleich von Primärquellen (Rasa Shastra, westliche Alchemie) mit begutachteter moderner Veterinärgeroscience, verdichtet in eine Datenbank und eine rangierte Hypothesenliste. Das Ziel — eine hypothetische Verlängerung der Hundelebensdauer um 15% — wird bereits allein durch bewährte Mainstream-Wissenschaft erreicht (Kalorienrestriktion, Kealy et al.), ganz ohne Alchemie.</span>
+    </div>
+  </section>
+
+  <section id="discoveries">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Головні відкриття</span><span lang="en">Main discoveries</span><span lang="de">Wichtigste Erkenntnisse</span></p>
+      <h2><span lang="uk">Те, що реально змінило картину</span><span lang="en">What actually changed the picture</span><span lang="de">Was das Bild wirklich verändert hat</span></h2>
+    </div>
+    <div class="disc-grid">
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Орієнтир уже досягнуто</span><span lang="en">Target already hit</span><span lang="de">Ziel bereits erreicht</span></span>
+        <p><span lang="uk"><strong>Kealy et al. (2002)</strong>: 25%-не обмеження калорій у лабрадорів дало <strong>+16%</strong> до медіани дожиття (13.0 проти 11.2 року). Мета «+15%» вже відтворена доведеною наукою, без жодної алхімії.</span>
+        <span lang="en"><strong>Kealy et al. (2002)</strong>: 25% caloric restriction in Labradors gave <strong>+16%</strong> median lifespan (13.0 vs 11.2 years). The "+15%" target is already matched by proven science, no alchemy needed.</span>
+        <span lang="de"><strong>Kealy et al. (2002)</strong>: 25% Kalorienrestriktion bei Labradoren ergab <strong>+16%</strong> mediane Lebensdauer (13,0 vs. 11,2 Jahre). Das Ziel „+15%" wird bereits durch bewährte Wissenschaft erreicht, ganz ohne Alchemie.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Синергія, не сума</span><span lang="en">Synergy, not sum</span><span lang="de">Synergie, keine Summe</span></span>
+        <p><span lang="uk">Ashwagandha + Amalaki у співвідношенні 1:4 — не теоретичний перетин, а виміряна синергія: FRAP-активність у комбінації у <strong>~30 разів</strong> вища, ніж у Ashwagandha окремо. Формула 3000 років відома як Chyawanprash.</span>
+        <span lang="en">Ashwagandha + Amalaki at 1:4 — not a theoretical overlap but measured synergy: FRAP activity in the combination is <strong>~30x</strong> higher than Ashwagandha alone. A 3,000-year-old formula known as Chyawanprash.</span>
+        <span lang="de">Ashwagandha + Amalaki im Verhältnis 1:4 — keine theoretische Überschneidung, sondern gemessene Synergie: Die FRAP-Aktivität der Kombination ist <strong>~30x</strong> höher als bei Ashwagandha allein. Eine 3000 Jahre alte Formel, bekannt als Chyawanprash.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Розгадка токсичності золота</span><span lang="en">Gold toxicity solved</span><span lang="de">Goldtoxizität geklärt</span></span>
+        <p><span lang="uk">Іонне золото токсичніше за наночастинки золота <strong>на порядок</strong> (HC5 2.44 проти 42.78 мг/л). Це пояснює, чому Swarna Bhasma (наночастинки) безпечна, а Aurum Potabile (іонне золото) — ні.</span>
+        <span lang="en">Ionic gold is <strong>an order of magnitude</strong> more toxic than gold nanoparticles (HC5 2.44 vs 42.78 mg/L). This explains why Swarna Bhasma (nanoparticles) is safe while Aurum Potabile (ionic gold) is not.</span>
+        <span lang="de">Ionisches Gold ist <strong>um eine Größenordnung</strong> toxischer als Gold-Nanopartikel (HC5 2,44 vs. 42,78 mg/L). Das erklärt, warum Swarna Bhasma (Nanopartikel) sicher ist, Aurum Potabile (ionisches Gold) jedoch nicht.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Те саме, інша хімія</span><span lang="en">Same element, different chemistry</span><span lang="de">Gleiches Element, andere Chemie</span></span>
+        <p><span lang="uk">Чистий свинець погіршував пам'ять у тварин; оброблена <strong>Naga Bhasma</strong> (та сама основа, форма PbS/PbO) — поступово покращувала. Обробка змінює хімічну форму, це не міф.</span>
+        <span lang="en">Pure lead impaired memory in animals; processed <strong>Naga Bhasma</strong> (same base element, PbS/PbO form) gradually improved it. Processing changes the chemical form — not a myth.</span>
+        <span lang="de">Reines Blei beeinträchtigte das Gedächtnis von Tieren; verarbeitete <strong>Naga Bhasma</strong> (gleiches Grundelement, PbS/PbO-Form) verbesserte es allmählich. Die Verarbeitung verändert die chemische Form — kein Mythos.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Методологічний урок</span><span lang="en">Methodological lesson</span><span lang="de">Methodische Lektion</span></span>
+        <p><span lang="uk">Rasa Shastra та Basil Valentine незалежно дійшли до однакової логіки «обробка прибирає отруту» для ртуті та сурми — і обидві задокументували реальні отруєння. Збіг традицій — не доказ.</span>
+        <span lang="en">Rasa Shastra and Basil Valentine independently arrived at the same "processing removes the poison" logic for mercury and antimony — and both documented real poisonings. Convergence between traditions is not proof.</span>
+        <span lang="de">Rasa Shastra und Basil Valentine kamen unabhängig voneinander zur selben Logik „Verarbeitung entfernt das Gift" für Quecksilber und Antimon — und beide dokumentierten reale Vergiftungen. Konvergenz zwischen Traditionen ist kein Beweis.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Індустрія вже обрала собак</span><span lang="en">The industry already picked dogs</span><span lang="de">Die Branche hat sich bereits für Hunde entschieden</span></span>
+        <p><span lang="uk">Петро Федічев (фізик, засновник Gero) прямо заявив: технологію уповільнення старіння у великих ссавців компанія планує продемонструвати починаючи саме із собак — незалежне підтвердження вибору, зробленого на початку цього проєкту.</span>
+        <span lang="en">Peter Fedichev (physicist, Gero founder) stated directly that his company plans to demonstrate its large-mammal aging-slowdown technology starting specifically with dogs — an independent confirmation of the choice made at this project's outset.</span>
+        <span lang="de">Peter Fedichev (Physiker, Gero-Gründer) erklärte direkt, dass sein Unternehmen plant, seine Technologie zur Verlangsamung des Alterns bei Großsäugern zunächst speziell an Hunden zu demonstrieren — eine unabhängige Bestätigung der zu Beginn dieses Projekts getroffenen Wahl.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Другий механізм «дрібна = довга»</span><span lang="en">A second "small = long" mechanism</span><span lang="de">Ein zweiter „klein = lang"-Mechanismus</span></span>
+        <p><span lang="uk">Довжина теломер у собак дуже сильно прогнозує тривалість життя породи (p&lt;0.0001, 175 собак). Дрібні породи — довші теломери. Другий незалежний шлях після IGF-1, що пояснює ту саму закономірність.</span>
+        <span lang="en">Telomere length in dogs strongly predicts breed lifespan (p&lt;0.0001, 175 dogs). Smaller breeds have longer telomeres — a second independent pathway after IGF-1 explaining the same pattern.</span>
+        <span lang="de">Die Telomerlänge bei Hunden sagt die Lebensdauer der Rasse stark voraus (p&lt;0,0001, 175 Hunde). Kleinere Rassen haben längere Telomere — ein zweiter unabhängiger Weg nach IGF-1, der dasselbe Muster erklärt.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Сильніше за більшість молекул</span><span lang="en">Stronger than most molecules</span><span lang="de">Stärker als die meisten Moleküle</span></span>
+        <p><span lang="uk">Соціальна інтеграція дає ефект-сайз <strong>1.91</strong> на ризик смертності — сильніше за багато речовин у цій базі. Регулярна колективна практика проти повної відсутності — різниця у <strong>7 років</strong> очікуваної тривалості життя у людей.</span>
+        <span lang="en">Social integration has an effect size of <strong>1.91</strong> on mortality risk — stronger than many substances in this database. Regular collective practice vs. none at all — a <strong>7-year</strong> difference in human life expectancy.</span>
+        <span lang="de">Soziale Integration hat eine Effektstärke von <strong>1,91</strong> auf das Mortalitätsrisiko — stärker als viele Substanzen in dieser Datenbank. Regelmäßige kollektive Praxis gegenüber keiner — ein Unterschied von <strong>7 Jahren</strong> in der menschlichen Lebenserwartung.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Стеля всієї геронтології</span><span lang="en">The ceiling of all geroscience</span><span lang="de">Die Obergrenze der gesamten Geroscience</span></span>
+        <p><span lang="uk">Часткове репрограмування клітин (фактори Яманаки, генна терапія) дає <strong>+109%</strong> решти життя мишей — сильніше за все в цій базі разом узяте. Але не перетинається з алхімічною гілкою жодним чином.</span>
+        <span lang="en">Partial cellular reprogramming (Yamanaka factors, gene therapy) delivers <strong>+109%</strong> remaining mouse lifespan — stronger than everything else in this database combined. But it has zero overlap with the alchemical branch.</span>
+        <span lang="de">Teilweise zelluläre Reprogrammierung (Yamanaka-Faktoren, Gentherapie) bringt <strong>+109%</strong> verbleibende Mäuselebensdauer — stärker als alles andere in dieser Datenbank zusammen. Aber sie hat keinerlei Überschneidung mit dem alchemistischen Zweig.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Як це взагалі перевіряти</span><span lang="en">How to even measure this</span><span lang="de">Wie man das überhaupt misst</span></span>
+        <p><span lang="uk">Резильянс-фреймворк Федічева: старіння — це не поломки, а лінійне зниження швидкості відновлення після стресу. Дає метод оцінки будь-якої гіпотези в цій базі, а не ще одну гіпотезу саму по собі.</span>
+        <span lang="en">Fedichev's resilience framework: aging isn't accumulated damage, it's a linear decline in post-stress recovery speed. It gives a way to evaluate every hypothesis in this database, rather than being one more hypothesis itself.</span>
+        <span lang="de">Fedichevs Resilienz-Framework: Altern ist kein angesammelter Schaden, sondern ein linearer Rückgang der Erholungsgeschwindigkeit nach Stress. Es liefert eine Methode zur Bewertung jeder Hypothese in dieser Datenbank, statt selbst nur eine weitere Hypothese zu sein.</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Репутація проти доказів</span><span lang="en">Reputation vs. evidence</span><span lang="de">Reputation vs. Evidenz</span></span>
+        <p><span lang="uk">Найпопулярніша в longevity-спільноті речовина (<strong>NMN</strong>) — взагалі не проходила незалежний мишачий тест-стандарт ITP; <strong>фізетин</strong> прямо провалив повторення власної уславленої статті. Рапаміцин — найменш «модний», але найбільш відтворювано сильний (+23–26%).</span>
+        <span lang="en">The most popular substance in the longevity community (<strong>NMN</strong>) never went through the independent mouse ITP test standard; <strong>fisetin</strong> flatly failed to replicate its own famous claims. Rapamycin — least "trendy," but the most reproducibly strong (+23–26%).</span>
+        <span lang="de">Die beliebteste Substanz in der Longevity-Community (<strong>NMN</strong>) durchlief nie den unabhängigen ITP-Mausteststandard; <strong>Fisetin</strong> scheiterte schlicht daran, seine eigenen berühmten Behauptungen zu reproduzieren. Rapamycin — am wenigsten „trendy", aber am reproduzierbarsten stark (+23–26%).</span></p>
+      </div>
+      <div class="disc-card">
+        <span class="tag"><span lang="uk">Вже використовується на практиці</span><span lang="en">Already used in practice</span><span lang="de">Bereits in der Praxis verwendet</span></span>
+        <p><span lang="uk">Astragalus — рідкісний випадок у базі з реальним ветеринарним досвідом дозування у собак (≈1 мг/фунт), а не лише лабораторними даними на інших видах. Практичний кандидат №1 за сукупністю доведеності та керованості ризику.</span>
+        <span lang="en">Astragalus — a rare case in this database with real veterinary dosing experience in dogs (≈1 mg/lb), not just lab data from other species. Practical candidate #1 by combined evidence strength and manageable risk.</span>
+        <span lang="de">Astragalus — ein seltener Fall in dieser Datenbank mit realer veterinärmedizinischer Dosierungserfahrung bei Hunden (≈1 mg/lb), nicht nur Labordaten von anderen Spezies. Praktischer Kandidat Nr. 1 nach kombinierter Evidenzstärke und beherrschbarem Risiko.</span></p>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="ranking">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Ранжування гіпотез</span><span lang="en">Hypothesis ranking</span><span lang="de">Hypothesen-Ranking</span></p>
+      <h2><span lang="uk">21 гіпотеза, бал 0–7</span><span lang="en">21 hypotheses, scored 0–7</span><span lang="de">21 Hypothesen, bewertet 0–7</span></h2>
+      <p class="measure" style="margin-top:10px; color:var(--ink-soft); font-size:15.5px;">
+        <span lang="uk">Механізм підтверджено незалежно · дані на тваринах · збігаються незалежні джерела · профіль безпеки · вже працює у собак.</span>
+        <span lang="en">Mechanism independently confirmed · animal data exists · independent sources agree · safety profile · already used in dogs.</span>
+        <span lang="de">Mechanismus unabhängig bestätigt · Tierdaten vorhanden · unabhängige Quellen stimmen überein · Sicherheitsprofil · bereits bei Hunden verwendet.</span>
+      </p>
+    </div>
+    <div class="table-wrap" style="padding:20px 22px;">
+      <div class="bar-legend">
+        <span class="sw"><span class="dot" style="background:var(--jade)"></span><span lang="uk">високий пріоритет</span><span lang="en">high priority</span><span lang="de">hohe Priorität</span></span>
+        <span class="sw"><span class="dot" style="background:var(--gold)"></span><span lang="uk">потребує перевірки</span><span lang="en">needs verification</span><span lang="de">benötigt Verifizierung</span></span>
+      </div>
+      <div class="bars">
+        <div class="bar-row" title="H1 — Ashwagandha AMPK/SIRT1"><span class="code">H1</span><span class="bar-track"><span class="bar-fill" style="width:100%; background:var(--jade)"></span></span><span class="score">7</span></div>
+        <div class="bar-row" title="H10 — Ashwagandha + Amalaki, синергія"><span class="code">H10</span><span class="bar-track"><span class="bar-fill" style="width:85.7%; background:var(--jade)"></span></span><span class="score">6</span></div>
+        <div class="bar-row" title="H15 — Діабетичні препарати"><span class="code">H15</span><span class="bar-track"><span class="bar-fill" style="width:85.7%; background:var(--jade)"></span></span><span class="score">6</span></div>
+        <div class="bar-row" title="H17 — Резильянс-фреймворк"><span class="code">H17</span><span class="bar-track"><span class="bar-fill" style="width:85.7%; background:var(--jade)"></span></span><span class="score">6</span></div>
+        <div class="bar-row" title="H18 — Теломери і теломераза"><span class="code">H18</span><span class="bar-track"><span class="bar-fill" style="width:85.7%; background:var(--jade)"></span></span><span class="score">6</span></div>
+        <div class="bar-row" title="H19 — Самообмеження і зв'язок"><span class="code">H19</span><span class="bar-track"><span class="bar-fill" style="width:85.7%; background:var(--jade)"></span></span><span class="score">6</span></div>
+        <div class="bar-row" title="H2 — Amalaki, +60.5% (Drosophila)"><span class="code">H2</span><span class="bar-track"><span class="bar-fill" style="width:85.7%; background:var(--jade)"></span></span><span class="score">6</span></div>
+        <div class="bar-row" title="H7 — Регіональні аналоги"><span class="code">H7</span><span class="bar-track"><span class="bar-fill" style="width:85.7%; background:var(--gold)"></span></span><span class="score">6</span></div>
+        <div class="bar-row" title="H20 — Карта біомаркерів"><span class="code">H20</span><span class="bar-track"><span class="bar-fill" style="width:85.7%; background:var(--jade)"></span></span><span class="score">6</span></div>
+        <div class="bar-row" title="H21 — Репутація проти доказів"><span class="code">H21</span><span class="bar-track"><span class="bar-fill" style="width:85.7%; background:var(--jade)"></span></span><span class="score">6</span></div>
+        <div class="bar-row" title="H12 — Мальабсорбція"><span class="code">H12</span><span class="bar-track"><span class="bar-fill" style="width:71.4%; background:var(--jade)"></span></span><span class="score">5</span></div>
+        <div class="bar-row" title="H16 — 12 hallmarks of aging"><span class="code">H16</span><span class="bar-track"><span class="bar-fill" style="width:71.4%; background:var(--jade)"></span></span><span class="score">5</span></div>
+        <div class="bar-row" title="H4 — ДНК-репарація Abhraka Bhasma"><span class="code">H4</span><span class="bar-track"><span class="bar-fill" style="width:71.4%; background:var(--gold)"></span></span><span class="score">5</span></div>
+        <div class="bar-row" title="H8 — Акустика при bhavana"><span class="code">H8</span><span class="bar-track"><span class="bar-fill" style="width:71.4%; background:var(--gold)"></span></span><span class="score">5</span></div>
+        <div class="bar-row" title="H9 — Каппінг-шар і токсичність"><span class="code">H9</span><span class="bar-track"><span class="bar-fill" style="width:71.4%; background:var(--gold)"></span></span><span class="score">5</span></div>
+        <div class="bar-row" title="H13 — Людські епідемдані"><span class="code">H13</span><span class="bar-track"><span class="bar-fill" style="width:57.1%; background:var(--gold)"></span></span><span class="score">4</span></div>
+        <div class="bar-row" title="H6 — Конвергенція золота"><span class="code">H6</span><span class="bar-track"><span class="bar-fill" style="width:57.1%; background:var(--gold)"></span></span><span class="score">4</span></div>
+        <div class="bar-row" title="H11 — Тріада CR+Ashwagandha+Amalaki"><span class="code">H11</span><span class="bar-track"><span class="bar-fill" style="width:42.9%; background:var(--gold)"></span></span><span class="score">3</span></div>
+        <div class="bar-row" title="H14 — Обмеження метіоніну"><span class="code">H14</span><span class="bar-track"><span class="bar-fill" style="width:42.9%; background:var(--gold)"></span></span><span class="score">3</span></div>
+        <div class="bar-row" title="H3 — Відтворюваність антиоксидантних бхасм"><span class="code">H3</span><span class="bar-track"><span class="bar-fill" style="width:42.9%; background:var(--gold)"></span></span><span class="score">3</span></div>
+        <div class="bar-row" title="H5 — Vajikarana/IGF-1"><span class="code">H5</span><span class="bar-track"><span class="bar-fill" style="width:4%; background:var(--ink-faint)"></span></span><span class="score">0</span></div>
+      </div>
+      <p style="margin-top:12px; font-size:12.5px; color:var(--ink-faint);">
+        <span lang="uk">Наведіть на рядок, щоб побачити суть гіпотези. Повні картки — нижче.</span>
+        <span lang="en">Hover a row to see the hypothesis. Full cards below.</span>
+        <span lang="de">Zeile mit der Maus überfahren, um die Hypothese zu sehen. Vollständige Karten unten.</span>
+      </p>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="hypotheses">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Топ-гіпотези повністю</span><span lang="en">Top hypotheses in full</span><span lang="de">Top-Hypothesen im Detail</span></p>
+      <h2><span lang="uk">Перевірені до стелі доступної літератури</span><span lang="en">Checked to the ceiling of available literature</span><span lang="de">Geprüft bis zur Obergrenze der verfügbaren Literatur</span></h2>
+    </div>
+
+    <div class="hyp-grid">
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H1</span><h3><span lang="uk">Ashwagandha — міметик обмеження калорій</span><span lang="en">Ashwagandha — a caloric-restriction mimetic</span><span lang="de">Ashwagandha — ein Kalorienrestriktions-Mimetikum</span></h3></div><div class="hyp-score">7<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip good">high priority</span><span class="hyp-chip">AMPK</span><span class="hyp-chip">SIRT1</span><span class="hyp-chip">Nrf2</span><span class="hyp-chip">NF-κB</span></div>
+        <p><span lang="uk">Активує ті самі шляхи, що й підтверджене у собак обмеження калорій. Реальні mammalian-дані: зростання тривалості життя і моторики в ALS-мишей, зростання м'язової сили у старіючих щурів, безпека до 1000 мг/кг/день (GLP).</span><span lang="en">Activates the same pathways as caloric restriction, already proven in dogs. Real mammalian data: extended lifespan and motor function in ALS mice, increased muscle strength in aging rats, safety up to 1000 mg/kg/day (GLP).</span><span lang="de">Aktiviert dieselben Signalwege wie die bei Hunden bereits bewiesene Kalorienrestriktion. Reale Säugetierdaten: verlängerte Lebensdauer und motorische Funktion bei ALS-Mäusen, erhöhte Muskelkraft bei alternden Ratten, Sicherheit bis 1000 mg/kg/Tag (GLP).</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина:</b> даних саме на собаках досі немає — лише гризуни та черви.</span><span lang="en"><b>Open gap:</b> no dog-specific data yet — only rodents and worms.</span><span lang="de"><b>Offene Lücke:</b> noch keine hundespezifischen Daten — nur Nagetiere und Würmer.</span></p>
+      </div>
+
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H10</span><h3>Ashwagandha + Amalaki, 1:4</h3></div><div class="hyp-score">6<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip good">high priority</span><span class="hyp-chip"><span lang="uk">Синергія</span><span lang="en">Synergy</span><span lang="de">Synergie</span></span><span class="hyp-chip">Nrf2</span><span class="hyp-chip">HSP</span></div>
+        <p><span lang="uk">FRAP-активність комбінації у ~30 разів вища, ніж у Ashwagandha окремо. Реальний класичний прецедент — формула Chyawanprash. Людське 8-тижневе РКД підтверджує безпеку та ефективність зв'язки.</span><span lang="en">The combination's FRAP activity is ~30x higher than Ashwagandha alone. A real classical precedent — the Chyawanprash formula. An 8-week human RCT confirms the combo's safety and effectiveness.</span><span lang="de">Die FRAP-Aktivität der Kombination ist ~30x höher als Ashwagandha allein. Ein realer klassischer Präzedenzfall — die Chyawanprash-Formel. Eine 8-wöchige RCT am Menschen bestätigt Sicherheit und Wirksamkeit der Kombination.</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина (стеля літератури):</b> ні для пари, ні для Chyawanprash цілком немає жодного дослідження тривалості життя в жодного виду — і немає взагалі жодних собачих даних.</span><span lang="en"><b>Open gap (literature ceiling):</b> neither the pair nor Chyawanprash as a whole has a single lifespan study in any species — and no dog data at all.</span><span lang="de"><b>Offene Lücke (Literaturobergrenze):</b> weder für das Paar noch für Chyawanprash als Ganzes gibt es eine einzige Lebensdauerstudie in irgendeiner Spezies — und überhaupt keine Hundedaten.</span></p>
+      </div>
+
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H2</span><h3><span lang="uk">Amalaki Rasayana — точні цифри</span><span lang="en">Amalaki Rasayana — the exact numbers</span><span lang="de">Amalaki Rasayana — die genauen Zahlen</span></h3></div><div class="hyp-score">6<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip good">high priority</span><span class="hyp-chip"><span lang="uk">Антиоксидант</span><span lang="en">Antioxidant</span><span lang="de">Antioxidans</span></span><span class="hyp-chip">HSP</span></div>
+        <p><span lang="uk">+60.5% медіанного виживання за оксидативного стресу у Drosophila (84.1г проти 52.4г); суміжне дослідження — +51–55% подовження життя (пілотно до +70–95%). Є й mammalian-дані — кардіопротекція за гіпертрофії у щурів.</span><span lang="en">+60.5% median survival under oxidative stress in Drosophila (84.1h vs 52.4h); an adjacent study found +51–55% lifespan extension (pilot data up to +70–95%). Mammalian data exists too — cardioprotection in rat hypertrophy.</span><span lang="de">+60,5% mediane Überlebensrate bei oxidativem Stress bei Drosophila (84,1 Std. vs. 52,4 Std.); eine angrenzende Studie fand +51–55% Lebensverlängerung (Pilotdaten bis +70–95%). Es gibt auch Säugetierdaten — Kardioprotektion bei Rattenhypertrophie.</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина:</b> немає даних на собаках саме за цим шляхом.</span><span lang="en"><b>Open gap:</b> no dog data along this pathway specifically.</span><span lang="de"><b>Offene Lücke:</b> keine Hundedaten speziell zu diesem Signalweg.</span></p>
+      </div>
+
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H7</span><h3><span lang="uk">Регіональні аналоги за речовиною</span><span lang="en">Regional analogs by active compound</span><span lang="de">Regionale Analoga nach Wirkstoff</span></h3></div><div class="hyp-score">6<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip warn">needs verification</span><span class="hyp-chip"><span lang="uk">Хемотаксономія</span><span lang="en">Chemotaxonomy</span><span lang="de">Chemotaxonomie</span></span><span class="hyp-chip">SIRT1</span></div>
+        <p><span lang="uk">Physalis alkekengi (замість Withania), Rosa canina (замість Amalaki), Polygonum cuspidatum як джерело резвератролу — метод підбору заміни за активною речовиною, а не за назвою/регіоном. Резвератрол із Polygonum вже перевірений на собаках (2025, розплідникові собаки).</span><span lang="en">Physalis alkekengi (instead of Withania), Rosa canina (instead of Amalaki), Polygonum cuspidatum as a resveratrol source — a substitution method by active compound, not by name/region. Resveratrol from Polygonum has already been tested in dogs (2025, kennel dogs).</span><span lang="de">Physalis alkekengi (statt Withania), Rosa canina (statt Amalaki), Polygonum cuspidatum als Resveratrol-Quelle — eine Substitutionsmethode nach Wirkstoff, nicht nach Name/Region. Resveratrol aus Polygonum wurde bereits an Hunden getestet (2025, Zwingerhunde).</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина:</b> Physalis дає свій клас вітанолідів (фізаліни), але це структурно інші молекули — потрібні біологічні, а не лише хімічні порівняння.</span><span lang="en"><b>Open gap:</b> Physalis contains its own withanolide class (physalins) — structurally different molecules — so biological, not just chemical, comparison is needed.</span><span lang="de"><b>Offene Lücke:</b> Physalis enthält eine eigene Withanolid-Klasse (Physaline) — strukturell andere Moleküle — daher ist ein biologischer, nicht nur chemischer Vergleich nötig.</span></p>
+      </div>
+
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H15</span><h3><span lang="uk">Діабетичні препарати — повна картина</span><span lang="en">Diabetes drugs — the full picture</span><span lang="de">Diabetesmedikamente — das Gesamtbild</span></h3></div><div class="hyp-score">6<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip good">high priority</span><span class="hyp-chip">SGLT2</span><span class="hyp-chip">GLP-1</span><span class="hyp-chip">PPAR-γ</span></div>
+        <p><span lang="uk">Точні цифри NIA ITP: Canagliflozin +14%/+9% (через сенолізис), Acarbose +8-10%, Metformin лише +5.8%. Semaglutide — єдиний препарат із РКД на людях: уповільнення одразу за 5+ епігенетичними годинниками. Pioglitazone частково влучає в той самий Nrf2, що й Ashwagandha/Amalaki.</span><span lang="en">Exact NIA ITP numbers: Canagliflozin +14%/+9% (via senolysis), Acarbose +8-10%, Metformin only +5.8%. Semaglutide is the only drug with a human RCT: simultaneous slowdown across 5+ epigenetic clocks. Pioglitazone partly hits the same Nrf2 pathway as Ashwagandha/Amalaki.</span><span lang="de">Exakte NIA-ITP-Zahlen: Canagliflozin +14%/+9% (via Senolyse), Acarbose +8-10%, Metformin nur +5,8%. Semaglutide ist das einzige Medikament mit einer RCT am Menschen: gleichzeitige Verlangsamung über 5+ epigenetische Uhren. Pioglitazon trifft teilweise denselben Nrf2-Signalweg wie Ashwagandha/Amalaki.</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина:</b> жоден із шести препаратів не тестувався на собаках саме для подовження життя.</span><span lang="en"><b>Open gap:</b> none of the six drugs has been tested in dogs specifically for lifespan extension.</span><span lang="de"><b>Offene Lücke:</b> keines der sechs Medikamente wurde speziell zur Lebensverlängerung an Hunden getestet.</span></p>
+      </div>
+
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H18</span><h3><span lang="uk">Теломери і теломераза</span><span lang="en">Telomeres and telomerase</span><span lang="de">Telomere und Telomerase</span></h3></div><div class="hyp-score">6<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip good">high priority</span><span class="hyp-chip">TERT</span><span class="hyp-chip">Astragalus</span></div>
+        <p><span lang="uk">Генна терапія AAV-TERT — +24%/+13% життя мишей без зростання раку. У СОБАК довжина теломер дуже сильно прогнозує тривалість життя породи (p&lt;0.0001) — другий незалежний механізм «дрібна = довга» після IGF-1. TA-65 — той самий патерн «трава → ізольована речовина», що й Ashwagandha.</span><span lang="en">AAV-TERT gene therapy — +24%/+13% mouse lifespan with no rise in cancer. In DOGS, telomere length strongly predicts breed lifespan (p&lt;0.0001) — a second independent "small = long" mechanism after IGF-1. TA-65 follows the same "herb → isolated compound" pattern as Ashwagandha.</span><span lang="de">AAV-TERT-Gentherapie — +24%/+13% Mäuselebensdauer ohne erhöhtes Krebsrisiko. Bei HUNDEN sagt die Telomerlänge die Lebensdauer der Rasse stark voraus (p&lt;0,0001) — ein zweiter unabhängiger „klein = lang"-Mechanismus nach IGF-1. TA-65 folgt demselben Muster „Kraut → isolierte Verbindung" wie Ashwagandha.</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина:</b> ні генна терапія, ні TA-65 не тестувалися на собаках інтервенційно — лише кореляційні дані за породами.</span><span lang="en"><b>Open gap:</b> neither the gene therapy nor TA-65 has been tested interventionally in dogs — only correlational breed data.</span><span lang="de"><b>Offene Lücke:</b> weder die Gentherapie noch TA-65 wurden interventionell an Hunden getestet — nur korrelative Rassedaten.</span></p>
+      </div>
+
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H19</span><h3><span lang="uk">Самообмеження і зв'язок</span><span lang="en">Self-restraint and connection</span><span lang="de">Selbstbeschränkung und Verbindung</span></h3></div><div class="hyp-score">6<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip good">high priority</span><span class="hyp-chip"><span lang="uk">Вагальний тонус</span><span lang="en">Vagal tone</span><span lang="de">Vagustonus</span></span><span class="hyp-chip"><span lang="uk">Соц. зв'язок</span><span lang="en">Social bond</span><span lang="de">Soziale Bindung</span></span></div>
+        <p><span lang="uk">Їжа (CR), дихання (вагальний тонус — маркер довгожителів), увага (медитація: +43% теломерази), група (соц. інтеграція: ефект-сайз 1.91 на смертність, сильніше за багато речовин тут). У собак ізоляція від зграї вимірювано підвищує настороженість; володіння собакою знижує смертність людей на 21%.</span><span lang="en">Food (CR), breath (vagal tone — a longevity marker), attention (meditation: +43% telomerase), group (social integration: effect size 1.91 on mortality, stronger than many substances here). In dogs, isolation from the pack measurably raises vigilance; dog ownership lowers human mortality by 21%.</span><span lang="de">Nahrung (CR), Atmung (Vagustonus — ein Langlebigkeitsmarker), Aufmerksamkeit (Meditation: +43% Telomerase), Gruppe (soziale Integration: Effektstärke 1,91 auf Mortalität, stärker als viele Substanzen hier). Bei Hunden erhöht Isolation vom Rudel messbar die Wachsamkeit; Hundebesitz senkt die menschliche Mortalität um 21%.</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина:</b> немає даних про вплив на тривалість життя саме у собак — лише поведінкові маркери.</span><span lang="en"><b>Open gap:</b> no lifespan-effect data specifically in dogs — only behavioral markers.</span><span lang="de"><b>Offene Lücke:</b> keine Daten zur Lebensdauer speziell bei Hunden — nur Verhaltensmarker.</span></p>
+      </div>
+
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H17</span><h3><span lang="uk">Резильянс-фреймворк Федічева</span><span lang="en">Fedichev's resilience framework</span><span lang="de">Fedichevs Resilienz-Framework</span></h3></div><div class="hyp-score">6<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip good">high priority</span><span class="hyp-chip"><span lang="uk">Метод, не речовина</span><span lang="en">A method, not a substance</span><span lang="de">Eine Methode, keine Substanz</span></span></div>
+        <p><span lang="uk">Старіння = лінійне зниження швидкості відновлення після стресу, а не набір поломок. Дає спосіб ОЦІНИТИ будь-яку гіпотезу в цій базі, а не конкурує з ними. Автор прямо заявив: Gero планує показати технологію у великих ссавців починаючи із собак — незалежне підтвердження вибору цього проєкту.</span><span lang="en">Aging = a linear decline in post-stress recovery speed, not accumulated damage. It gives a way to EVALUATE any hypothesis in this database rather than competing with them. The author stated directly that Gero plans to demonstrate its technology in large mammals starting with dogs — an independent confirmation of this project's choice.</span><span lang="de">Altern = ein linearer Rückgang der Erholungsgeschwindigkeit nach Stress, kein angesammelter Schaden. Es liefert eine Möglichkeit, jede Hypothese in dieser Datenbank zu BEWERTEN, statt mit ihnen zu konkurrieren. Der Autor erklärte direkt, dass Gero plant, seine Technologie bei Großsäugern zunächst an Hunden zu demonstrieren — eine unabhängige Bestätigung der Wahl dieses Projekts.</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина:</b> резильянс як метрика жодного разу не застосовувався до наших гіпотез практично — лише запропонований як рамка.</span><span lang="en"><b>Open gap:</b> resilience as a metric has never been practically applied to our hypotheses — only proposed as a frame.</span><span lang="de"><b>Offene Lücke:</b> Resilienz als Metrik wurde nie praktisch auf unsere Hypothesen angewendet — nur als Rahmen vorgeschlagen.</span></p>
+      </div>
+
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H20</span><h3><span lang="uk">Карта біомаркерів ефективності</span><span lang="en">Efficacy biomarker map</span><span lang="de">Wirksamkeits-Biomarker-Karte</span></h3></div><div class="hyp-score">6<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip good">high priority</span><span class="hyp-chip">Frailty index</span><span class="hyp-chip"><span lang="uk">Епігенгодинники</span><span lang="en">Epigenetic clocks</span><span lang="de">Epigenetische Uhren</span></span></div>
+        <p><span lang="uk">Індекс крихкості собак (NC State, 2024) — готовий ветеринарний інструмент БЕЗ аналізів: пальпація тіла/м'язів прогнозує смертність за 6 міс з HR=4.71. Плюс епігенгодинники (Horvath→GrimAge→DunedinPACE), протеомні орган-годинники за звичайним аналізом крові, довжина теломер.</span><span lang="en">The dog frailty index (NC State, 2024) is a ready veterinary tool that needs NO lab work: body/muscle palpation predicts 6-month mortality with HR=4.71. Plus epigenetic clocks (Horvath→GrimAge→DunedinPACE), proteomic organ clocks from a routine blood panel, telomere length.</span><span lang="de">Der Hunde-Gebrechlichkeitsindex (NC State, 2024) ist ein einsatzbereites veterinärmedizinisches Instrument OHNE Labortests: Körper-/Muskelpalpation sagt die 6-Monats-Mortalität mit HR=4,71 voraus. Plus epigenetische Uhren (Horvath→GrimAge→DunedinPACE), proteomische Organuhren aus einem Routine-Blutbild, Telomerlänge.</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина:</b> більшість маркерів розроблені для людей і лише адаптовані під собак — порівняльна точність адаптації не завжди перевірена.</span><span lang="en"><b>Open gap:</b> most markers were developed for humans and only adapted to dogs — comparative accuracy of the adaptation isn't always verified.</span><span lang="de"><b>Offene Lücke:</b> die meisten Marker wurden für Menschen entwickelt und nur an Hunde angepasst — die vergleichende Genauigkeit der Anpassung ist nicht immer verifiziert.</span></p>
+      </div>
+
+      <div class="hyp-card">
+        <div class="hyp-top"><div><span class="hyp-code">H21</span><h3><span lang="uk">Репутація проти доказів</span><span lang="en">Reputation vs. evidence</span><span lang="de">Reputation vs. Evidenz</span></h3></div><div class="hyp-score">6<span>/7</span></div></div>
+        <div class="chip-row"><span class="hyp-chip good">high priority</span><span class="hyp-chip">NIA ITP</span><span class="hyp-chip"><span lang="uk">Золотий стандарт</span><span lang="en">Gold standard</span><span lang="de">Goldstandard</span></span></div>
+        <p><span lang="uk">За єдиним мишачим стандартом ITP: рапаміцин +23-26% (лідер), NMN — взагалі не тестувався незалежно, фізетин і NR — прямо ПРОВАЛИЛИ повторення власних знаменитих заяв про подовження життя. Популярність у longevity-спільноті погано корелює із силою доказів.</span><span lang="en">Under the single mouse ITP standard: rapamycin +23-26% (leader), NMN never independently tested, fisetin and NR flatly FAILED to replicate their own famous lifespan claims. Popularity in the longevity community correlates poorly with evidence strength.</span><span lang="de">Nach dem einheitlichen Maus-ITP-Standard: Rapamycin +23-26% (Spitzenreiter), NMN nie unabhängig getestet, Fisetin und NR SCHEITERTEN schlicht daran, ihre eigenen berühmten Langlebigkeitsbehauptungen zu reproduzieren. Popularität in der Longevity-Community korreliert schlecht mit der Evidenzstärke.</span></p>
+        <p class="gap"><span lang="uk"><b>Відкрита прогалина:</b> жодна з порівнюваних речовин не тестувалася на собаках напряму для тривалості життя.</span><span lang="en"><b>Open gap:</b> none of the compared substances has been tested directly in dogs for lifespan.</span><span lang="de"><b>Offene Lücke:</b> keine der verglichenen Substanzen wurde direkt an Hunden auf Lebensdauer getestet.</span></p>
+      </div>
+    </div>
+
+    <p class="measure" style="margin-bottom:10px; color:var(--ink-faint); font-size:14px;"><span lang="uk">Решта гіпотез — компактно:</span><span lang="en">The rest, compactly:</span><span lang="de">Der Rest, kompakt:</span></p>
+    <div class="table-wrap">
+      <table class="compact-table">
+        <tbody>
+          <tr><td class="code">H12</td><td><span lang="uk">Мальабсорбція замість апетиту/порції<small>Acarbose/Canagliflozin/Orlistat блокують засвоєння, не апетит; вітаміни A/D/E/K потрібно приймати з інтервалом 2+ год від Orlistat</small></span><span lang="en">Malabsorption instead of appetite/portion control<small>Acarbose/Canagliflozin/Orlistat block absorption, not appetite; vitamins A/D/E/K need a 2+ hour gap from Orlistat</small></span><span lang="de">Malabsorption statt Appetit-/Portionskontrolle<small>Acarbose/Canagliflozin/Orlistat blockieren die Aufnahme, nicht den Appetit; Vitamine A/D/E/K benötigen einen Abstand von 2+ Stunden zu Orlistat</small></span></td><td class="score">5/7</td></tr>
+          <tr><td class="code">H16</td><td><span lang="uk">12 hallmarks of aging — індекс бази<small>Офіційна карта поля; репрограмування (+109% мишам) не перетинається з алхімією взагалі</small></span><span lang="en">12 hallmarks of aging — a database index<small>The field's official map; reprogramming (+109% in mice) has zero overlap with alchemy</small></span><span lang="de">12 hallmarks of aging — ein Datenbankindex<small>Die offizielle Landkarte des Feldes; Reprogrammierung (+109% bei Mäusen) hat keinerlei Überschneidung mit Alchemie</small></span></td><td class="score">5/7</td></tr>
+          <tr><td class="code">H4</td><td><span lang="uk">ДНК-репарація Abhraka Bhasma<small>Міст до SIRT6-осі через незалежне дослідження мишей; немає даних на самій бхасмі</small></span><span lang="en">DNA repair via Abhraka Bhasma<small>A bridge to the SIRT6 axis via an independent mouse study; no data on the bhasma itself</small></span><span lang="de">DNA-Reparatur via Abhraka Bhasma<small>Eine Brücke zur SIRT6-Achse über eine unabhängige Mäusestudie; keine Daten zur Bhasma selbst</small></span></td><td class="score">5/7</td></tr>
+          <tr><td class="code">H8</td><td><span lang="uk">Акустика при bhavana<small>Частота співу ОМ (~136 Гц) у діапазоні, що впливає на кристалізацію; другий, окремий механізм — вагальна стимуляція гудінням</small></span><span lang="en">Acoustics during bhavana<small>OM-chant frequency (~136 Hz) falls in the range shown to affect crystallization; a second, separate mechanism — vagal stimulation via humming</small></span><span lang="de">Akustik während Bhavana<small>Die OM-Gesangsfrequenz (~136 Hz) liegt im Bereich, der die Kristallisation beeinflusst; ein zweiter, separater Mechanismus — vagale Stimulation durch Summen</small></span></td><td class="score">5/7</td></tr>
+          <tr><td class="code">H9</td><td><span lang="uk">Каппінг-шар визначає токсичність<small>Підтверджено напряму: форма PbS/PbO свинцю покращувала пам'ять замість погіршення</small></span><span lang="en">The capping layer determines toxicity<small>Confirmed directly: the PbS/PbO form of lead improved memory instead of impairing it</small></span><span lang="de">Die Capping-Schicht bestimmt die Toxizität<small>Direkt bestätigt: die PbS/PbO-Form von Blei verbesserte das Gedächtnis, statt es zu beeinträchtigen</small></span></td><td class="score">5/7</td></tr>
+          <tr><td class="code">H13</td><td><span lang="uk">Людські епідемдані<small>CALERIE підтверджує CR у людей; метформін розгортається за 20 років; акарбоза не дає CV-ефекту у людей</small></span><span lang="en">Human epidemiological data<small>CALERIE confirms CR in humans; metformin plays out over 20 years; acarbose gives no CV effect in humans</small></span><span lang="de">Epidemiologische Daten beim Menschen<small>CALERIE bestätigt CR beim Menschen; Metformin entfaltet sich über 20 Jahre; Acarbose zeigt keinen CV-Effekt beim Menschen</small></span></td><td class="score">4/7</td></tr>
+          <tr><td class="code">H6</td><td><span lang="uk">Конвергенція золота<small>Механізм знайдено (іонне проти наночастинок), але зразок Swarna Bhasma не охарактеризований напряму</small></span><span lang="en">Gold convergence<small>Mechanism found (ionic vs. nanoparticle), but the actual Swarna Bhasma sample hasn't been directly characterized</small></span><span lang="de">Gold-Konvergenz<small>Mechanismus gefunden (ionisch vs. Nanopartikel), aber die tatsächliche Swarna-Bhasma-Probe wurde nicht direkt charakterisiert</small></span></td><td class="score">4/7</td></tr>
+          <tr><td class="code">H11</td><td><span lang="uk">Тріада CR+Ashwagandha+Amalaki<small>Логічне розширення H1/H2/H10, але потрійна комбінація цілком ніде не тестувалася</small></span><span lang="en">The CR+Ashwagandha+Amalaki triad<small>A logical extension of H1/H2/H10, but the full triple combination has never been tested anywhere</small></span><span lang="de">Die CR+Ashwagandha+Amalaki-Triade<small>Eine logische Erweiterung von H1/H2/H10, aber die vollständige Dreifachkombination wurde nirgends getestet</small></span></td><td class="score">3/7</td></tr>
+          <tr><td class="code">H14</td><td><span lang="uk">Обмеження метіоніну<small>Подовжує життя гризунам іншим шляхом, ніж CR, але метіонін незамінний для собак — реальний ризик дефіциту</small></span><span lang="en">Methionine restriction<small>Extends rodent lifespan via a different pathway than CR, but methionine is essential for dogs — a real deficiency risk</small></span><span lang="de">Methionin-Restriktion<small>Verlängert die Lebensdauer von Nagetieren über einen anderen Signalweg als CR, aber Methionin ist für Hunde essenziell — ein reales Mangelrisiko</small></span></td><td class="score">3/7</td></tr>
+          <tr><td class="code">H3</td><td><span lang="uk">Відтворюваність антиоксидантних бхасм<small>Вражаючі цифри є лише в одному дослідженні на речовину — незалежних повторень немає</small></span><span lang="en">Reproducibility of antioxidant bhasmas<small>Impressive numbers exist in only one study per substance — no independent replications</small></span><span lang="de">Reproduzierbarkeit antioxidativer Bhasmas<small>Beeindruckende Zahlen existieren nur in jeweils einer Studie pro Substanz — keine unabhängigen Replikationen</small></span></td><td class="score">3/7</td></tr>
+          <tr><td class="code">H5</td><td><span lang="uk">Vajikarana / IGF-1<small>Вихідна гіпотеза не підтвердилася; знайшлися два нових кандидати (Shatavari, Vidarikanda) без опрацювання</small></span><span lang="en">Vajikarana / IGF-1<small>The original hypothesis wasn't confirmed; two new candidates surfaced (Shatavari, Vidarikanda) without further work</small></span><span lang="de">Vajikarana / IGF-1<small>Die ursprüngliche Hypothese wurde nicht bestätigt; zwei neue Kandidaten tauchten auf (Shatavari, Vidarikanda), aber ohne weitere Ausarbeitung</small></span></td><td class="score">0/7</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details class="guardrails">
+      <summary><span lang="uk">Guardrails — не кандидати, а обмежувачі (3)</span><span lang="en">Guardrails — not candidates, but limiters (3)</span><span lang="de">Guardrails — keine Kandidaten, sondern Grenzen (3)</span></summary>
+      <div class="guard-item"><span lang="uk"><b>H_REJECTED_1 — Naga Bhasma / Parada.</b> Реальні задокументовані отруєння свинцем/ртуттю. Обробка теоретично може детоксифікувати метал, але контроль якості в реальних умовах ненадійний. Не розглядається для жодної практичної перевірки.</span><span lang="en"><b>H_REJECTED_1 — Naga Bhasma / Parada.</b> Real, documented lead/mercury poisonings. Processing can theoretically detoxify the metal, but quality control under real-world conditions is unreliable. Not under consideration for any practical testing.</span><span lang="de"><b>H_REJECTED_1 — Naga Bhasma / Parada.</b> Reale, dokumentierte Blei-/Quecksilbervergiftungen. Die Verarbeitung kann das Metall theoretisch entgiften, aber die Qualitätskontrolle unter realen Bedingungen ist unzuverlässig. Wird für keine praktische Erprobung in Betracht gezogen.</span></div>
+      <div class="guard-item"><span lang="uk"><b>H_REJECTED_2 — Рапаміцин, виключений не через токсичність.</b> Найсильніша за доказами речовина в базі (+23-26% медіани життя мишей), але потребує рецепта, титрування дози та постійного лікарського/ветеринарного контролю аналізів крові — рівень відповідальності, несумісний із форматом теоретичного проєкту. Дані залишені як довідкові.</span><span lang="en"><b>H_REJECTED_2 — Rapamycin, excluded not for toxicity.</b> The strongest evidence-backed substance in the database (+23-26% median mouse lifespan), but it requires a prescription, dose titration, and continuous medical/veterinary blood monitoring — a level of responsibility incompatible with a theoretical-project format. Data kept for reference.</span><span lang="de"><b>H_REJECTED_2 — Rapamycin, nicht wegen Toxizität ausgeschlossen.</b> Die evidenzstärkste Substanz in der Datenbank (+23-26% mediane Mäuselebensdauer), erfordert aber ein Rezept, Dosistitration und kontinuierliche ärztliche/tierärztliche Blutüberwachung — ein Verantwortungsniveau, das mit dem Format eines theoretischen Projekts unvereinbar ist. Daten als Referenz belassen.</span></div>
+      <div class="guard-item"><span lang="uk"><b>H_METHOD_1 — Конвергенція традицій ≠ доказ.</b> Rasa Shastra і західна алхімія незалежно дійшли до однакової помилкової логіки для токсичних металів. Збіг двох давніх традицій сам по собі нічого не доводить — потрібні незалежні сучасні кількісні дані.</span><span lang="en"><b>H_METHOD_1 — Convergence of traditions ≠ proof.</b> Rasa Shastra and Western alchemy independently arrived at the same flawed logic for toxic metals. Two ancient traditions agreeing proves nothing by itself — only independent modern quantitative data counts.</span><span lang="de"><b>H_METHOD_1 — Konvergenz von Traditionen ≠ Beweis.</b> Rasa Shastra und die westliche Alchemie kamen unabhängig voneinander zur selben fehlerhaften Logik bei toxischen Metallen. Die Übereinstimmung zweier antiker Traditionen beweist an sich nichts — nur unabhängige moderne quantitative Daten zählen.</span></div>
+    </details>
+  </section>
+  <hr class="rule">
+
+  <section id="substances">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Materia medica</span><span lang="en">Materia medica</span><span lang="de">Materia medica</span></p>
+      <h2><span lang="uk">39 речовин за рівнем ризику</span><span lang="en">39 substances by risk tier</span><span lang="de">39 Substanzen nach Risikostufe</span></h2>
+    </div>
+
+    <div class="tier-block">
+      <div class="tier-head"><span class="tier-dot" style="background:var(--jade)"></span><h3><span lang="uk">Низька задокументована токсичність</span><span lang="en">Low documented toxicity</span><span lang="de">Geringe dokumentierte Toxizität</span></h3><span class="tier-count">24</span></div>
+      <div class="sub-grid">
+        <div class="sub-card"><div class="name">Ashwagandha</div><div class="trad">rasa_shastra · herb</div></div>
+        <div class="sub-card"><div class="name">Amalaki</div><div class="trad">rasa_shastra · herb</div></div>
+        <div class="sub-card"><div class="name">Abhraka Bhasma</div><div class="trad">rasa_shastra · mineral</div></div>
+        <div class="sub-card"><div class="name">Swarna Bhasma</div><div class="trad">rasa_shastra · mineral</div></div>
+        <div class="sub-card"><div class="name">Shatavari</div><div class="trad">rasa_shastra · herb</div></div>
+        <div class="sub-card"><div class="name">Physalis alkekengi</div><div class="trad">regional_analog · herb</div></div>
+        <div class="sub-card"><div class="name">Rosa canina</div><div class="trad">regional_analog · herb</div></div>
+        <div class="sub-card"><div class="name">Polygonum cuspidatum</div><div class="trad">regional_analog · herb</div></div>
+        <div class="sub-card"><div class="name">Caloric restriction (25%)</div><div class="trad">modern_pharma · intervention</div></div>
+        <div class="sub-card"><div class="name">Metformin</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">Resveratrol</div><div class="trad">modern_pharma · compound</div></div>
+        <div class="sub-card"><div class="name">LY-D6/2</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">Spermidine</div><div class="trad">modern_pharma · compound</div></div>
+        <div class="sub-card"><div class="name">Acarbose</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">Canagliflozin</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">TERT gene therapy (AAV)</div><div class="trad">modern_pharma · intervention</div></div>
+        <div class="sub-card"><div class="name">Modified mRNA TERT</div><div class="trad">modern_pharma · intervention</div></div>
+        <div class="sub-card"><div class="name">TA-65 / Cycloastragenol</div><div class="trad">modern_pharma · compound</div></div>
+        <div class="sub-card"><div class="name">Astragaloside IV</div><div class="trad">modern_pharma · compound</div></div>
+        <div class="sub-card"><div class="name">GRN510</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">Sitagliptin / Linagliptin</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name"><span lang="uk">Контроль дихання</span><span lang="en">Breath control</span><span lang="de">Atemkontrolle</span></div><div class="trad">modern_pharma · intervention</div></div>
+        <div class="sub-card"><div class="name"><span lang="uk">Медитація / зниження стресу</span><span lang="en">Meditation / stress reduction</span><span lang="de">Meditation / Stressreduktion</span></div><div class="trad">modern_pharma · intervention</div></div>
+        <div class="sub-card"><div class="name"><span lang="uk">Соц. зв'язок / групова практика</span><span lang="en">Social connection / group practice</span><span lang="de">Soziale Verbindung / Gruppenpraxis</span></div><div class="trad">modern_pharma · intervention</div></div>
+      </div>
+    </div>
+
+    <div class="tier-block">
+      <div class="tier-head"><span class="tier-dot" style="background:var(--gold)"></span><h3><span lang="uk">Помірний ризик</span><span lang="en">Moderate risk</span><span lang="de">Mäßiges Risiko</span></h3><span class="tier-count">5</span></div>
+      <div class="sub-grid">
+        <div class="sub-card"><div class="name">Rapamycin</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">Dasatinib+Quercetin</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">Semaglutide</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">Pioglitazone / Rosiglitazone</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">Orlistat</div><div class="trad"><span lang="uk">modern_pharma · drug — втрачає вітаміни A/D/E</span><span lang="en">modern_pharma · drug — depletes vitamins A/D/E</span><span lang="de">modern_pharma · drug — verringert Vitamine A/D/E</span></div></div>
+      </div>
+    </div>
+
+    <div class="tier-block">
+      <div class="tier-head"><span class="tier-dot" style="background:var(--ink-faint)"></span><h3><span lang="uk">Незрозуміло / недостатньо даних</span><span lang="en">Unclear / insufficient data</span><span lang="de">Unklar / unzureichende Daten</span></h3><span class="tier-count">5</span></div>
+      <div class="sub-grid">
+        <div class="sub-card"><div class="name">LOY-002</div><div class="trad">modern_pharma · drug</div></div>
+        <div class="sub-card"><div class="name">NMN</div><div class="trad">modern_pharma · compound</div></div>
+        <div class="sub-card"><div class="name">Vidarikanda</div><div class="trad">rasa_shastra · herb</div></div>
+        <div class="sub-card"><div class="name"><span lang="uk">OSK-репрограмування</span><span lang="en">OSK reprogramming</span><span lang="de">OSK-Reprogrammierung</span></div><div class="trad">modern_pharma · intervention</div></div>
+        <div class="sub-card"><div class="name"><span lang="uk">Молода донорська плазма</span><span lang="en">Young donor plasma</span><span lang="de">Junges Spenderplasma</span></div><div class="trad">modern_pharma · intervention</div></div>
+      </div>
+    </div>
+
+    <div class="tier-block">
+      <div class="tier-head"><span class="tier-dot" style="background:var(--vermillion)"></span><h3><span lang="uk">Висока задокументована токсичність</span><span lang="en">High documented toxicity</span><span lang="de">Hohe dokumentierte Toxizität</span></h3><span class="tier-count">5</span></div>
+      <div class="sub-grid">
+        <div class="sub-card"><div class="name">Naga Bhasma</div><div class="trad"><span lang="uk">rasa_shastra · метал — відхилено</span><span lang="en">rasa_shastra · metal — rejected</span><span lang="de">rasa_shastra · Metall — abgelehnt</span></div></div>
+        <div class="sub-card"><div class="name">Parada / Rasa Sindoor</div><div class="trad"><span lang="uk">rasa_shastra · метал — відхилено</span><span lang="en">rasa_shastra · metal — rejected</span><span lang="de">rasa_shastra · Metall — abgelehnt</span></div></div>
+        <div class="sub-card"><div class="name">Aurum Potabile</div><div class="trad">western_alchemy · metal</div></div>
+        <div class="sub-card"><div class="name">Antimony preparations</div><div class="trad">western_alchemy · metal</div></div>
+        <div class="sub-card"><div class="name">Grapes/raisins</div><div class="trad"><span lang="uk">regional_analog · herb — токсично для собак</span><span lang="en">regional_analog · herb — toxic to dogs</span><span lang="de">regional_analog · herb — giftig für Hunde</span></div></div>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="lessons">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Методологічні уроки</span><span lang="en">Methodological lessons</span><span lang="de">Methodische Lektionen</span></p>
+      <h2><span lang="uk">Що варто тримати в голові</span><span lang="en">What to keep in mind</span><span lang="de">Was man im Kopf behalten sollte</span></h2>
+    </div>
+    <div class="lesson-box">
+      <h3><span lang="uk">Конвергенція традицій — не доказ</span><span lang="en">Convergence of traditions is not proof</span><span lang="de">Konvergenz von Traditionen ist kein Beweis</span></h3>
+      <p><span lang="uk">Rasa Shastra і Basil Valentine незалежно один від одного описали ідентичну логіку «сирий метал отруйний → багатостадійна обробка = чисті ліки» — для ртуті та сурми відповідно. Обидві традиції задокументували реальні отруєння за тієї самої процедури. Збіг двох давніх систем може відображати спільну когнітивну помилку, а не спільне емпіричне відкриття — значення мають лише незалежні сучасні кількісні дані.</span><span lang="en">Rasa Shastra and Basil Valentine independently described the identical logic "raw metal is poison → multistage processing = pure medicine" — for mercury and antimony respectively. Both traditions documented real poisonings from that same procedure. Two ancient systems agreeing may reflect a shared cognitive error rather than a shared empirical discovery — only independent modern quantitative data matters.</span><span lang="de">Rasa Shastra und Basil Valentine beschrieben unabhängig voneinander die identische Logik „rohes Metall ist Gift → mehrstufige Verarbeitung = reine Medizin" — für Quecksilber bzw. Antimon. Beide Traditionen dokumentierten reale Vergiftungen durch dasselbe Verfahren. Die Übereinstimmung zweier antiker Systeme kann einen gemeinsamen kognitiven Fehler widerspiegeln statt eine gemeinsame empirische Entdeckung — nur unabhängige moderne quantitative Daten zählen.</span></p>
+    </div>
+    <div class="lesson-box crit">
+      <h3><span lang="uk">Обробка змінює хімію — але контроль якості ненадійний</span><span lang="en">Processing changes chemistry — but quality control is unreliable</span><span lang="de">Verarbeitung verändert die Chemie — aber die Qualitätskontrolle ist unzuverlässig</span></h3>
+      <p><span lang="uk">Чистий свинець погіршував пам'ять у тварин; Naga Bhasma (той самий свинець у формі PbS/PbO) — покращувала. Детоксикація обробкою теоретично можлива. Naga Bhasma і Parada залишаються відхиленими не тому, що це неможливо в принципі, а тому що в реальних умовах виготовлення контроль якості ненадійний, а отруєння задокументовані неодноразово.</span><span lang="en">Pure lead impaired animal memory; Naga Bhasma (the same lead in PbS/PbO form) improved it. Processing-based detoxification is theoretically possible. Naga Bhasma and Parada stay rejected not because it's impossible in principle, but because quality control under real preparation conditions is unreliable, and poisonings are repeatedly documented.</span><span lang="de">Reines Blei beeinträchtigte das Gedächtnis von Tieren; Naga Bhasma (dasselbe Blei in PbS/PbO-Form) verbesserte es. Eine verarbeitungsbasierte Entgiftung ist theoretisch möglich. Naga Bhasma und Parada bleiben abgelehnt, nicht weil es prinzipiell unmöglich ist, sondern weil die Qualitätskontrolle unter realen Herstellungsbedingungen unzuverlässig ist und Vergiftungen wiederholt dokumentiert sind.</span></p>
+    </div>
+    <div class="lesson-box">
+      <h3><span lang="uk">Трав'яна гілка, а не металева — тут сходиться з наукою</span><span lang="en">The herbal branch, not the metal one, is where it converges with science</span><span lang="de">Der pflanzliche Zweig, nicht der metallische, konvergiert mit der Wissenschaft</span></h3>
+      <p><span lang="uk">Скрізь, де Rasa Shastra і західна алхімія відходили від металів до дієти і трав (Roger Bacon, Ashwagandha, Amalaki), вони незалежно приходили до протоколів, які сьогодні мають реальну доказову базу. Металева гілка обох традицій — історичний глухий кут; трав'яна і дієтична — єдина, де є справжній методологічний перетин із сучасною геронтологією.</span><span lang="en">Everywhere Rasa Shastra and Western alchemy moved from metals to diet and herbs (Roger Bacon, Ashwagandha, Amalaki), they independently arrived at protocols that carry real evidence today. The metal branch of both traditions is a historical dead end; the herbal/dietary one is the only place with a genuine methodological overlap with modern geroscience.</span><span lang="de">Überall dort, wo Rasa Shastra und die westliche Alchemie von Metallen zu Diät und Kräutern wechselten (Roger Bacon, Ashwagandha, Amalaki), kamen sie unabhängig voneinander zu Protokollen, die heute echte Evidenz vorweisen. Der Metallzweig beider Traditionen ist eine historische Sackgasse; der pflanzlich-diätetische ist der einzige Ort mit einer echten methodischen Überschneidung mit moderner Geroscience.</span></p>
+    </div>
+    <div class="lesson-box">
+      <h3><span lang="uk">Безкоштовне іноді сильніше за речовину</span><span lang="en">Free sometimes beats a substance</span><span lang="de">Kostenlos schlägt manchmal eine Substanz</span></h3>
+      <p><span lang="uk">Соціальна інтеграція дає ефект-сайз 1.91 на ризик смертності — сильніше за багато молекулярних інтервенцій у цій базі. Регулярна колективна практика проти повної відсутності — 7 років різниці очікуваної тривалості життя. Жодних трав, жодної генної терапії, жодного ризику токсичності — просто зв'язок з іншими.</span><span lang="en">Social integration has an effect size of 1.91 on mortality risk — stronger than many molecular interventions in this database. Regular collective practice vs. none — a 7-year difference in life expectancy. No herbs, no gene therapy, no toxicity risk — just connection with others.</span><span lang="de">Soziale Integration hat eine Effektstärke von 1,91 auf das Mortalitätsrisiko — stärker als viele molekulare Interventionen in dieser Datenbank. Regelmäßige kollektive Praxis gegenüber keiner — ein Unterschied von 7 Jahren Lebenserwartung. Keine Kräuter, keine Gentherapie, kein Toxizitätsrisiko — nur Verbindung zu anderen.</span></p>
+    </div>
+    <div class="lesson-box">
+      <h3><span lang="uk">Метод вимірювання — теж відкриття, не лише речовина</span><span lang="en">The measurement method is a discovery too, not just the substance</span><span lang="de">Die Messmethode ist auch eine Entdeckung, nicht nur die Substanz</span></h3>
+      <p><span lang="uk">Резильянс-фреймворк Федічева не додає ще одну гіпотезу до списку — він дає спосіб перевірити будь-яку з них: не статичний маркер, а швидкість відновлення після стресу. І окремо: реальна стеля всієї геронтології (часткове репрограмування, +109% мишам) не перетинається з алхімічною гілкою жодним чином — деякі речі традиційні тексти в принципі не могли намацати без генної інженерії.</span><span lang="en">Fedichev's resilience framework doesn't add one more hypothesis to the list — it gives a way to test any of them: not a static marker but post-stress recovery speed. Separately: the real ceiling of all geroscience (partial reprogramming, +109% in mice) doesn't overlap with the alchemical branch at all — some things traditional texts simply couldn't have found without genetic engineering.</span><span lang="de">Fedichevs Resilienz-Framework fügt der Liste keine weitere Hypothese hinzu — es liefert eine Möglichkeit, jede von ihnen zu testen: kein statischer Marker, sondern die Erholungsgeschwindigkeit nach Stress. Getrennt davon: die reale Obergrenze der gesamten Geroscience (teilweise Reprogrammierung, +109% bei Mäusen) überschneidet sich überhaupt nicht mit dem alchemistischen Zweig — manche Dinge konnten traditionelle Texte ohne Gentechnik einfach nicht finden.</span></p>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="sources" style="padding-bottom:100px;">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Джерела</span><span lang="en">Sources</span><span lang="de">Quellen</span></p>
+      <h2><span lang="uk">121 запис, згруповано за типом</span><span lang="en">121 records, grouped by type</span><span lang="de">121 Einträge, gruppiert nach Typ</span></h2>
+    </div>
+    <div class="src-cats">
+      <div class="src-cat">
+        <h4><span lang="uk">Rasa Shastra — першоджерела</span><span lang="en">Rasa Shastra — primary sources</span><span lang="de">Rasa Shastra — Primärquellen</span></h4>
+        <ul>
+          <li><a href="https://archive.org/details/VagbhataRasaratnasamuccaya1927" target="_blank" rel="noopener">Vagbhata — Rasaratnasamuccaya, 1927</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5255965/" target="_blank" rel="noopener">Critical Review of Rasaratna Samuccaya</a></li>
+          <li><a href="https://www.easyayurveda.com/2022/09/30/rasa-parada/" target="_blank" rel="noopener">Rasa Prakarana: Parada — 18 samskaras</a></li>
+          <li><a href="https://www.wisdomlib.org/definition/gajaputa" target="_blank" rel="noopener">Gajaputa — calcination parameters</a></li>
+        </ul>
+      </div>
+      <div class="src-cat">
+        <h4><span lang="uk">Західна алхімія</span><span lang="en">Western alchemy</span><span lang="de">Westliche Alchemie</span></h4>
+        <ul>
+          <li><a href="https://archive.org/stream/triumphalchariot00basirich/triumphalchariot00basirich_djvu.txt" target="_blank" rel="noopener">Triumphal Chariot of Antimony — full text</a></li>
+          <li><a href="https://mariekehendriksen.nl/2013/12/29/aurum-potabile-and-the-tears-of-brides-a-history-of-drinkable-gold/" target="_blank" rel="noopener">Aurum Potabile — history</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2378011/" target="_blank" rel="noopener">Roger Bacon — Cure of Old Age</a></li>
+        </ul>
+      </div>
+      <div class="src-cat">
+        <h4><span lang="uk">Сучасна геронтологія собак</span><span lang="en">Modern canine geroscience</span><span lang="de">Moderne Hunde-Geroscience</span></h4>
+        <ul>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/11991408/" target="_blank" rel="noopener">Kealy et al. 2002 — caloric restriction</a></li>
+          <li><a href="https://dogagingproject.org/triad" target="_blank" rel="noopener">Dog Aging Project — TRIAD</a></li>
+          <li><a href="https://www.nature.com/articles/s41598-024-63031-w" target="_blank" rel="noopener">LY-D6/2 senolytic — canine RCT</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12520853/" target="_blank" rel="noopener">Anti-aging strategies for dogs — review</a></li>
+          <li><a href="https://www.cell.com/cell-reports/fulltext/S2211-1247(12)00418-4" target="_blank" rel="noopener">Telomere length predicts breed lifespan</a></li>
+        </ul>
+      </div>
+      <div class="src-cat">
+        <h4><span lang="uk">Механізми та наноматеріали</span><span lang="en">Mechanisms and nanomaterials</span><span lang="de">Mechanismen und Nanomaterialien</span></h4>
+        <ul>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8185977/" target="_blank" rel="noopener">Krishna Vajra Abhraka Bhasma — synthesis/characterization</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6421027/" target="_blank" rel="noopener">Chemical form of metals in bhasmas determines toxicity</a></li>
+          <li><a href="https://pubs.acs.org/doi/10.1021/acs.cgd.8b01339" target="_blank" rel="noopener">Crystallization under audible sound</a></li>
+        </ul>
+      </div>
+      <div class="src-cat">
+        <h4><span lang="uk">Діабетичні препарати та NIA ITP</span><span lang="en">Diabetes drugs and NIA ITP</span><span lang="de">Diabetesmedikamente und NIA ITP</span></h4>
+        <ul>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5514387/" target="_blank" rel="noopener">NIA Interventions Testing Program — overview</a></li>
+          <li><a href="https://www.nature.com/articles/s43587-024-00642-y" target="_blank" rel="noopener">Canagliflozin +14% via senescent-cell clearance</a></li>
+          <li><a href="https://www.nature.com/articles/s41467-026-72861-3" target="_blank" rel="noopener">Semaglutide slows epigenetic aging — RCT</a></li>
+        </ul>
+      </div>
+      <div class="src-cat">
+        <h4><span lang="uk">Теломери, репрограмування, резильянс</span><span lang="en">Telomeres, reprogramming, resilience</span><span lang="de">Telomere, Reprogrammierung, Resilienz</span></h4>
+        <ul>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3494070/" target="_blank" rel="noopener">TERT gene therapy — +24% mouse life, no cancer rise</a></li>
+          <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10909732/" target="_blank" rel="noopener">Partial reprogramming — +109% in mice</a></li>
+          <li><a href="https://www.nad.com/news/peter-fedichevs-physics-based-approach-to-aging-a-new-longevity-framework" target="_blank" rel="noopener">Fedichev's resilience framework</a></li>
+        </ul>
+      </div>
+      <div class="src-cat">
+        <h4><span lang="uk">Самообмеження і зв'язок</span><span lang="en">Self-restraint and connection</span><span lang="de">Selbstbeschränkung und Verbindung</span></h4>
+        <ul>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8473615/" target="_blank" rel="noopener">Social integration — effect size 1.91 on mortality</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2659561/" target="_blank" rel="noopener">Service attendance — 7-year life-expectancy gap</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/39730986/" target="_blank" rel="noopener">Vagal tone in centenarians</a></li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:24px; font-size:13px; color:var(--ink-faint);">
+      <span lang="uk">Теоретичне дослідження — жодного синтезу, жодних випробувань на тваринах не проводилося. Повна база даних, першоджерела та примітки — у робочому архіві проєкту, доступні за запитом.</span>
+      <span lang="en">A theoretical study — no synthesis, no animal testing was performed. The full database, primary sources, and notes live in the project's working archive, available on request.</span>
+      <span lang="de">Eine theoretische Studie — keine Synthese, keine Tierversuche wurden durchgeführt. Die vollständige Datenbank, Primärquellen und Notizen befinden sich im Arbeitsarchiv des Projekts und sind auf Anfrage verfügbar.</span>
+    </p>
+  </section>
+
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+</body>
+</html>
