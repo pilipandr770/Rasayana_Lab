@@ -49,6 +49,15 @@ function findLeadByWallet(wallet) {
   return readDb().leads.find((l) => l.wallet.toLowerCase() === wallet.toLowerCase());
 }
 
+function updateLeadById(id, patch) {
+  const db = readDb();
+  const lead = db.leads.find((l) => l.id === Number(id));
+  if (!lead) return null;
+  Object.assign(lead, patch);
+  writeDb(db);
+  return lead;
+}
+
 function addOrder(order) {
   const db = readDb();
   const entry = { id: newId(), createdAt: new Date().toISOString(), status: "pending", ...order };
@@ -95,7 +104,7 @@ function setSetting(key, value) {
 }
 
 module.exports = {
-  addLead, getLeads, findLeadByWallet,
+  addLead, getLeads, findLeadByWallet, updateLeadById,
   addOrder, updateOrderBySessionId, updateOrderById, getOrders, getOrdersByWallet,
   getSetting, setSetting,
 };

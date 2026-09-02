@@ -21,6 +21,10 @@ services:
       ADMIN_TOKEN: ${ADMIN_TOKEN}
       SEPOLIA_RPC_URL: https://ethereum-sepolia-rpc.publicnode.com
       CONTRACT_ADDRESS: 0x36Da05224E9D98e9f4008f487466802F4f8701FE
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_CHANNEL_USERNAME: ${TELEGRAM_CHANNEL_USERNAME}
+      IG_CHECKER_URL: http://ig-checker:8000
+      INTERNAL_SECRET: ${INTERNAL_SECRET}
     volumes:
       - rasayana-api-data:/app/data
     labels:
@@ -32,5 +36,18 @@ services:
       - "traefik.http.services.rasayana-api.loadbalancer.server.port=3000"
     restart: unless-stopped
 
+  ig-checker:
+    build:
+      context: ./ig-checker
+    environment:
+      IG_USERNAME: ${IG_USERNAME}
+      IG_PASSWORD: ${IG_PASSWORD}
+      IG_TARGET_USERNAME: ${IG_TARGET_USERNAME}
+      INTERNAL_SECRET: ${INTERNAL_SECRET}
+    volumes:
+      - rasayana-ig-session:/data
+    restart: unless-stopped
+
 volumes:
   rasayana-api-data:
+  rasayana-ig-session:

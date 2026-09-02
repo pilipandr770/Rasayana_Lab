@@ -50,7 +50,7 @@
     </div>
 
     <div id="tab-leads" class="tab-panel active">
-      <div class="table-wrap"><table class="admin" id="leadsTable"><thead><tr><th>Wallet</th><th>Email</th><th>Telegram</th><th>Like</th><th>Repost</th><th>Date</th></tr></thead><tbody></tbody></table></div>
+      <div class="table-wrap"><table class="admin" id="leadsTable"><thead><tr><th>Wallet</th><th>Email</th><th>Telegram</th><th>Instagram</th><th>Repost proof</th><th>Status</th><th>Date</th><th></th></tr></thead><tbody></tbody></table></div>
     </div>
 
     <div id="tab-orders" class="tab-panel">
@@ -132,9 +132,22 @@ async function loadLeads() {
   const resp = await adminFetch("/api/admin/leads");
   const leads = await resp.json();
   document.querySelector("#leadsTable tbody").innerHTML = leads.map(l => `
-    <tr><td class="mono">${l.wallet.slice(0,8)}...</td><td>${l.email}</td>
-    <td>${l.subscribedTelegram ? "✓" : "—"}</td><td>${l.likedX ? "✓" : "—"}</td><td>${l.repostedX ? "✓" : "—"}</td>
-    <td class="mono">${new Date(l.createdAt).toLocaleDateString()}</td></tr>`).join("") || "<tr><td colspan=6>No leads yet</td></tr>";
+    <tr>
+      <td class="mono">${l.wallet.slice(0,8)}...</td>
+      <td>${l.email}</td>
+      <td>${l.telegramVerified ? "✓ @" + (l.telegramUsername || l.telegramUserId) : "—"}</td>
+      <td>${l.instagramVerified ? "✓ @" + l.instagramUsername : "—"}</td>
+      <td>${l.repostProofUrl ? `<a href="${l.repostProofUrl}" target="_blank" rel="noopener">link ↗</a>` : "—"}</td>
+      <td>${l.status || "—"}</td>
+      <td class="mono">${new Date(l.createdAt).toLocaleDateString()}</td>
+      <td>${l.status === "pending_review" ? `<button class="small-btn" onclick="approveLead(${l.id})">Approve & send token</button>` : ""}</td>
+    </tr>`).join("") || "<tr><td colspan=8>No leads yet</td></tr>";
+}
+
+async function approveLead(id) {
+  if (!confirm("Confirm: repost link checked, send the token to this wallet?")) return;
+  await adminFetch(`/api/admin/leads/${id}/approve`, { method: "POST" });
+  loadLeads();
 }
 
 async function loadOrders() {

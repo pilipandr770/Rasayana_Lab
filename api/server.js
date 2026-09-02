@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const crypto = require("crypto");
 const Stripe = require("stripe");
 const { ethers } = require("ethers");
 const membershipAbi = require("./membership_abi.json");
@@ -24,6 +25,55 @@ function requireAdmin(req, res, next) {
     return res.status(401).json({ error: "unauthorized" });
   }
   next();
+}
+
+// --- Telegram Login Widget: проверка подписи данных, присланных фронтендом ---
+// https://core.telegram.org/widgets/login#checking-authorization
+function verifyTelegramAuth(data) {
+  if (!data || !data.hash || !process.env.TELEGRAM_BOT_TOKEN) return false;
+  const { hash, ...rest } = data;
+  const checkString = Object.keys(rest)
+    .sort()
+    .map((k) => `${k}=${rest[k]}`)
+    .join("\n");
+  const secretKey = crypto.createHash("sha256").update(process.env.TELEGRAM_BOT_TOKEN).digest();
+  const hmac = crypto.createHmac("sha256", secretKey).update(checkString).digest("hex");
+  if (hmac !== hash) return false;
+  const authDate = Number(rest.auth_date);
+  if (!authDate || Date.now() / 1000 - authDate > 86400) return false; // старше суток — отклоняем
+  return true;
+}
+
+// --- Telegram Bot API: реально ли этот user_id состоит в канале проекта ---
+async function checkTelegramMembership(userId) {
+  const channel = process.env.TELEGRAM_CHANNEL_USERNAME;
+  if (!process.env.TELEGRAM_BOT_TOKEN || !channel) return false;
+  try {
+    const url = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/getChatMember?chat_id=${encodeURIComponent(channel)}&user_id=${userId}`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (!data.ok) return false;
+    return ["creator", "administrator", "member"].includes(data.result.status);
+  } catch (e) {
+    console.error("telegram membership check failed:", e.message);
+    return false;
+  }
+}
+
+// --- Instagram: делегируем проверку внутреннему instagrapi-сервису ---
+async function checkInstagramFollow(username) {
+  const base = process.env.IG_CHECKER_URL;
+  if (!base) return { verified: false, reason: "ig-checker not configured" };
+  try {
+    const resp = await fetch(`${base}/check-follow?username=${encodeURIComponent(username)}`, {
+      headers: { "X-Internal-Secret": process.env.INTERNAL_SECRET || "" },
+    });
+    if (!resp.ok) return { verified: false, reason: "check failed" };
+    return await resp.json();
+  } catch (e) {
+    console.error("instagram check failed:", e.message);
+    return { verified: false, reason: "ig-checker unreachable" };
+  }
 }
 
 // --- Stripe webhook: должен получать СЫРОЕ тело для проверки подписи,
@@ -128,28 +178,56 @@ app.post("/api/admin/settings/social-links", requireAdmin, (req, res) => {
 });
 
 // --- Airdrop с условиями (лид-форма) ---
+// Telegram и Instagram проверяются по-настоящему (Bot API / instagrapi) прямо здесь;
+// репост нельзя честно проверить автоматически ни на одной площадке, поэтому он
+// уходит на ручную модерацию в админку — токен выдаётся только после approve.
 app.post("/api/leads", async (req, res) => {
   try {
-    const { wallet, email, subscribedTelegram, likedX, repostedX } = req.body || {};
+    const { wallet, email, telegramAuth, instagramUsername, repostProofUrl } = req.body || {};
     if (!wallet || !ethers.isAddress(wallet)) {
       return res.status(400).json({ error: "valid wallet address required" });
     }
     if (!email) {
       return res.status(400).json({ error: "email required" });
     }
+    if (!repostProofUrl) {
+      return res.status(400).json({ error: "repost_proof_required" });
+    }
     const existing = db.findLeadByWallet(wallet);
     if (existing) {
       return res.status(409).json({ error: "this wallet already submitted the form" });
     }
 
-    const lead = db.addLead({ wallet, email, subscribedTelegram: !!subscribedTelegram, likedX: !!likedX, repostedX: !!repostedX });
-
-    const contract = getContractWithSigner();
-    const alreadyClaimed = await contract.hasClaimedFree(wallet);
-    if (!alreadyClaimed) {
-      const tx = await contract.airdrop(wallet);
-      await tx.wait();
+    if (!telegramAuth || !telegramAuth.id) {
+      return res.status(400).json({ error: "telegram_required" });
     }
+    if (!verifyTelegramAuth(telegramAuth)) {
+      return res.status(400).json({ error: "telegram_invalid_signature" });
+    }
+    const telegramMember = await checkTelegramMembership(telegramAuth.id);
+    if (!telegramMember) {
+      return res.status(400).json({ error: "telegram_not_subscribed" });
+    }
+
+    if (!instagramUsername) {
+      return res.status(400).json({ error: "instagram_username_required" });
+    }
+    const igResult = await checkInstagramFollow(instagramUsername);
+    if (!igResult.verified) {
+      return res.status(400).json({ error: "instagram_not_subscribed" });
+    }
+
+    const lead = db.addLead({
+      wallet,
+      email,
+      telegramUserId: telegramAuth.id,
+      telegramUsername: telegramAuth.username || null,
+      telegramVerified: true,
+      instagramUsername,
+      instagramVerified: true,
+      repostProofUrl,
+      status: "pending_review",
+    });
 
     res.json({ ok: true, lead });
   } catch (err) {
@@ -160,6 +238,25 @@ app.post("/api/leads", async (req, res) => {
 
 // --- Admin ---
 app.get("/api/admin/leads", requireAdmin, (req, res) => res.json(db.getLeads()));
+app.post("/api/admin/leads/:id/approve", requireAdmin, async (req, res) => {
+  try {
+    const lead = db.getLeads().find((l) => l.id === Number(req.params.id));
+    if (!lead) return res.status(404).json({ error: "not found" });
+    if (lead.status === "granted") return res.json(lead);
+
+    const contract = getContractWithSigner();
+    const alreadyClaimed = await contract.hasClaimedFree(lead.wallet);
+    if (!alreadyClaimed) {
+      const tx = await contract.airdrop(lead.wallet);
+      await tx.wait();
+    }
+    const updated = db.updateLeadById(lead.id, { status: "granted", approvedAt: new Date().toISOString() });
+    res.json(updated);
+  } catch (err) {
+    console.error("approve lead error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
 app.get("/api/admin/orders", requireAdmin, (req, res) => res.json(db.getOrders()));
 app.post("/api/admin/orders/:id/fulfill", requireAdmin, (req, res) => {
   const order = db.updateOrderById(req.params.id, { status: "fulfilled" });

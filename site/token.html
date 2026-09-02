@@ -79,20 +79,30 @@
 
     <div id="claimSection" style="display:none;">
       <p class="eyebrow" style="margin-bottom:10px;"><span lang="uk">Умови для безкоштовного токена</span><span lang="en">Conditions for the free token</span><span lang="de">Bedingungen für den kostenlosen Token</span></p>
-      <input type="email" id="leadEmail" placeholder="you@example.com" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); font-size:16px; margin-bottom:10px;">
-      <label style="display:flex; align-items:center; gap:8px; font-size:15px; color:var(--ink-soft); margin-bottom:6px;">
-        <input type="checkbox" id="leadTelegram"> <span lang="uk">Підписався(лась) на Telegram-канал проєкту</span><span lang="en">Subscribed to the project's Telegram channel</span><span lang="de">Den Telegram-Kanal des Projekts abonniert</span>
-      </label>
-      <label style="display:flex; align-items:center; gap:8px; font-size:15px; color:var(--ink-soft); margin-bottom:6px;">
-        <input type="checkbox" id="leadLike"> <span lang="uk">Поставив(ла) лайк останньому посту</span><span lang="en">Liked the latest post</span><span lang="de">Den neuesten Beitrag geliked</span>
-      </label>
-      <label style="display:flex; align-items:center; gap:8px; font-size:15px; color:var(--ink-soft); margin-bottom:14px;">
-        <input type="checkbox" id="leadRepost"> <span lang="uk">Зробив(ла) репост</span><span lang="en">Reposted</span><span lang="de">Repostet</span>
-      </label>
+      <p class="cid" style="margin-bottom:14px; font-size:13px;"><span lang="uk">Підписку на Telegram і Instagram ми перевіряємо по-справжньому (не на слово); репост модерується вручну — токен видається після перевірки.</span><span lang="en">We actually verify Telegram and Instagram subscriptions (not just self-reported); the repost is manually moderated — the token is issued after review.</span><span lang="de">Telegram- und Instagram-Abos werden tatsächlich verifiziert (nicht nur selbst angegeben); der Repost wird manuell geprüft — der Token wird nach der Prüfung ausgestellt.</span></p>
+
+      <input type="email" id="leadEmail" placeholder="you@example.com" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); font-size:16px; margin-bottom:16px;">
+
+      <div style="margin-bottom:16px;">
+        <p style="font-size:14.5px; font-weight:700; margin-bottom:8px;"><span lang="uk">1. Підпишіться на наш Telegram-канал і підтвердіть входом</span><span lang="en">1. Subscribe to our Telegram channel and confirm by logging in</span><span lang="de">1. Abonnieren Sie unseren Telegram-Kanal und bestätigen Sie sich per Login</span></p>
+        <div id="tgWidgetHolder"></div>
+        <p id="tgStatus" style="display:none; font-size:13.5px; color:var(--jade); margin-top:6px;">✓ <span id="tgStatusName"></span></p>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <p style="font-size:14.5px; font-weight:700; margin-bottom:8px;"><span lang="uk">2. Підпишіться на наш Instagram і вкажіть свій юзернейм</span><span lang="en">2. Follow our Instagram and enter your username</span><span lang="de">2. Folgen Sie unserem Instagram und geben Sie Ihren Benutzernamen an</span></p>
+        <input type="text" id="leadInstagram" placeholder="@your_username" style="width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); font-size:15px;">
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <p style="font-size:14.5px; font-weight:700; margin-bottom:8px;"><span lang="uk">3. Зробіть репост останнього поста і вставте посилання</span><span lang="en">3. Repost our latest post and paste the link</span><span lang="de">3. Teilen Sie unseren neuesten Beitrag und fügen Sie den Link ein</span></p>
+        <input type="url" id="leadRepostUrl" placeholder="https://..." style="width:100%; padding:10px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); font-size:15px;">
+      </div>
+
       <button class="btn btn-outline" id="claimBtn" onclick="onClaim()" style="width:100%;">
-        <span lang="uk">🎁 Отримати безкоштовний перший токен</span><span lang="en">🎁 Claim your free first token</span><span lang="de">🎁 Kostenlosen ersten Token beanspruchen</span>
+        <span lang="uk">🎁 Надіслати на перевірку</span><span lang="en">🎁 Submit for review</span><span lang="de">🎁 Zur Prüfung einreichen</span>
       </button>
-      <p class="cid" style="margin-top:8px; font-size:13px;"><span lang="uk">Посилання на соцмережі з'являться тут, коли канали запустяться — поки що форма фіксує ваш інтерес.</span><span lang="en">Social links will appear here once the channels launch — for now this form just records your interest.</span><span lang="de">Social-Media-Links erscheinen hier, sobald die Kanäle live sind — bis dahin erfasst dieses Formular nur Ihr Interesse.</span></p>
+      <p class="cid" style="margin-top:8px; font-size:13px;"><span lang="uk">Telegram і Instagram перевіряються одразу. Якщо все ок, заявка потрапляє на ручну перевірку репосту — токен буде видано протягом кількох днів.</span><span lang="en">Telegram and Instagram are checked instantly. If both pass, your submission goes to manual repost review — the token will be issued within a few days.</span><span lang="de">Telegram und Instagram werden sofort geprüft. Wenn beides passt, geht Ihre Einreichung zur manuellen Repost-Prüfung — der Token wird innerhalb weniger Tage ausgestellt.</span></p>
     </div>
 
     <div id="buySection" style="display:none;">
@@ -226,29 +236,104 @@ async function updateQuote() {
   }
 }
 
+// --- Telegram Login Widget ---
+// Юзернейм бота підставляється сюди після налаштування @BotFather (/setdomain на цей сайт).
+const RASA_TG_BOT_USERNAME = "RASAYANA_TG_BOT_USERNAME_PLACEHOLDER";
+let telegramAuthData = null;
+
+function initTelegramWidget() {
+  const holder = document.getElementById("tgWidgetHolder");
+  if (!holder) return;
+  if (!RASA_TG_BOT_USERNAME || RASA_TG_BOT_USERNAME.indexOf("PLACEHOLDER") !== -1) {
+    holder.innerHTML = '<p style="font-size:13px; color:var(--ink-faint);">' + tr(
+      "Telegram-бот ще не налаштований — зверніться пізніше.",
+      "Telegram bot not configured yet — please check back later.",
+      "Telegram-Bot noch nicht konfiguriert — bitte später erneut versuchen."
+    ) + "</p>";
+    return;
+  }
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://telegram.org/js/telegram-widget.js?22";
+  script.setAttribute("data-telegram-login", RASA_TG_BOT_USERNAME);
+  script.setAttribute("data-size", "large");
+  script.setAttribute("data-onauth", "onTelegramAuth(user)");
+  script.setAttribute("data-request-access", "write");
+  holder.appendChild(script);
+}
+document.addEventListener("DOMContentLoaded", initTelegramWidget);
+
+function onTelegramAuth(user) {
+  telegramAuthData = user;
+  const statusEl = document.getElementById("tgStatus");
+  document.getElementById("tgStatusName").textContent = tr(
+    "Telegram підтверджено: @" + (user.username || user.id),
+    "Telegram confirmed: @" + (user.username || user.id),
+    "Telegram bestätigt: @" + (user.username || user.id)
+  );
+  statusEl.style.display = "block";
+}
+
+const LEAD_ERROR_MESSAGES = {
+  telegram_required: tr_all("Спочатку увійдіть через Telegram вище.", "Please log in via Telegram above first.", "Bitte melden Sie sich zuerst oben über Telegram an."),
+  telegram_invalid_signature: tr_all("Не вдалося перевірити Telegram-вхід, спробуйте ще раз.", "Could not verify the Telegram login, please try again.", "Die Telegram-Anmeldung konnte nicht überprüft werden, bitte erneut versuchen."),
+  telegram_not_subscribed: tr_all("Ми не бачимо вас у нашому Telegram-каналі — підпишіться і спробуйте ще раз.", "We don't see you in our Telegram channel — please subscribe and try again.", "Wir sehen Sie nicht in unserem Telegram-Kanal — bitte abonnieren und erneut versuchen."),
+  instagram_username_required: tr_all("Вкажіть свій юзернейм в Instagram.", "Please enter your Instagram username.", "Bitte geben Sie Ihren Instagram-Benutzernamen an."),
+  instagram_not_subscribed: tr_all("Ми не знайшли підписку з цього акаунта Instagram — перевірте юзернейм і підписку.", "We couldn't find a follow from this Instagram account — check the username and that you're following.", "Wir konnten kein Follow von diesem Instagram-Konto finden — prüfen Sie den Benutzernamen und ob Sie folgen."),
+  repost_proof_required: tr_all("Вставте посилання на ваш репост.", "Please paste a link to your repost.", "Bitte fügen Sie einen Link zu Ihrem Repost ein."),
+  "this wallet already submitted the form": tr_all("Цей гаманець уже надсилав заявку.", "This wallet already submitted the form.", "Diese Wallet hat das Formular bereits eingereicht."),
+};
+
+function tr_all(uk, en, de) { return { uk, en, de }; }
+
+function localizeLeadError(code) {
+  const l = document.documentElement.getAttribute("data-lang") || "uk";
+  const msg = LEAD_ERROR_MESSAGES[code];
+  if (!msg) return code;
+  return msg[l] || msg.en;
+}
+
 async function onClaim() {
   const email = document.getElementById("leadEmail").value.trim();
+  const instagramUsername = document.getElementById("leadInstagram").value.trim().replace(/^@/, "");
+  const repostProofUrl = document.getElementById("leadRepostUrl").value.trim();
+
   if (!email) {
     setStatus("err", tr("Вкажіть email", "Please enter an email", "Bitte E-Mail-Adresse angeben"));
     return;
   }
+  if (!telegramAuthData) {
+    setStatus("err", localizeLeadError("telegram_required"));
+    return;
+  }
+  if (!instagramUsername) {
+    setStatus("err", localizeLeadError("instagram_username_required"));
+    return;
+  }
+  if (!repostProofUrl) {
+    setStatus("err", localizeLeadError("repost_proof_required"));
+    return;
+  }
   try {
-    setStatus("pending", tr("Перевірка та видача токена...", "Verifying and issuing your token...", "Prüfung und Ausstellung des Tokens..."));
+    setStatus("pending", tr("Перевірка Telegram і Instagram...", "Verifying Telegram and Instagram...", "Telegram und Instagram werden geprüft..."));
     const resp = await fetch("/api/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         wallet: currentAddress,
         email,
-        subscribedTelegram: document.getElementById("leadTelegram").checked,
-        likedX: document.getElementById("leadLike").checked,
-        repostedX: document.getElementById("leadRepost").checked,
+        telegramAuth: telegramAuthData,
+        instagramUsername,
+        repostProofUrl,
       }),
     });
     const data = await resp.json();
-    if (!resp.ok) throw new Error(data.error || "request failed");
-    setStatus("ok", tr("Готово! Перший токен отримано.", "Done! Your first token has been claimed.", "Fertig! Ihr erster Token wurde beansprucht."));
-    await refreshInfo();
+    if (!resp.ok) throw new Error(localizeLeadError(data.error) || data.error || "request failed");
+    setStatus("ok", tr(
+      "Прийнято! Telegram і Instagram підтверджено. Репост на ручній перевірці — токен буде видано протягом кількох днів.",
+      "Accepted! Telegram and Instagram confirmed. Your repost is under manual review — the token will be issued within a few days.",
+      "Angenommen! Telegram und Instagram bestätigt. Ihr Repost wird manuell geprüft — der Token wird innerhalb weniger Tage ausgestellt."
+    ));
   } catch (e) {
     setStatus("err", tr("Помилка: ", "Error: ", "Fehler: ") + (e.message || e));
   }
