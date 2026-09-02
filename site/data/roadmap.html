@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Rasayana — Roadmap & Budget</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<style>
+  .confidential-banner{background:var(--vermillion); color:#fff; text-align:center; padding:10px; font-size:14.5px; font-weight:700; letter-spacing:.04em;}
+  .back-link{display:inline-flex; align-items:center; gap:6px; font-size:14px; color:var(--ink-faint); text-decoration:none; margin-bottom:8px;}
+  .back-link:hover{color:var(--gold);}
+  .stat-strip{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:8px; overflow:hidden; margin-top:28px;}
+  .stat-strip .cell{background:var(--bg-card); padding:16px 14px;}
+  .stat-strip .cell b{display:block; font-family:var(--mono); font-size:20px; color:var(--gold);}
+  .stat-strip .cell span{font-size:12px; color:var(--ink-faint);}
+  @media (max-width:700px){.stat-strip{grid-template-columns:repeat(2,1fr);}}
+
+  .src-table{width:100%; font-size:14.5px; border-collapse:collapse;}
+  .src-table th, .src-table td{padding:11px 12px; border-bottom:1px solid var(--line-soft); text-align:left; vertical-align:top;}
+  .src-table th{color:var(--ink-faint); font-size:11.5px; text-transform:uppercase; letter-spacing:.03em;}
+  .src-table td.price{font-family:var(--mono); color:var(--jade); font-weight:700; white-space:nowrap;}
+  .src-table small{display:block; color:var(--ink-faint); font-size:12px; margin-top:3px;}
+
+  .phase-grid{display:flex; flex-direction:column; gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:8px; overflow:hidden; margin-top:20px;}
+  .phase-row{display:grid; grid-template-columns:36px 1.4fr 1fr 1fr; gap:16px; align-items:center; background:var(--bg-card); padding:18px 20px;}
+  @media (max-width:760px){.phase-row{grid-template-columns:1fr; gap:6px;}}
+  .phase-row .num{font-family:var(--serif); font-size:22px; color:var(--gold); font-weight:700;}
+  .phase-row h4{margin:0 0 3px; font-size:15.5px;}
+  .phase-row .detail{font-size:13px; color:var(--ink-faint);}
+  .phase-row .time{font-family:var(--mono); font-size:13px; color:var(--ink-soft);}
+  .phase-row .cost{font-family:var(--mono); font-size:14.5px; color:var(--jade); font-weight:700; text-align:right;}
+  @media (max-width:760px){.phase-row .cost{text-align:left;}}
+
+  .scenario-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:20px;}
+  @media (max-width:760px){.scenario-grid{grid-template-columns:1fr;}}
+  .scenario-card{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:8px; padding:24px;}
+  .scenario-card.lean{border-color:var(--jade); background:var(--jade-soft);}
+  .scenario-card .tag{font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--gold); font-weight:700;}
+  .scenario-card.lean .tag{color:var(--jade);}
+  .scenario-card .total{font-family:var(--serif); font-size:30px; margin:8px 0 10px;}
+  .scenario-card ul{margin:0; padding-left:18px; font-size:13.5px; color:var(--ink-soft);}
+  .scenario-card li{margin-bottom:5px;}
+</style>
+</head>
+<body>
+<div class="confidential-banner">
+  <span lang="uk">КОНФІДЕНЦІЙНО — дані лише для інвесторів, не поширювати</span>
+  <span lang="en">CONFIDENTIAL — investor-only data, do not distribute</span>
+  <span lang="de">VERTRAULICH — nur für Investoren, nicht weiterverbreiten</span>
+</div>
+<!--#include virtual="/assets/_nav.html" -->
+
+<header class="hero">
+  <div class="container hero-inner">
+    <a href="/data/" class="back-link"><span lang="uk">← Повне досьє</span><span lang="en">← Full dossier</span><span lang="de">← Vollständiges Dossier</span></a>
+    <p class="eyebrow"><span lang="uk">Дорожня карта та бюджет</span><span lang="en">Roadmap & budget</span><span lang="de">Roadmap & Budget</span></p>
+    <h1><span lang="uk">Від досьє до полки: скільки, звідки й коли</span><span lang="en">From dossier to shelf: how much, from where, and by when</span><span lang="de">Vom Dossier bis ins Regal: wie viel, woher und bis wann</span></h1>
+    <p class="thesis">
+      <span lang="uk">Публічна дорожня карта на головній сторінці показує п'ять етапів. Тут — та сама карта з реальними цінами на сировину (перевірено на відкритих B2B-майданчиках 2 вересня 2026) і оцінкою бюджету по кожній фазі, включно зі стратегією, яка суттєво знижує стартовий капітал.</span>
+      <span lang="en">The public roadmap on the homepage shows five stages. This is the same map with real raw-material prices (checked against public B2B listings on September 2, 2026) and a budget estimate for each phase — including a sequencing strategy that meaningfully lowers the starting capital required.</span>
+      <span lang="de">Die öffentliche Roadmap auf der Startseite zeigt fünf Phasen. Dies ist dieselbe Karte mit echten Rohstoffpreisen (abgeglichen mit öffentlichen B2B-Angeboten am 2. September 2026) und einer Budgetschätzung je Phase — inklusive einer Sequenzierungsstrategie, die das benötigte Startkapital deutlich senkt.</span>
+    </p>
+    <div class="stat-strip">
+      <div class="cell"><b>3</b><span lang="uk">кандидати</span><span lang="en">candidates</span><span lang="de">Kandidaten</span></div>
+      <div class="cell"><b>1 з 3</b><span lang="uk">потребує Novel Food</span><span lang="en">needs Novel Food</span><span lang="de">braucht Novel Food</span></div>
+      <div class="cell"><b>€55k&ndash;160k</b><span lang="uk">ощадний сценарій</span><span lang="en">lean scenario</span><span lang="de">Lean-Szenario</span></div>
+      <div class="cell"><b>18&ndash;30</b><span lang="uk">місяців до полки</span><span lang="en">months to shelf</span><span lang="de">Monate bis ins Regal</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+  <section style="padding-top:48px;">
+    <div class="callout">
+      <span lang="uk"><b>Методологічна примітка.</b> Ціни нижче — з публічних лістингів B2B-майданчиків (Alibaba, Made-in-China та профільні постачальники), не підтверджені комерційні пропозиції. Реальна закупівельна ціна за прямим запитом (RFQ) у виробника зазвичай нижча за роздрібні лістинги, особливо від обсягу. Перед фіксацією бюджету в інвестиційній угоді потрібні 2–3 прямі котирування на кожен компонент.</span>
+      <span lang="en"><b>Methodology note.</b> The prices below come from public B2B marketplace listings (Alibaba, Made-in-China, and specialty suppliers), not confirmed commercial quotes. A real procurement price via direct RFQ to a manufacturer is typically lower than retail listings, especially at volume. Before locking a budget into an investment agreement, 2–3 direct quotes per ingredient are needed.</span>
+      <span lang="de"><b>Methodischer Hinweis.</b> Die untenstehenden Preise stammen aus öffentlichen B2B-Marktplatz-Angeboten (Alibaba, Made-in-China und Fachanbieter), keine bestätigten Handelsangebote. Ein realer Einkaufspreis per direkter RFQ beim Hersteller liegt in der Regel unter den Einzelhandelsangeboten, besonders bei Volumen. Vor der Festlegung eines Budgets in einer Investitionsvereinbarung sind 2–3 direkte Angebote pro Zutat nötig.</span>
+    </div>
+  </section>
+
+  <section id="sourcing">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Сировина</span><span lang="en">Raw materials</span><span lang="de">Rohstoffe</span></p>
+      <h2><span lang="uk">Де купувати і скільки коштує</span><span lang="en">Where to buy and how much it costs</span><span lang="de">Wo einkaufen und was es kostet</span></h2>
+    </div>
+    <div class="table-wrap">
+      <table class="src-table">
+        <thead><tr>
+          <th><span lang="uk">Компонент</span><span lang="en">Component</span><span lang="de">Komponente</span></th>
+          <th><span lang="uk">Ціна за кг</span><span lang="en">Price per kg</span><span lang="de">Preis pro kg</span></th>
+          <th><span lang="uk">Джерело</span><span lang="en">Source region</span><span lang="de">Herkunftsregion</span></th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Cycloastragenol</strong> (98% HPLC)<small><span lang="uk">Кандидат, що потребує Novel Food. Найдорожчий компонент — визначає основний бюджет Фази 2.</span><span lang="en">The candidate requiring a Novel Food dossier. The most expensive component — drives the main Phase 2 budget.</span><span lang="de">Der Kandidat, der ein Novel-Food-Dossier benötigt. Die teuerste Komponente — bestimmt das Hauptbudget von Phase 2.</span></small></td>
+            <td class="price">$12,000&ndash;32,000</td>
+            <td>Shaanxi, <span lang="uk">Китай (кілька постачальників)</span><span lang="en">China (multiple suppliers)</span><span lang="de">China (mehrere Anbieter)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Spermidine</strong> <span lang="uk">(екстракт зародків пшениці, стандартизований 0.2–1%)</span><span lang="en">(wheat germ extract, standardized 0.2–1%)</span><span lang="de">(Weizenkeimextrakt, standardisiert 0,2–1%)</span><small><span lang="uk">Вже дозволений у ЄС (Novel Food не потрібен). Той самий компонент — основа швидкого pet-треку.</span><span lang="en">Already EU-authorized (no Novel Food needed). The same component is the basis of the fast pet track.</span><span lang="de">Bereits EU-zugelassen (kein Novel Food nötig). Dieselbe Komponente bildet die Basis des schnellen Pet-Tracks.</span></small></td>
+            <td class="price">$50&ndash;320</td>
+            <td>Shaanxi, <span lang="uk">Китай</span><span lang="en">China</span><span lang="de">China</span></td>
+          </tr>
+          <tr>
+            <td><strong>Gallic acid</strong> <span lang="uk">(маркер Amalaki, 98% food-grade)</span><span lang="en">(Amalaki marker compound, 98% food-grade)</span><span lang="de">(Amalaki-Markerverbindung, 98% Lebensmittelqualität)</span><small><span lang="uk">Established food use — Novel Food не потрібен. Найдешевший компонент.</span><span lang="en">Established food use — no Novel Food needed. The cheapest component.</span><span lang="de">Etablierte Lebensmittelverwendung — kein Novel Food nötig. Die günstigste Komponente.</span></small></td>
+            <td class="price">$5&ndash;35</td>
+            <td><span lang="uk">Кілька регіонів (Індія, Китай)</span><span lang="en">Multiple regions (India, China)</span><span lang="de">Mehrere Regionen (Indien, China)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:14px; font-size:13.5px; color:var(--ink-faint);">
+      <span lang="uk">Amalaki доступна і як ціла сушена ягода (пара доларів за кг) — вибір між цільним порошком і стандартизованим екстрактом залежить від фінальної рецептури.</span>
+      <span lang="en">Amalaki is also available as whole dried fruit (a few dollars per kg) — the choice between whole powder and a standardized extract depends on the final formulation.</span>
+      <span lang="de">Amalaki ist auch als ganze getrocknete Frucht erhältlich (wenige Dollar pro kg) — die Wahl zwischen Ganzpulver und standardisiertem Extrakt hängt von der finalen Rezeptur ab.</span>
+    </p>
+  </section>
+  <hr class="rule">
+
+  <section id="phases">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Бюджет по фазах</span><span lang="en">Budget by phase</span><span lang="de">Budget nach Phase</span></p>
+      <h2><span lang="uk">П'ять етапів, оцінка витрат на кожен</span><span lang="en">Five stages, a cost estimate for each</span><span lang="de">Fünf Phasen, eine Kostenschätzung für jede</span></h2>
+    </div>
+
+    <div class="phase-grid">
+      <div class="phase-row">
+        <span class="num">0</span>
+        <div><h4><span lang="uk">In silico докінг — виконано</span><span lang="en">In silico docking — complete</span><span lang="de">In-silico-Docking — abgeschlossen</span></h4><span class="detail"><span lang="uk">Уже профінансовано власними силами, у майбутній бюджет не входить</span><span lang="en">Already self-funded, not part of the forward budget</span><span lang="de">Bereits selbst finanziert, nicht Teil des zukünftigen Budgets</span></span></div>
+        <span class="time">—</span>
+        <span class="cost">€0</span>
+      </div>
+      <div class="phase-row">
+        <span class="num">1</span>
+        <div><h4><span lang="uk">In vitro валідація</span><span lang="en">In vitro validation</span><span lang="de">In-vitro-Validierung</span></h4><span class="detail"><span lang="uk">Клітинні аналізи на топ-парах кандидат-мішень через контрактну лабораторію (CRO)</span><span lang="en">Cell-based assays on the top candidate-target pairs via a contract lab (CRO)</span><span lang="de">Zellbasierte Assays für die Top-Kandidat-Zielprotein-Paare über ein Auftragslabor (CRO)</span></span></div>
+        <span class="time">6&ndash;9 <span lang="uk">міс</span><span lang="en">mo</span><span lang="de">Mon.</span></span>
+        <span class="cost">€30,000&ndash;80,000</span>
+      </div>
+      <div class="phase-row">
+        <span class="num">2a</span>
+        <div><h4><span lang="uk">Досьє Novel Food (лише для 1 з 3 кандидатів)</span><span lang="en">Novel Food dossier (only 1 of 3 candidates)</span><span lang="de">Novel-Food-Dossier (nur 1 von 3 Kandidaten)</span></h4><span class="detail"><span lang="uk">€20–45k — заявка й консалтинг; до €300–500k — з токсикологією і додатковими запитами EFSA</span><span lang="en">€20–45k — application & consulting; up to €300–500k with toxicology and additional EFSA data requests</span><span lang="de">€20–45k — Antrag & Beratung; bis zu €300–500k mit Toxikologie und zusätzlichen EFSA-Datenanfragen</span></span></div>
+        <span class="time">12&ndash;24 <span lang="uk">міс</span><span lang="en">mo</span><span lang="de">Mon.</span></span>
+        <span class="cost">€20,000&ndash;500,000</span>
+      </div>
+      <div class="phase-row">
+        <span class="num">2b</span>
+        <div><h4><span lang="uk">Угода про постачання сировини</span><span lang="en">Raw-material sourcing deal</span><span lang="de">Rohstoff-Liefervertrag</span></h4><span class="detail"><span lang="uk">Переговори, юридичне оформлення контракту, перевірка постачальника — не разова R&D-стаття, а угода</span><span lang="en">Negotiation, contract drafting, supplier vetting — a deal, not a one-off R&D line item</span><span lang="de">Verhandlung, Vertragsgestaltung, Lieferantenprüfung — ein Deal, kein einmaliger F&E-Posten</span></span></div>
+        <span class="time"><span lang="uk">паралельно</span><span lang="en">parallel</span><span lang="de">parallel</span></span>
+        <span class="cost">€5,000&ndash;15,000</span>
+      </div>
+      <div class="phase-row">
+        <span class="num">3</span>
+        <div><h4><span lang="uk">GMP-формуляція, пілотна партія</span><span lang="en">GMP formulation, pilot batch</span><span lang="de">GMP-Formulierung, Pilotcharge</span></h4><span class="detail"><span lang="uk">Контрактне виробництво 5–50 тис. одиниць + сировина + сертифікація</span><span lang="en">Contract manufacturing of 5k–50k units + raw materials + certification</span><span lang="de">Lohnfertigung von 5.000–50.000 Einheiten + Rohstoffe + Zertifizierung</span></span></div>
+        <span class="time">6 <span lang="uk">міс</span><span lang="en">mo</span><span lang="de">Mon.</span></span>
+        <span class="cost">€15,000&ndash;50,000</span>
+      </div>
+      <div class="phase-row">
+        <span class="num">4</span>
+        <div><h4><span lang="uk">Пілотний запуск, EU</span><span lang="en">Pilot launch, EU</span><span lang="de">Pilotstart, EU</span></h4><span class="detail"><span lang="uk">Маркування, комплаєнс, скромний go-to-market без великого маркетингового бюджету</span><span lang="en">Labeling, compliance, a lean go-to-market without a large marketing budget</span><span lang="de">Kennzeichnung, Compliance, ein schlanker Markteintritt ohne großes Marketingbudget</span></span></div>
+        <span class="time">3&ndash;6 <span lang="uk">міс</span><span lang="en">mo</span><span lang="de">Mon.</span></span>
+        <span class="cost">€10,000&ndash;30,000</span>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="strategy">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Стратегічна послідовність</span><span lang="en">Sequencing strategy</span><span lang="de">Sequenzierungsstrategie</span></p>
+      <h2><span lang="uk">2 з 3 кандидатів уже можна запускати без Novel Food</span><span lang="en">2 of 3 candidates can already launch without Novel Food</span><span lang="de">2 von 3 Kandidaten können bereits ohne Novel Food starten</span></h2>
+    </div>
+    <div class="callout jade">
+      <span lang="uk">Спермідин уже має статус EU Novel Food (Регламент 2020/443), Amalaki/галова кислота — traditional food use. Найдорожча й найдовша стаття бюджету (досьє Novel Food, €300–500k, 12–24 міс) стосується лише цикластрагенолу. Це відкриває капітало-ефективний шлях: запустити пілотну партію на двох уже дозволених компонентах зараз, а цикластрагенол додати другою хвилею продукту, коли досьє буде профінансовано окремим траншем або партнером.</span>
+      <span lang="en">Spermidine already holds EU Novel Food status (Regulation 2020/443); Amalaki/gallic acid has traditional food-use status. The most expensive and longest budget line (the Novel Food dossier, €300–500k, 12–24 months) applies only to cycloastragenol. This opens a capital-efficient path: launch a pilot batch on the two already-cleared components now, and add cycloastragenol as a second product wave once the dossier is funded by a separate tranche or partner.</span>
+      <span lang="de">Spermidin hat bereits den EU-Novel-Food-Status (Verordnung 2020/443); Amalaki/Gallussäure hat den Status einer traditionellen Lebensmittelverwendung. Der teuerste und längste Budgetposten (das Novel-Food-Dossier, €300–500k, 12–24 Monate) betrifft nur Cycloastragenol. Das eröffnet einen kapitaleffizienten Weg: eine Pilotcharge mit den beiden bereits zugelassenen Komponenten jetzt starten und Cycloastragenol als zweite Produktwelle hinzufügen, sobald das Dossier durch eine separate Tranche oder einen Partner finanziert ist.</span>
+    </div>
+
+    <div class="scenario-grid">
+      <div class="scenario-card lean">
+        <span class="tag"><span lang="uk">Ощадний сценарій</span><span lang="en">Lean scenario</span><span lang="de">Lean-Szenario</span></span>
+        <div class="total">€55,000&ndash;160,000</div>
+        <p style="font-size:13.5px; color:var(--ink-soft); margin-bottom:10px;"><span lang="uk">Пілотний запуск лише на спермідині + Amalaki, без цикластрагенолу.</span><span lang="en">Pilot launch on spermidine + Amalaki only, no cycloastragenol.</span><span lang="de">Pilotstart nur mit Spermidin + Amalaki, ohne Cycloastragenol.</span></p>
+        <ul>
+          <li><span lang="uk">In vitro валідація (звужена, 2 кандидати): €25–55k</span><span lang="en">In vitro validation (narrowed, 2 candidates): €25–55k</span><span lang="de">In-vitro-Validierung (eingegrenzt, 2 Kandidaten): €25–55k</span></li>
+          <li><span lang="uk">Досьє Novel Food: не потрібне</span><span lang="en">Novel Food dossier: not needed</span><span lang="de">Novel-Food-Dossier: nicht nötig</span></li>
+          <li><span lang="uk">Сировина + угода: €5–15k</span><span lang="en">Raw materials + deal: €5–15k</span><span lang="de">Rohstoffe + Deal: €5–15k</span></li>
+          <li><span lang="uk">GMP + пілот: €15–50k</span><span lang="en">GMP + pilot: €15–50k</span><span lang="de">GMP + Pilot: €15–50k</span></li>
+          <li><span lang="uk">Запуск: €10–30k</span><span lang="en">Launch: €10–30k</span><span lang="de">Start: €10–30k</span></li>
+        </ul>
+      </div>
+      <div class="scenario-card">
+        <span class="tag"><span lang="uk">Повний сценарій</span><span lang="en">Full scenario</span><span lang="de">Vollständiges Szenario</span></span>
+        <div class="total">€375,000&ndash;685,000</div>
+        <p style="font-size:13.5px; color:var(--ink-soft); margin-bottom:10px;"><span lang="uk">Усі три кандидати одразу, включно з повним досьє Novel Food для цикластрагенолу.</span><span lang="en">All three candidates at once, including the full Novel Food dossier for cycloastragenol.</span><span lang="de">Alle drei Kandidaten auf einmal, einschließlich des vollständigen Novel-Food-Dossiers für Cycloastragenol.</span></p>
+        <ul>
+          <li><span lang="uk">In vitro валідація (3 кандидати): €30–80k</span><span lang="en">In vitro validation (3 candidates): €30–80k</span><span lang="de">In-vitro-Validierung (3 Kandidaten): €30–80k</span></li>
+          <li><span lang="uk">Досьє Novel Food: €20–500k</span><span lang="en">Novel Food dossier: €20–500k</span><span lang="de">Novel-Food-Dossier: €20–500k</span></li>
+          <li><span lang="uk">Сировина + угода: €5–15k</span><span lang="en">Raw materials + deal: €5–15k</span><span lang="de">Rohstoffe + Deal: €5–15k</span></li>
+          <li><span lang="uk">GMP + пілот: €15–50k</span><span lang="en">GMP + pilot: €15–50k</span><span lang="de">GMP + Pilot: €15–50k</span></li>
+          <li><span lang="uk">Запуск: €10–30k</span><span lang="en">Launch: €10–30k</span><span lang="de">Start: €10–30k</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <hr class="rule">
+
+  <section id="fasttrack">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Найшвидший шлях</span><span lang="en">The fastest path</span><span lang="de">Der schnellste Weg</span></p>
+      <h2><span lang="uk">B2B-постачання спермідину для кормів — без цього бюджету взагалі</span><span lang="en">B2B spermidine ingredient supply for pet feed — without this budget at all</span><span lang="de">B2B-Spermidin-Lieferung für Tierfutter — ganz ohne dieses Budget</span></h2>
+    </div>
+    <p class="measure" style="color:var(--ink-soft); font-size:16px;">
+      <span lang="uk">Паралельний трек із <a href="/data/pet-research.html">окремого дослідницького журналу</a> не потребує ні власного магазину, ні Novel Food, ні GMP-виробництва — лише постачання інгредієнта (той самий спермідин, $50–320/кг) наявному виробнику кормів. Основні витрати тут — переговори і зразки, не капітальний бюджет вище.</span>
+      <span lang="en">The parallel track from the <a href="/data/pet-research.html">separate research journal</a> needs no shop of our own, no Novel Food, and no GMP manufacturing — just ingredient supply (the same spermidine, $50–320/kg) to an existing pet-food maker. The main cost here is negotiation and samples, not the capital budget above.</span>
+      <span lang="de">Der Paralleltrack aus dem <a href="/data/pet-research.html">separaten Forschungsjournal</a> braucht weder einen eigenen Shop noch Novel Food noch GMP-Fertigung — nur die Lieferung des Inhaltsstoffs (dasselbe Spermidin, $50–320/kg) an einen bestehenden Tierfutterhersteller. Die Hauptkosten hier sind Verhandlung und Muster, nicht das obige Kapitalbudget.</span>
+    </p>
+  </section>
+  <hr class="rule">
+
+  <section id="sources" style="padding-bottom:100px;">
+    <div class="sec-head">
+      <p class="eyebrow"><span lang="uk">Джерела</span><span lang="en">Sources</span><span lang="de">Quellen</span></p>
+      <h2><span lang="uk">Де перевірялись ціни</span><span lang="en">Where prices were checked</span><span lang="de">Wo die Preise überprüft wurden</span></h2>
+    </div>
+    <div class="sources">
+      <ol>
+        <li><a href="https://www.made-in-china.com/products-search/hot-china-products/Cycloastragenol.html" target="_blank" rel="noopener">Made-in-China — Cycloastragenol listings</a></li>
+        <li><a href="https://www.nutriavenue.com/ingredients/cycloastragenol/" target="_blank" rel="noopener">Nutri Avenue — Cycloastragenol supplier</a></li>
+        <li><a href="https://www.alibaba.com/showroom/spermidine-price.html" target="_blank" rel="noopener">Alibaba — Spermidine wheat germ extract listings</a></li>
+        <li><a href="https://www.ingredients-lonier.com/herbal-extract/wheat-germ-extract.html" target="_blank" rel="noopener">LonierHerb — Wheat germ extract (spermidine)</a></li>
+        <li><a href="https://www.accio.com/plp/gallic-acid-price-per-kg" target="_blank" rel="noopener">Gallic acid price per kg — market overview</a></li>
+        <li><a href="https://www.made-in-china.com/products-search/hot-china-products/Gallic_Acid_Price.html" target="_blank" rel="noopener">Made-in-China — Gallic acid listings</a></li>
+        <li><a href="https://pentec-consulting.eu/novel-food/" target="_blank" rel="noopener">Pentec Consulting — Novel Food regulatory consultancy</a></li>
+        <li><a href="https://www.cirs-group.com/en/food/eu-novel-food-application" target="_blank" rel="noopener">CIRS Group — EU Novel Food application</a></li>
+        <li><a href="https://www.sdrxsw.com/blog-details/66.html" target="_blank" rel="noopener">Supplement manufacturing cost overview, 2026</a></li>
+      </ol>
+    </div>
+    <p style="margin-top:20px; font-size:13px; color:var(--ink-faint);">
+      <span lang="uk">Перевірено 2 вересня 2026. Ціни на B2B-майданчиках змінюються; перед фінальним бюджетом потрібні прямі котирування.</span>
+      <span lang="en">Checked September 2, 2026. B2B marketplace prices change; direct quotes are needed before finalizing a budget.</span>
+      <span lang="de">Überprüft am 2. September 2026. B2B-Marktplatzpreise ändern sich; vor der endgültigen Budgetierung sind direkte Angebote erforderlich.</span>
+    </p>
+  </section>
+
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+</body>
+</html>
