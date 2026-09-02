@@ -61,18 +61,26 @@ async function checkTelegramMembership(userId) {
 }
 
 // --- Instagram: делегируем проверку внутреннему instagrapi-сервису ---
+// configured=false означает "ещё не настроено" (например, запасной аккаунт не подключён) —
+// это НЕ то же самое, что "проверили и не подписан". Пока не настроено, шаг мягкий и не блокирует заявку;
+// как только ig-checker залогинится, проверка становится настоящей автоматически, без правок кода.
 async function checkInstagramFollow(username) {
   const base = process.env.IG_CHECKER_URL;
-  if (!base) return { verified: false, reason: "ig-checker not configured" };
+  if (!base) return { configured: false, verified: false, reason: "ig-checker not configured" };
   try {
+    const healthResp = await fetch(`${base}/health`);
+    const health = await healthResp.json().catch(() => ({}));
+    if (!health.logged_in) return { configured: false, verified: false, reason: "ig-checker not logged in yet" };
+
     const resp = await fetch(`${base}/check-follow?username=${encodeURIComponent(username)}`, {
       headers: { "X-Internal-Secret": process.env.INTERNAL_SECRET || "" },
     });
-    if (!resp.ok) return { verified: false, reason: "check failed" };
-    return await resp.json();
+    if (!resp.ok) return { configured: true, verified: false, reason: "check failed" };
+    const data = await resp.json();
+    return { configured: true, verified: !!data.verified, reason: data.reason };
   } catch (e) {
     console.error("instagram check failed:", e.message);
-    return { verified: false, reason: "ig-checker unreachable" };
+    return { configured: false, verified: false, reason: "ig-checker unreachable" };
   }
 }
 
@@ -213,7 +221,7 @@ app.post("/api/leads", async (req, res) => {
       return res.status(400).json({ error: "instagram_username_required" });
     }
     const igResult = await checkInstagramFollow(instagramUsername);
-    if (!igResult.verified) {
+    if (igResult.configured && !igResult.verified) {
       return res.status(400).json({ error: "instagram_not_subscribed" });
     }
 
@@ -224,7 +232,7 @@ app.post("/api/leads", async (req, res) => {
       telegramUsername: telegramAuth.username || null,
       telegramVerified: true,
       instagramUsername,
-      instagramVerified: true,
+      instagramVerified: igResult.configured ? !!igResult.verified : "not_checked_yet",
       repostProofUrl,
       status: "pending_review",
     });

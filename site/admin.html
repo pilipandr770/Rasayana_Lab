@@ -136,7 +136,7 @@ async function loadLeads() {
       <td class="mono">${l.wallet.slice(0,8)}...</td>
       <td>${l.email}</td>
       <td>${l.telegramVerified ? "✓ @" + (l.telegramUsername || l.telegramUserId) : "—"}</td>
-      <td>${l.instagramVerified ? "✓ @" + l.instagramUsername : "—"}</td>
+      <td>${l.instagramVerified === true ? "✓ @" + l.instagramUsername : (l.instagramVerified === "not_checked_yet" ? "@" + l.instagramUsername + " (not checked yet)" : "—")}</td>
       <td>${l.repostProofUrl ? `<a href="${l.repostProofUrl}" target="_blank" rel="noopener">link ↗</a>` : "—"}</td>
       <td>${l.status || "—"}</td>
       <td class="mono">${new Date(l.createdAt).toLocaleDateString()}</td>
