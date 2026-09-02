@@ -185,6 +185,42 @@ app.post("/api/admin/settings/social-links", requireAdmin, (req, res) => {
   res.json(value);
 });
 
+// --- Чек-лист действий основателя (из премортем-анализа) ---
+// Смысл: держать неудобные внешние действия (RFQ, звонки, встречи) на виду
+// там, куда основатель и так заходит каждый день. Storage — одна настройка,
+// клиент присылает весь массив целиком (один админ, конфликтов нет).
+const DEFAULT_CHECKLIST = [
+  { id: "rfq_cyclo", group: "Сировина (RFQ)", title: "Запит ціни: цикластрагенол — 3 постачальники", hint: "Ціни в дорожній карті — з публічних лістингів, не котирування.", done: false, doneAt: null, note: "" },
+  { id: "rfq_sperm", group: "Сировина (RFQ)", title: "Запит ціни: спермідин (екстракт зародків пшениці) — 3 постачальники", hint: "Уточнити стандартизацію (0.2 / 0.5 / 1%) — від неї залежить розмір дози й ліміт ЄС 6 мг/день.", done: false, doneAt: null, note: "" },
+  { id: "rfq_amla", group: "Сировина (RFQ)", title: "Запит ціни: амла / галова кислота — 2 постачальники", hint: "Найдешевший компонент, але потрібен для повної собівартості.", done: false, doneAt: null, note: "" },
+
+  { id: "pet_list", group: "Швидкий трек: корми для тварин", title: "Скласти список 10 виробників кормів/добавок для тварин у ЄС", hint: "Найкоротший шлях до грошей у всьому проєкті.", done: false, doneAt: null, note: "" },
+  { id: "pet_first", group: "Швидкий трек: корми для тварин", title: "Надіслати першу пропозицію постачання спермідину як інгредієнта", hint: "Без Novel Food, без бренду, без CAC — регуляторну відповідальність несе партнер.", done: false, doneAt: null, note: "" },
+  { id: "pet_five", group: "Швидкий трек: корми для тварин", title: "Дійти до 5 надісланих пропозицій", hint: "Одна відповідь із п'яти — нормальна конверсія холодного B2B.", done: false, doneAt: null, note: "" },
+  { id: "pet_reply", group: "Швидкий трек: корми для тварин", title: "Отримати першу відповідь або дзвінок", hint: "Це перший зовнішній сигнал, що трек живий.", done: false, doneAt: null, note: "" },
+
+  { id: "sci_find", group: "Наукова перевірка", title: "Знайти comp-chem спеціаліста для розбору докінгу", hint: "Університет, LinkedIn або платна консультація на 1–2 години.", done: false, doneAt: null, note: "" },
+  { id: "sci_review", group: "Наукова перевірка", title: "Розібрати: чи не артефакт збіг EP300 у всіх трьох кандидатів", hint: "Краще почути це від спеціаліста, ніж від інвестора.", done: false, doneAt: null, note: "" },
+  { id: "sci_cro", group: "Наукова перевірка", title: "Запросити квоту в 2 CRO на in vitro валідацію", hint: "€30–80k у дорожній карті — оцінка, не котирування.", done: false, doneAt: null, note: "" },
+
+  { id: "inv_first", group: "Інвестори", title: "Провести першу зустріч із ПОТОЧНИМ деком", hint: "Не з доопрацьованим. З тим, що є зараз.", done: false, doneAt: null, note: "" },
+  { id: "inv_five", group: "Інвестори", title: "Дійти до 5 інвесторських контактів", hint: "Мета — не гроші, а п'ять разів почути заперечення.", done: false, doneAt: null, note: "" },
+
+  { id: "reg_call", group: "Регуляторика", title: "Один вступний дзвінок з Novel Food консультантом", hint: "Більшість дають безкоштовну першу консультацію — перевірити оцінку €20–500k.", done: false, doneAt: null, note: "" },
+
+  { id: "disc_nobuild", group: "Дисципліна", title: "Місяць без правок сайту", hint: "Сайт готовий. Подальші правки — це уникання дзвінків.", done: false, doneAt: null, note: "" },
+];
+
+app.get("/api/admin/checklist", requireAdmin, (req, res) => {
+  res.json({ items: db.getSetting("checklist") || DEFAULT_CHECKLIST });
+});
+app.post("/api/admin/checklist", requireAdmin, (req, res) => {
+  const items = req.body?.items;
+  if (!Array.isArray(items)) return res.status(400).json({ error: "items array required" });
+  db.setSetting("checklist", items);
+  res.json({ items });
+});
+
 // --- Airdrop с условиями (лид-форма) ---
 // Telegram и Instagram проверяются по-настоящему (Bot API / instagrapi) прямо здесь;
 // репост нельзя честно проверить автоматически ни на одной площадке, поэтому он
