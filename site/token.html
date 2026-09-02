@@ -30,6 +30,11 @@
   .tier-table{width:100%; font-size:15px; margin-top:32px; max-width:640px;}
   .tier-table th, .tier-table td{padding:8px 10px; border-bottom:1px solid var(--line-soft); text-align:left;}
   .tier-table th{color:var(--ink-faint); font-size:12.5px; text-transform:uppercase;}
+  .faq-jump{display:inline-block; margin-top:10px; font-size:14px; color:var(--gold); text-decoration:underline;}
+  .faq-list{display:flex; flex-direction:column; gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:6px; overflow:hidden; margin-top:20px;}
+  .faq-item{background:var(--bg-card); padding:20px 22px;}
+  .faq-item h3{font-size:16.5px; font-family:var(--sans); font-weight:700; margin:0 0 8px;}
+  .faq-item p{font-size:15px; color:var(--ink-soft); margin:0; line-height:1.65;}
 </style>
 </head>
 <body>
@@ -44,6 +49,7 @@
       <span lang="en">Connect a wallet, claim your free first token, and try buying more — on a real progressive price curve baked directly into the contract.</span>
       <span lang="de">Verbinden Sie eine Wallet, beanspruchen Sie Ihren kostenlosen ersten Token und versuchen Sie, weitere zu kaufen — nach einer echten progressiven Preiskurve, die direkt im Vertrag verankert ist.</span>
     </p>
+    <a href="#faq" class="faq-jump"><span lang="uk">Вперше чуєте про «токени» й «гаманці»? Пояснюємо простими словами ↓</span><span lang="en">First time hearing about "tokens" and "wallets"? Plain-language explanation below ↓</span><span lang="de">Zum ersten Mal von „Token" und „Wallets" gehört? Erklärung in einfachen Worten unten ↓</span></a>
   </div>
 </header>
 
@@ -51,9 +57,9 @@
 <div class="container" style="padding-top:56px; padding-bottom:100px;">
 
   <div class="demo-banner">
-    <span lang="uk"><b>Це тестова демонстрація.</b> Токен нетрансферабельний (soulbound) — його не можна продати чи передати, це не фінансовий інструмент. Мережа — Sepolia testnet, оплата тестовим ETH без реальної грошової вартості. Контракт: <a href="https://sepolia.etherscan.io/address/0x36Da05224E9D98e9f4008f487466802F4f8701FE" target="_blank" rel="noopener" class="mono">0x36Da0...701FE ↗</a></span>
-    <span lang="en"><b>This is a test demonstration.</b> The token is non-transferable (soulbound) — it cannot be sold or transferred, it is not a financial instrument. Network: Sepolia testnet, paid in test ETH with zero monetary value. Contract: <a href="https://sepolia.etherscan.io/address/0x36Da05224E9D98e9f4008f487466802F4f8701FE" target="_blank" rel="noopener" class="mono">0x36Da0...701FE ↗</a></span>
-    <span lang="de"><b>Dies ist eine Testdemonstration.</b> Der Token ist nicht übertragbar (soulbound) — er kann weder verkauft noch übertragen werden, er ist kein Finanzinstrument. Netzwerk: Sepolia-Testnetz, Zahlung in Test-ETH ohne realen Geldwert. Vertrag: <a href="https://sepolia.etherscan.io/address/0x36Da05224E9D98e9f4008f487466802F4f8701FE" target="_blank" rel="noopener" class="mono">0x36Da0...701FE ↗</a></span>
+    <span lang="uk"><b>Коротко про головне.</b> Це не криптовалюта, не інвестиція і не спосіб заробити — токен не можна продати, передати чи обміняти (nontransferable/soulbound), і він не дає права на частку в компанії, дивіденди чи прибуток. Єдина функція — знижка та пріоритет у власному магазині проєкту. Зараз усе працює в тестовій мережі Sepolia testnet, оплата — тестовим ETH без жодної реальної грошової вартості. Контракт (можна перевірити самостійно): <a href="https://sepolia.etherscan.io/address/0x36Da05224E9D98e9f4008f487466802F4f8701FE" target="_blank" rel="noopener" class="mono">0x36Da0...701FE ↗</a></span>
+    <span lang="en"><b>The short version.</b> This is not a cryptocurrency, not an investment, and not a way to make money — the token cannot be sold, transferred, or exchanged (non-transferable/soulbound), and it carries no equity, dividend, or profit rights. Its only function is a discount and priority in the project's own shop. Everything currently runs on the Sepolia test network, paid in test ETH with zero real monetary value. Contract (verify it yourself): <a href="https://sepolia.etherscan.io/address/0x36Da05224E9D98e9f4008f487466802F4f8701FE" target="_blank" rel="noopener" class="mono">0x36Da0...701FE ↗</a></span>
+    <span lang="de"><b>Kurz gesagt.</b> Dies ist keine Kryptowährung, keine Investition und keine Möglichkeit, Geld zu verdienen — der Token kann nicht verkauft, übertragen oder getauscht werden (nicht übertragbar/soulbound) und verleiht keine Anteile, Dividenden oder Gewinnrechte. Seine einzige Funktion ist ein Rabatt und Priorität im eigenen Shop des Projekts. Aktuell läuft alles im Sepolia-Testnetz, Zahlung in Test-ETH ohne jeglichen realen Geldwert. Vertrag (selbst überprüfbar): <a href="https://sepolia.etherscan.io/address/0x36Da05224E9D98e9f4008f487466802F4f8701FE" target="_blank" rel="noopener" class="mono">0x36Da0...701FE ↗</a></span>
   </div>
 
   <div class="token-card">
@@ -111,6 +117,48 @@
       <tr><td>100</td><td>Founding Member</td><td>25% + <span lang="uk">пріоритет</span><span lang="en">priority</span><span lang="de">Priorität</span></td></tr>
     </tbody>
   </table>
+
+  <section id="faq" style="padding-top:72px; max-width:760px;">
+    <p class="eyebrow"><span lang="uk">Пояснення простими словами</span><span lang="en">Plain-language explainer</span><span lang="de">Erklärung in einfachen Worten</span></p>
+    <h2 style="font-size:26px; margin-top:8px;"><span lang="uk">Часті запитання</span><span lang="en">Frequently asked questions</span><span lang="de">Häufig gestellte Fragen</span></h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3><span lang="uk">Що це взагалі таке — «токен»?</span><span lang="en">What actually is a "token"?</span><span lang="de">Was ist ein „Token" überhaupt?</span></h3>
+        <p><span lang="uk">Це запис у смарт-контракті (маленькій програмі в блокчейні), який каже: цей гаманець має право на знижку і пріоритет у нашому магазині. Технічно це схоже на цифрову членську картку — тільки замість пластику й бази даних компанії запис зберігається у відкритому, незалежному реєстрі (блокчейні), який неможливо тихо підмінити заднім числом.</span><span lang="en">It's an entry in a smart contract (a small blockchain program) that says: this wallet is entitled to a discount and priority in our shop. Technically it's like a digital membership card — except instead of plastic and a company database, the record lives in an open, independent ledger (a blockchain) that can't quietly be altered after the fact.</span><span lang="de">Es ist ein Eintrag in einem Smart Contract (einem kleinen Blockchain-Programm), der besagt: Diese Wallet hat Anspruch auf einen Rabatt und Priorität in unserem Shop. Technisch ist das wie eine digitale Mitgliedskarte — nur dass der Eintrag statt in Plastik und einer Firmendatenbank in einem offenen, unabhängigen Register (einer Blockchain) liegt, das im Nachhinein nicht heimlich verändert werden kann.</span></p>
+      </div>
+      <div class="faq-item">
+        <h3><span lang="uk">Це інвестиція? Я можу на цьому заробити?</span><span lang="en">Is this an investment? Can I make money from it?</span><span lang="de">Ist das eine Investition? Kann ich damit Geld verdienen?</span></h3>
+        <p><span lang="uk"><strong>Ні.</strong> Токен не можна продати, передати чи обміняти — у контракті навмисно немає такої функції (це називається «soulbound», тобто назавжди прив'язаний до гаманця). Він не дає частки в компанії, дивідендів чи права на прибуток. Це не цінний папір і не інвестиційний інструмент у жодному сенсі. Єдина його функція — знижка й черга доступу до товарів проєкту.</span><span lang="en"><strong>No.</strong> The token cannot be sold, transferred, or exchanged — the contract deliberately has no such function (this is called "soulbound," permanently bound to the wallet). It carries no equity, dividend, or profit rights. It is not a security or an investment instrument in any sense. Its only function is a discount and priority queue access to the project's products.</span><span lang="de"><strong>Nein.</strong> Der Token kann nicht verkauft, übertragen oder getauscht werden — der Vertrag hat absichtlich keine solche Funktion (man nennt das „soulbound", dauerhaft an die Wallet gebunden). Er verleiht keine Anteile, Dividenden oder Gewinnrechte. Er ist in keinerlei Hinsicht ein Wertpapier oder Anlageinstrument. Seine einzige Funktion ist ein Rabatt und ein Prioritätszugang zu den Produkten des Projekts.</span></p>
+      </div>
+      <div class="faq-item">
+        <h3><span lang="uk">Що я реально отримую, маючи токен?</span><span lang="en">What do I actually get by holding the token?</span><span lang="de">Was bekomme ich tatsächlich, wenn ich den Token halte?</span></h3>
+        <p><span lang="uk">Знижку в магазині проєкту (від 1% до максимум 25%, залежно від кількості токенів) і, на вищих рівнях, пріоритет у черзі на обмежені партії товару, коли він буде запущений. Все. Жодного доходу, відсотків чи «зростання вартості» токен не приносить.</span><span lang="en">A discount in the project's shop (from 1% up to a 25% cap, depending on how many tokens you hold) and, at higher tiers, priority in the queue for limited product batches once they launch. That's it — no income, interest, or "value growth" comes with the token.</span><span lang="de">Einen Rabatt im Shop des Projekts (von 1% bis maximal 25%, je nach Anzahl der gehaltenen Token) und ab höheren Stufen Priorität in der Warteschlange für limitierte Produktchargen, sobald diese starten. Das ist alles — keine Erträge, Zinsen oder „Wertsteigerung" sind mit dem Token verbunden.</span></p>
+      </div>
+      <div class="faq-item">
+        <h3><span lang="uk">Що таке «гаманець» і навіщо він мені?</span><span lang="en">What's a "wallet" and why do I need one?</span><span lang="de">Was ist eine „Wallet" und wozu brauche ich sie?</span></h3>
+        <p><span lang="uk">Криптогаманець (наприклад, безкоштовне розширення для браузера MetaMask) — це як особистий ключ до вашого запису в блокчейні. Він не пов'язаний з вашим ім'ям чи банківським рахунком — просто адреса (набір символів), яку контролюєте тільки ви. Він потрібен, щоб довести «цей запис у контракті — мій» без пароля чи логіна на нашому сервері.</span><span lang="en">A crypto wallet (e.g. the free MetaMask browser extension) is like a personal key to your entry in the blockchain. It's not tied to your name or a bank account — just an address (a string of characters) that only you control. It's needed to prove "this contract entry is mine" without a password or login on our server.</span><span lang="de">Eine Krypto-Wallet (z. B. die kostenlose Browser-Erweiterung MetaMask) ist wie ein persönlicher Schlüssel zu Ihrem Eintrag in der Blockchain. Sie ist nicht mit Ihrem Namen oder einem Bankkonto verknüpft — nur eine Adresse (eine Zeichenfolge), die ausschließlich Sie kontrollieren. Sie wird benötigt, um zu beweisen „dieser Vertragseintrag gehört mir", ohne Passwort oder Login auf unserem Server.</span></p>
+      </div>
+      <div class="faq-item">
+        <h3><span lang="uk">Чому тестова мережа (Sepolia), а не справжня?</span><span lang="en">Why a test network (Sepolia), not a real one?</span><span lang="de">Warum ein Testnetz (Sepolia) und kein echtes?</span></h3>
+        <p><span lang="uk">Це технічна демонстрація механіки для інвесторів і партнерів — не готовий до продажу продукт. Sepolia — публічна тестова мережа Ethereum: транзакції там реальні й прозорі (можна перевірити на Etherscan), але «ETH», яким ви платите, безкоштовний із крана (faucet) і не має жодної грошової вартості. Це дозволяє показати повний робочий цикл — підключення, оплату, зміну ціни — без ризику для чиїхось реальних грошей.</span><span lang="en">This is a technical demonstration of the mechanics for investors and partners — not a launched, sellable product. Sepolia is a public Ethereum test network: transactions there are real and transparent (verifiable on Etherscan), but the "ETH" you pay with is free from a faucet and has zero monetary value. This lets us show the full working cycle — connecting, paying, price changes — without risking anyone's real money.</span><span lang="de">Dies ist eine technische Demonstration der Mechanik für Investoren und Partner — kein fertig gestartetes, verkaufsfähiges Produkt. Sepolia ist ein öffentliches Ethereum-Testnetz: Transaktionen dort sind real und transparent (auf Etherscan nachprüfbar), aber das „ETH", mit dem Sie zahlen, ist kostenlos aus einem Faucet und hat keinen Geldwert. So können wir den vollständigen Ablauf — Verbindung, Zahlung, Preisänderung — zeigen, ohne dass jemand echtes Geld riskiert.</span></p>
+      </div>
+      <div class="faq-item">
+        <h3><span lang="uk">Що буде, коли проєкт запуститься по-справжньому?</span><span lang="en">What happens when the project actually launches?</span><span lang="de">Was passiert, wenn das Projekt tatsächlich startet?</span></h3>
+        <p><span lang="uk">Токен, ймовірно, перейде на робочу (mainnet) мережу за окремими, заздалегідь оголошеними умовами. Ваш тестовий токен на Sepolia автоматично не «стане» реальним — це буде окремий, явно анонсований крок, а не автоматичне перенесення.</span><span lang="en">The token will likely move to a production (mainnet) network under separate, clearly announced terms. Your test token on Sepolia will not automatically "become" a real one — that would be a separate, explicitly announced step, not an automatic carryover.</span><span lang="de">Der Token wird voraussichtlich auf ein Produktivnetzwerk (Mainnet) unter separaten, klar angekündigten Bedingungen umziehen. Ihr Test-Token auf Sepolia wird nicht automatisch „real" — das wäre ein separater, ausdrücklich angekündigter Schritt, keine automatische Übernahme.</span></p>
+      </div>
+      <div class="faq-item">
+        <h3><span lang="uk">Навіщо взагалі блокчейн — чому не звичайний промокод?</span><span lang="en">Why blockchain at all — why not just a promo code?</span><span lang="de">Warum überhaupt Blockchain — warum kein einfacher Promo-Code?</span></h3>
+        <p><span lang="uk">Промокод живе в базі даних компанії: його можна тихо змінити, видалити чи виписати собі скільки завгодно — і ніхто зовні цього не побачить. Правила цього токена (крива ціни, ліміт знижки, ліміт 100 токенів на гаманець) записані в коді контракту й видимі будь-кому в Etherscan — їх не можна змінити заднім числом без явної, публічної транзакції власника. Це прозорість, а не маркетинговий хайп.</span><span lang="en">A promo code lives in a company database: it can be quietly changed, deleted, or issued to yourself without limit — and nobody outside would ever see it. This token's rules (the price curve, the discount cap, the 100-token-per-wallet limit) are written into the contract code and visible to anyone on Etherscan — they can't be changed after the fact without an explicit, public transaction from the owner. That's transparency, not marketing hype.</span><span lang="de">Ein Promo-Code lebt in einer Unternehmensdatenbank: Er kann heimlich geändert, gelöscht oder sich selbst unbegrenzt ausgestellt werden — und niemand von außen würde es je sehen. Die Regeln dieses Tokens (die Preiskurve, der Rabattdeckel, das Limit von 100 Token pro Wallet) sind im Vertragscode festgeschrieben und für jeden auf Etherscan sichtbar — sie können nicht nachträglich ohne eine ausdrückliche, öffentliche Transaktion des Eigentümers geändert werden. Das ist Transparenz, kein Marketing-Hype.</span></p>
+      </div>
+    </div>
+
+    <p style="margin-top:20px; font-size:13.5px; color:var(--ink-faint);">
+      <span lang="uk">Юридично точна версія цих правил — на сторінці <a href="/terms.html">«Умови використання»</a>.</span>
+      <span lang="en">The legally precise version of these rules is on the <a href="/terms.html">Terms of Service</a> page.</span>
+      <span lang="de">Die rechtlich präzise Fassung dieser Regeln finden Sie auf der Seite <a href="/terms.html">Nutzungsbedingungen</a>.</span>
+    </p>
+  </section>
 
 </div>
 </main>

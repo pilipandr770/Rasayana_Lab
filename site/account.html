@@ -47,6 +47,11 @@
     <div class="stat-box"><b id="statTier">—</b><span lang="uk">Рівень</span><span lang="en">Tier</span><span lang="de">Stufe</span></div>
     <div class="stat-box"><b id="statDiscount">—</b><span lang="uk">Знижка</span><span lang="en">Discount</span><span lang="de">Rabatt</span></div>
   </div>
+  <p id="statHint" style="display:none; font-size:13.5px; color:var(--ink-faint); margin-top:-14px; margin-bottom:24px;">
+    <span lang="uk">Що означають ці цифри? Токен — не крипта й не інвестиція, лише знижка. <a href="/token.html#faq" style="color:var(--gold);">Пояснення →</a></span>
+    <span lang="en">What do these numbers mean? The token isn't crypto or an investment, just a discount. <a href="/token.html#faq" style="color:var(--gold);">Explainer →</a></span>
+    <span lang="de">Was bedeuten diese Zahlen? Der Token ist keine Kryptowährung und keine Investition, nur ein Rabatt. <a href="/token.html#faq" style="color:var(--gold);">Erklärung →</a></span>
+  </p>
 
   <div id="ordersSection" style="display:none;">
     <p class="eyebrow" style="margin-top:32px;"><span lang="uk">Історія замовлень</span><span lang="en">Order history</span><span lang="de">Bestellverlauf</span></p>
@@ -71,6 +76,7 @@ async function loadAccount(address) {
   document.getElementById("connectBtn").style.display = "none";
   document.getElementById("walletAddr").textContent = address;
   document.getElementById("statGrid").style.display = "grid";
+  document.getElementById("statHint").style.display = "block";
 
   const info = await rasaGetMemberInfo(address);
   document.getElementById("statBalance").textContent = info.balance;
