@@ -1,10 +1,12 @@
 // Общий Web3-хелпер для страниц /token и /shop.
-// Тестовая сеть Sepolia, контракт RasayanaMembership — non-transferable
-// членский токен с прогрессивной кривой цены. Реальных денег здесь нет:
-// оплата тестовым ETH, ноль монетарной стоимости.
+// Сеть Polygon mainnet, контракт RasayanaMembership — non-transferable
+// членский токен с прогрессивной кривой цены. Оплата — реальным POL.
+// Токен даёт скидку и приоритет в очереди на продукты проєкта, которые
+// ещё в разработке — это модель предзаказа/краудфандинга, не инвестиция.
 
-const RASA_CONTRACT_ADDRESS = "0x36Da05224E9D98e9f4008f487466802F4f8701FE";
-const SEPOLIA_CHAIN_ID_HEX = "0xaa36a7"; // 11155111
+const RASA_CONTRACT_ADDRESS = "0xFEa77eAf7bE46ec845801eAE93dE6d156e223d49";
+const RASA_READ_RPC_URL = "https://polygon-bor-rpc.publicnode.com";
+const POLYGON_CHAIN_ID_HEX = "0x89"; // 137
 
 const TIER_LABELS = {
   0: { uk: "Немає токена", en: "No token", de: "Kein Token" },
@@ -149,7 +151,7 @@ async function rasaGetReadContract() {
   const abiResp = await fetch("/assets/membership_abi.json");
   const abi = await abiResp.json();
   // публичный RPC для чтения без подключения кошелька
-  const readProvider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
+  const readProvider = new ethers.JsonRpcProvider(RASA_READ_RPC_URL);
   rasaReadContract = new ethers.Contract(RASA_CONTRACT_ADDRESS, abi, readProvider);
   return rasaReadContract;
 }
@@ -160,22 +162,22 @@ async function rasaFinishConnect(injected) {
 
   rasaProvider = new ethers.BrowserProvider(injected);
   const network = await rasaProvider.getNetwork();
-  if (network.chainId !== 11155111n) {
+  if (network.chainId !== 137n) {
     try {
       await injected.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: SEPOLIA_CHAIN_ID_HEX }],
+        params: [{ chainId: POLYGON_CHAIN_ID_HEX }],
       });
     } catch (switchError) {
       if (switchError.code === 4902) {
         await injected.request({
           method: "wallet_addEthereumChain",
           params: [{
-            chainId: SEPOLIA_CHAIN_ID_HEX,
-            chainName: "Sepolia",
-            nativeCurrency: { name: "Sepolia ETH", symbol: "ETH", decimals: 18 },
-            rpcUrls: ["https://ethereum-sepolia-rpc.publicnode.com"],
-            blockExplorerUrls: ["https://sepolia.etherscan.io"],
+            chainId: POLYGON_CHAIN_ID_HEX,
+            chainName: "Polygon",
+            nativeCurrency: { name: "POL", symbol: "POL", decimals: 18 },
+            rpcUrls: [RASA_READ_RPC_URL],
+            blockExplorerUrls: ["https://polygonscan.com"],
           }],
         });
       } else {

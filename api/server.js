@@ -10,12 +10,12 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
 app.use(cors());
 
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || "0x36Da05224E9D98e9f4008f487466802F4f8701FE";
-const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL || "https://ethereum-sepolia-rpc.publicnode.com";
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || "0xFEa77eAf7bE46ec845801eAE93dE6d156e223d49";
+const POLYGON_RPC_URL = process.env.POLYGON_RPC_URL || "https://polygon-bor-rpc.publicnode.com";
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 
 function getContractWithSigner() {
-  const provider = new ethers.JsonRpcProvider(SEPOLIA_RPC_URL);
+  const provider = new ethers.JsonRpcProvider(POLYGON_RPC_URL);
   const wallet = new ethers.Wallet(process.env.DEPLOYER_PRIVATE_KEY, provider);
   return new ethers.Contract(CONTRACT_ADDRESS, membershipAbi, wallet);
 }

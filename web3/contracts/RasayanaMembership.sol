@@ -2,11 +2,11 @@
 pragma solidity ^0.8.20;
 
 /// @title Rasayana Founding Member — non-transferable membership token
-/// @notice ДЕМО-контракт для тестовой сети. Не является финансовым инструментом:
-///         не имеет цены на вторичном рынке (нетрансферабелен), не хранит и не
-///         обменивается на деньги, служит только пропуском к скидке/приоритету
-///         в собственном магазине компании. Оплата — тестовым ETH, без реальной
-///         денежной стоимости.
+/// @notice Не является финансовым инструментом: нетрансферабелен (soulbound),
+///         не даёт доли в компании, дивидендов или права на прибыль. Служит
+///         только пропуском к скидке/приоритету в собственном магазине компании.
+///         Оплата принимается в нативной монете сети деплоя (см. адрес и сеть
+///         в публичных материалах проекта на момент обращения).
 contract RasayanaMembership {
     string public constant name = "Rasayana Founding Member";
     string public constant symbol = "RASA-FM";
@@ -140,5 +140,12 @@ contract RasayanaMembership {
 
     function withdraw() external onlyOwner {
         payable(owner).transfer(address(this).balance);
+    }
+
+    /// @notice Передача владения контрактом — на случай смены деплой-кошелька
+    /// (например, переезда с автоматического серверного ключа на аппаратный кошелёк).
+    function transferOwnership(address newOwner) external onlyOwner {
+        require(newOwner != address(0), "zero address");
+        owner = newOwner;
     }
 }
