@@ -90,6 +90,13 @@
         <button class="btn btn-primary" onclick="saveTier()">Save</button>
         <span id="tierSaved" style="color:var(--jade); font-size:15px; display:none;">Saved ✓</span>
       </div>
+
+      <p style="color:var(--ink-soft); font-size:16px; margin:28px 0 16px;">AML threshold for token purchases, in POL. Above this quote amount, the buy button on the Token page blocks with a "contact us for verification" message instead of sending the transaction — see AML-18 for the identity-verification module this is a placeholder for. Not a live EUR conversion — update manually if POL's price moves a lot.</p>
+      <div class="tier-form">
+        <input type="number" id="amlThresholdInput" min="1" step="1" style="width:140px; padding:9px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink);">
+        <button class="btn btn-primary" onclick="saveAmlThreshold()">Save</button>
+        <span id="amlThresholdSaved" style="color:var(--jade); font-size:15px; display:none;">Saved ✓</span>
+      </div>
     </div>
 
     <div id="tab-social" class="tab-panel">
@@ -209,12 +216,24 @@ async function loadQueue() {
   const resp = await fetch("/api/settings/open-tier");
   const data = await resp.json();
   document.getElementById("tierSelect").value = data.openTier;
+
+  const amlResp = await fetch("/api/settings/aml-threshold");
+  const amlData = await amlResp.json();
+  document.getElementById("amlThresholdInput").value = amlData.thresholdPol;
 }
 
 async function saveTier() {
   const tier = document.getElementById("tierSelect").value;
   await adminFetch("/api/admin/settings/open-tier", { method: "POST", body: JSON.stringify({ openTier: Number(tier) }) });
   const saved = document.getElementById("tierSaved");
+  saved.style.display = "inline";
+  setTimeout(() => saved.style.display = "none", 2000);
+}
+
+async function saveAmlThreshold() {
+  const thresholdPol = document.getElementById("amlThresholdInput").value;
+  await adminFetch("/api/admin/settings/aml-threshold", { method: "POST", body: JSON.stringify({ thresholdPol: Number(thresholdPol) }) });
+  const saved = document.getElementById("amlThresholdSaved");
   saved.style.display = "inline";
   setTimeout(() => saved.style.display = "none", 2000);
 }

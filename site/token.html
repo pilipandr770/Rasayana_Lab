@@ -360,8 +360,20 @@ async function onBuy() {
       return;
     }
     const qty = parseInt(document.getElementById("buyQty").value) || 1;
-    setStatus("pending", tr("Надсилання транзакції...", "Sending transaction...", "Transaktion wird gesendet..."));
     const cost = await rasaContract.quoteCost(currentAddress, qty);
+
+    const thresholdResp = await fetch("/api/settings/aml-threshold");
+    const { thresholdPol } = await thresholdResp.json();
+    if (cost > ethers.parseEther(String(thresholdPol))) {
+      setStatus("err", tr(
+        `Сума перевищує поточний поріг онлайн-покупки (${thresholdPol} POL). Для більших сум потрібна додаткова верифікація — напишіть нам напряму: `,
+        `This amount exceeds the current online-purchase threshold (${thresholdPol} POL). Larger amounts require additional verification — please contact us directly: `,
+        `Dieser Betrag überschreitet die aktuelle Online-Kaufgrenze (${thresholdPol} POL). Größere Beträge erfordern eine zusätzliche Verifizierung — bitte kontaktieren Sie uns direkt: `
+      ) + "pylypchukandrii770@gmail.com");
+      return;
+    }
+
+    setStatus("pending", tr("Надсилання транзакції...", "Sending transaction...", "Transaktion wird gesendet..."));
     const tx = await rasaContract.buy(qty, { value: cost });
     await tx.wait();
     setStatus("ok", tr("Готово! Токени куплено.", "Done! Tokens purchased.", "Fertig! Token gekauft."));

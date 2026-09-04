@@ -194,6 +194,23 @@ app.get("/api/settings/open-tier", (req, res) => {
   res.json({ openTier: db.getSetting("openTier") ?? 0 });
 });
 
+// --- AML-порог для купівлі токена: сума в POL, вище якої онлайн-покупка
+// блокується на фронтенді до впровадження повної ідентифікаційної перевірки
+// (див. compliance-service у AML-18). За замовчуванням — грубий еквівалент
+// орієнтиру EBA у €1000 на момент налаштування; курс POL/EUR не стежиться
+// автоматично, адмін оновлює вручну при істотній зміні ціни POL. ---
+app.get("/api/settings/aml-threshold", (req, res) => {
+  res.json({ thresholdPol: db.getSetting("amlThresholdPol") ?? 11500 });
+});
+app.post("/api/admin/settings/aml-threshold", requireAdmin, (req, res) => {
+  const thresholdPol = Number(req.body?.thresholdPol);
+  if (!Number.isFinite(thresholdPol) || thresholdPol <= 0) {
+    return res.status(400).json({ error: "thresholdPol must be a positive number" });
+  }
+  db.setSetting("amlThresholdPol", thresholdPol);
+  res.json({ thresholdPol });
+});
+
 // --- Соцсети (управляются из админки, показываются в хедере) ---
 app.get("/api/settings/social-links", (req, res) => {
   res.json(db.getSetting("socialLinks") || { telegram: "", twitter: "", instagram: "" });
