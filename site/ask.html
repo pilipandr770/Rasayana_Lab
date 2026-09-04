@@ -27,6 +27,15 @@
   .why-card{padding:22px; background:var(--bg-card); border:1px solid var(--line-soft); border-radius:4px; min-width:0;}
   .why-card h4{font-family:var(--serif); font-size:19.5px; margin-bottom:8px;}
   .why-card p{font-size:15.5px; color:var(--ink-soft);}
+  .contact-form{margin-top:22px; display:flex; flex-direction:column; gap:12px;}
+  .contact-form input, .contact-form textarea{width:100%; padding:10px 12px; border-radius:4px; font-size:15px; font-family:inherit; background:rgba(237,239,230,.08); border:1px solid rgba(237,239,230,.25); color:var(--on-hero);}
+  .contact-form input::placeholder, .contact-form textarea::placeholder{color:var(--on-hero-soft);}
+  .contact-form textarea{resize:vertical; min-height:88px;}
+  .status-msg{margin-top:14px; padding:11px 13px; border-radius:4px; font-size:14.5px; display:none;}
+  .status-msg.show{display:block;}
+  .status-msg.ok{background:var(--jade-soft); color:var(--jade);}
+  .status-msg.err{background:var(--vermillion-soft); color:var(--vermillion);}
+  .status-msg.pending{background:var(--gold-soft); color:var(--gold);}
 </style>
 </head>
 <body>
@@ -104,7 +113,16 @@
         <p style="margin-top:16px;"><span lang="uk">Після розмови серйозним інвесторам відкривається закритий розділ із повними даними дослідження та поточним статусом проєкту.</span>
         <span lang="en">After a conversation, serious investors get access to a private section with the full research data and current project status.</span>
         <span lang="de">Nach einem Gespräch erhalten ernsthafte Investoren Zugang zu einem privaten Bereich mit den vollständigen Forschungsdaten und dem aktuellen Projektstatus.</span></p>
-        <a href="mailto:pylypchukandrii770@gmail.com?subject=Rasayana%20Virtual%20Lab" class="btn btn-primary"><span lang="uk">Написати щодо проєкту</span><span lang="en">Get in touch</span><span lang="de">Kontakt aufnehmen</span></a>
+        <form class="contact-form" id="contactForm">
+          <input type="text" id="cName" required placeholder="Ім'я / Name" data-ph-uk="Ім'я" data-ph-en="Name" data-ph-de="Name">
+          <input type="email" id="cEmail" required placeholder="you@example.com">
+          <textarea id="cMessage" required data-ph-uk="Кілька слів про вас і про те, що вас цікавить" data-ph-en="A few words about you and what interests you" data-ph-de="Ein paar Worte über Sie und Ihr Interesse"></textarea>
+          <button type="submit" class="btn btn-primary" id="contactSubmitBtn"><span lang="uk">Написати щодо проєкту</span><span lang="en">Get in touch</span><span lang="de">Kontakt aufnehmen</span></button>
+        </form>
+        <div id="contactStatus" class="status-msg"></div>
+        <p style="margin-top:14px; font-size:13px; color:var(--on-hero-soft);">
+          <span lang="uk">Або напряму: </span><span lang="en">Or directly: </span><span lang="de">Oder direkt: </span><a href="mailto:pylypchukandrii770@gmail.com?subject=Rasayana%20Virtual%20Lab" style="color:var(--on-hero); text-decoration:underline;">pylypchukandrii770@gmail.com</a>
+        </p>
       </div>
     </div>
   </section>
@@ -113,5 +131,54 @@
 </main>
 
 <!--#include virtual="/assets/_footer.html" -->
+<script>
+function tr(uk, en, de) {
+  const l = document.documentElement.getAttribute("data-lang") || "uk";
+  if (l === "uk") return uk;
+  if (l === "de") return de || en;
+  return en;
+}
+function applyContactPlaceholders() {
+  document.querySelectorAll("#contactForm [data-ph-uk]").forEach((el) => {
+    el.placeholder = tr(el.dataset.phUk, el.dataset.phEn, el.dataset.phDe);
+  });
+}
+applyContactPlaceholders();
+new MutationObserver(applyContactPlaceholders).observe(document.documentElement, { attributes: true, attributeFilter: ["data-lang"] });
+
+function setContactStatus(type, text) {
+  const el = document.getElementById("contactStatus");
+  if (!type) { el.className = "status-msg"; return; }
+  el.className = "status-msg show " + type;
+  el.textContent = text;
+}
+
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("cName").value.trim();
+  const email = document.getElementById("cEmail").value.trim();
+  const message = document.getElementById("cMessage").value.trim();
+  if (!name || !email || !message) return;
+
+  const btn = document.getElementById("contactSubmitBtn");
+  btn.disabled = true;
+  setContactStatus("pending", tr("Надсилання...", "Sending...", "Wird gesendet..."));
+  try {
+    const resp = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, message }),
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || "request failed");
+    setContactStatus("ok", tr("Дякуємо! Ми зв'яжемось найближчим часом.", "Thank you! We'll be in touch shortly.", "Danke! Wir melden uns in Kürze."));
+    document.getElementById("contactForm").reset();
+  } catch (err) {
+    setContactStatus("err", tr("Помилка надсилання. Спробуйте написати на email нижче.", "Something went wrong. Please try the email below.", "Etwas ist schiefgelaufen. Bitte versuchen Sie die E-Mail unten."));
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
 </body>
 </html>

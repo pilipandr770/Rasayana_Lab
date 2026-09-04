@@ -65,6 +65,7 @@
       <button class="tab-btn" onclick="showTab('queue')">Queue</button>
       <button class="tab-btn" onclick="showTab('social')">Social</button>
       <button class="tab-btn" onclick="showTab('checklist')">Checklist</button>
+      <button class="tab-btn" onclick="showTab('messages')">Messages</button>
     </div>
 
     <div id="tab-leads" class="tab-panel active">
@@ -123,6 +124,11 @@
         <input type="text" id="clNewItem" placeholder="Додати свій пункт..." onkeydown="if(event.key==='Enter')addChecklistItem()">
         <button class="small-btn" onclick="addChecklistItem()">Додати</button>
       </div>
+    </div>
+
+    <div id="tab-messages" class="tab-panel">
+      <p style="color:var(--ink-soft); font-size:16px; margin-bottom:16px;">Заявки з форми "What We Need" (ask.html) — також падають Telegram-повідомленням.</p>
+      <div class="table-wrap"><table class="admin" id="messagesTable"><thead><tr><th>Ім'я</th><th>Email</th><th>Повідомлення</th><th>Дата</th></tr></thead><tbody></tbody></table></div>
     </div>
   </div>
 
@@ -319,12 +325,25 @@ async function saveChecklist() {
   await adminFetch("/api/admin/checklist", { method: "POST", body: JSON.stringify({ items: checklistItems }) });
 }
 
+async function loadMessages() {
+  const resp = await adminFetch("/api/admin/messages");
+  const messages = await resp.json();
+  document.querySelector("#messagesTable tbody").innerHTML = messages.slice().reverse().map(m => `
+    <tr>
+      <td>${esc(m.name)}${m.role ? ` <span style="color:var(--ink-faint);">(${esc(m.role)})</span>` : ""}</td>
+      <td><a href="mailto:${esc(m.email)}">${esc(m.email)}</a></td>
+      <td style="white-space:pre-wrap;">${esc(m.message)}</td>
+      <td class="mono">${new Date(m.createdAt).toLocaleString()}</td>
+    </tr>`).join("") || "<tr><td colspan=4>No messages yet</td></tr>";
+}
+
 function loadAll() {
   loadLeads();
   loadOrders();
   loadQueue();
   loadSocial();
   loadChecklist();
+  loadMessages();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

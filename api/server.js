@@ -60,6 +60,26 @@ async function checkTelegramMembership(userId) {
   }
 }
 
+// --- Telegram Bot API: отправить сообщение основателю в личку (уведомление о новой заявке) ---
+async function sendTelegramAdminMessage(text) {
+  const chatId = process.env.TELEGRAM_ADMIN_CHAT_ID;
+  if (!process.env.TELEGRAM_BOT_TOKEN || !chatId) return false;
+  try {
+    const url = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`;
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML", disable_web_page_preview: true }),
+    });
+    const data = await resp.json();
+    if (!data.ok) console.error("telegram sendMessage failed:", data.description);
+    return data.ok === true;
+  } catch (e) {
+    console.error("telegram sendMessage error:", e.message);
+    return false;
+  }
+}
+
 // --- Instagram: делегируем проверку внутреннему instagrapi-сервису ---
 // configured=false означает "ещё не настроено" (например, запасной аккаунт не подключён) —
 // это НЕ то же самое, что "проверили и не подписан". Пока не настроено, шаг мягкий и не блокирует заявку;
@@ -280,7 +300,39 @@ app.post("/api/leads", async (req, res) => {
   }
 });
 
+// --- Форма зв'язку ("What We Need" / ask.html) — падає одразу в Telegram засновника ---
+function escapeHtml(s) {
+  return String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+}
+app.post("/api/contact", async (req, res) => {
+  try {
+    const { name, email, role, message } = req.body || {};
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: "name, email and message are required" });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: "invalid email" });
+    }
+    const entry = db.addMessage({ name, email, role: role || null, message });
+
+    const text = [
+      "📩 <b>Нова заявка з ask.html</b>",
+      `Ім'я: ${escapeHtml(name)}`,
+      `Email: ${escapeHtml(email)}`,
+      role ? `Роль: ${escapeHtml(role)}` : null,
+      `Повідомлення: ${escapeHtml(message)}`,
+    ].filter(Boolean).join("\n");
+    sendTelegramAdminMessage(text).catch(() => {});
+
+    res.json({ ok: true, id: entry.id });
+  } catch (err) {
+    console.error("contact error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // --- Admin ---
+app.get("/api/admin/messages", requireAdmin, (req, res) => res.json(db.getMessages()));
 app.get("/api/admin/leads", requireAdmin, (req, res) => res.json(db.getLeads()));
 app.post("/api/admin/leads/:id/approve", requireAdmin, async (req, res) => {
   try {
