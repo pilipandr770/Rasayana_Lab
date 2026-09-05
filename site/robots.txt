@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /account.html
+Disallow: /data/
+
+Sitemap: https://rasayana.andrii-it.de/sitemap.xml
