@@ -1,0 +1,40 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#1B2247"/>
+      <stop offset="100%" stop-color="#0B0E1D"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0B94A"/>
+      <stop offset="100%" stop-color="#C4831E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#bg)"/>
+
+  <!-- ancient alchemical circle -->
+  <circle cx="256" cy="256" r="205" fill="none" stroke="url(#gold)" stroke-width="16"/>
+
+  <!-- modern molecule: benzene-ring hexagon -->
+  <polygon points="256,132 361,194 361,318 256,380 151,318 151,194"
+    fill="none" stroke="url(#gold)" stroke-width="15" stroke-linejoin="round"/>
+
+  <!-- bonds to center (docking / binding site) -->
+  <line x1="256" y1="132" x2="256" y2="256" stroke="url(#gold)" stroke-width="8" opacity="0.55"/>
+  <line x1="361" y1="194" x2="256" y2="256" stroke="url(#gold)" stroke-width="8" opacity="0.55"/>
+  <line x1="361" y1="318" x2="256" y2="256" stroke="url(#gold)" stroke-width="8" opacity="0.55"/>
+  <line x1="256" y1="380" x2="256" y2="256" stroke="url(#gold)" stroke-width="8" opacity="0.55"/>
+  <line x1="151" y1="318" x2="256" y2="256" stroke="url(#gold)" stroke-width="8" opacity="0.55"/>
+  <line x1="151" y1="194" x2="256" y2="256" stroke="url(#gold)" stroke-width="8" opacity="0.55"/>
+
+  <!-- atom vertices -->
+  <circle cx="256" cy="132" r="16" fill="url(#gold)"/>
+  <circle cx="361" cy="194" r="16" fill="url(#gold)"/>
+  <circle cx="361" cy="318" r="16" fill="url(#gold)"/>
+  <circle cx="256" cy="380" r="16" fill="url(#gold)"/>
+  <circle cx="151" cy="318" r="16" fill="url(#gold)"/>
+  <circle cx="151" cy="194" r="16" fill="url(#gold)"/>
+
+  <!-- center: alchemical sun/gold + binding site -->
+  <circle cx="256" cy="256" r="26" fill="url(#gold)"/>
+</svg>
