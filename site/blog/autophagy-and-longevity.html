@@ -18,6 +18,10 @@
   .article-meta{display:flex; gap:10px; align-items:center; font-size:13px; color:var(--ink-faint); margin-bottom:8px;}
   .article-meta .tag{background:var(--gold-soft); color:var(--gold); padding:2px 9px; border-radius:10px; font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
   .back-link{display:inline-block; margin-top:20px; font-size:14.5px; color:var(--gold); text-decoration:underline;}
+  .refs{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:20px 24px; margin-top:36px;}
+  .refs h2{margin-top:0 !important; font-size:18px !important;}
+  .refs ol{padding-left:20px; margin:0;}
+  .refs li{font-size:14.5px !important; line-height:1.6 !important; color:var(--ink-faint) !important; margin-bottom:10px !important;}
 </style>
 </head>
 <body>
@@ -36,51 +40,93 @@
   </h1>
 
   <div lang="uk">
-    <p>У 2016 році Нобелівську премію з фізіології або медицини отримав японський біолог Йошинорі Осумі — одноосібно, що для цієї премії рідкість. Нагороду дали за розшифровку механізму аутофагії (від грецького «саме-поїдання») — процесу, яким клітина розбирає власні пошкоджені або застарілі компоненти й переробляє їх на будівельний матеріал.</p>
+    <p>У 2016 році Нобелівську премію з фізіології або медицини отримав японський клітинний біолог Йошинорі Осумі — одноосібно, що для цієї премії рідкість. Офіційне формулювання Нобелівського комітету — нагорода «за відкриття механізмів аутофагії». Слово походить від грецького «αὐτός» (сам) і «φαγεῖν» (їсти) — «самопоїдання», хоча точніше було б сказати «самоочищення» чи «саморециклінг».</p>
 
-    <p>Осумі досліджував це на дріжджах ще у 1990-х: в умовах голодування клітина формує спеціальну мембранну «капсулу» (аутофагосому), захоплює нею пошкоджені білки чи органели, і зливає цю капсулу з лізосомою — клітинним «сміттєпереробним заводом», де вміст розкладається на прості складові. Виявилось, що цей самий механізм — з тими ж генами й тим самим принципом — працює в клітинах людини.</p>
+    <p>Осумі досліджував це на пекарських дріжджах (Saccharomyces cerevisiae) ще з кінця 1980-х. У ключових експериментах початку 1990-х він і його група спостерігали, що в умовах голодування клітина активно формує в цитоплазмі округлі мембранні структури — автофагосоми, які захоплюють частину внутрішнього вмісту клітини (пошкоджені білки, органели) і зливаються з вакуоллю (у дріжджів) або лізосомою (у клітин тварин) — компартментом, де вміст розкладається ферментами на прості складові, придатні для повторного використання. Осумі та його команда ідентифікували десятки генів (ATG, autophagy-related), які керують цим процесом, — і виявилось, що еволюційно ці ж гени й той самий принцип збережені в клітинах людини.</p>
+
+    <h2><span lang="uk">Три типи аутофагії</span></h2>
+    <p>У клітинних біологів прийнято розрізняти три механізми, які об'єднують під загальною назвою «аутофагія»: <strong>макроаутофагія</strong> (описана вище, найбільш вивчена — саме її механізм розшифрував Осумі), <strong>мікроаутофагія</strong> (лізосома безпосередньо «обгортає» невеликі ділянки цитоплазми) і <strong>шаперон-опосередкована аутофагія</strong> (окремі мічені білки транспортуються в лізосому по одному, за допомогою білків-шаперонів-провідників). У науково-популярних текстах, включно з цим, «аутофагія» зазвичай означає саме макроаутофагію.</p>
 
     <h2><span lang="uk">Навіщо клітині «поїдати саму себе»</span></h2>
-    <p>Це не патологія, а базове обслуговування. Без аутофагії клітина поступово накопичує пошкоджені білки (які злипаються в токсичні агрегати) та несправні мітохондрії (які виробляють надлишок окислювачів). Аутофагія — це той самий процес контролю якості, який не дає цьому сміттю накопичуватись швидше, ніж клітина встигає його виводити.</p>
+    <p>Це не патологія, а базове обслуговування, яке відбувається постійно, а не лише під час голодування — просто інтенсивність зростає в стресових умовах. Без аутофагії клітина поступово накопичує пошкоджені білки (які злипаються в токсичні агрегати — подібний механізм агрегації білків задіяний, наприклад, у нейродегенеративних процесах) та несправні мітохондрії (які виробляють надлишок окислювачів, пришвидшуючи власне ж старіння клітини). Аутофагія — це процес контролю якості, який не дає цьому «сміттю» накопичуватись швидше, ніж клітина встигає його виводити.</p>
 
-    <p>Проблема в тому, що інтенсивність аутофагії з віком знижується. Це один із дванадцяти визнаних «hallmarks of aging» (див. попередню статтю блогу про geroscience) — і саме тому дослідники активно шукають способи підтримати цей процес у дорослому й похилому віці, коли він природно вповільнюється.</p>
+    <p>Проблема в тому, що інтенсивність аутофагії з віком знижується. Ослаблення макроаутофагії — одна з дванадцяти визнаних «ознак старіння» за класифікацією 2023 року (див. попередню статтю блогу про geroscience) — і саме тому дослідники активно шукають способи підтримати цей процес у дорослому й похилому віці, коли він природно вповільнюється.</p>
 
     <h2><span lang="uk">Що відомо про стимуляцію аутофагії</span></h2>
-    <p>Найкраще вивчений і найнадійніший спосіб стимулювати аутофагію — це голодування або обмеження калорій: у стані енергетичного дефіциту клітина переключається на «режим переробки», щоб отримати ресурси зсередини себе. Фізичне навантаження працює за схожим принципом. Науковці також досліджують фармакологічні шляхи впливу на ті самі клітинні сенсори енергії (наприклад, AMPK) і сигнальні каскади (mTOR), які регулюють увімкнення аутофагії — саме тут проходить межа між добре вивченим побутовим втручанням (дієта, спорт) і предметом активних досліджень (речовини-кандидати, чий вплив на ці шляхи ще належить підтвердити в лабораторії).</p>
+    <p>Найкраще вивчений і найнадійніший спосіб стимулювати аутофагію — це голодування або обмеження калорій: у стані енергетичного дефіциту клітина переключається на «режим переробки», щоб отримати ресурси зсередини себе. На цьому принципі побудовані, зокрема, дослідження «дієт, що імітують голодування» (fasting-mimicking diet) геронтолога Вальтера Лонго — контрольовані короткострокові протоколи харчування, які, за його роботами, відтворюють частину клітинних ефектів справжнього голодування. Фізичне навантаження працює за схожим принципом, через частково ті самі сигнальні шляхи.</p>
 
-    <p>Це якраз приклад того, чому обчислювальний докінг корисний як перший фільтр: перш ніж перевіряти речовину в лабораторії на клітинах, можна оцінити, чи взаємодіє вона взагалі з білками цих сигнальних шляхів. Детальніше про метод — у статті про geroscience та на сторінці <a href="/lab.html">«Лабораторія»</a>.</p>
+    <p>Науковці також досліджують фармакологічні шляхи впливу на ті самі клітинні сенсори енергії (AMPK) і сигнальні каскади (mTOR), які регулюють увімкнення аутофагії. Найвідоміший приклад — рапаміцин, речовина, вперше виділена з бактерії ґрунту острова Пасхи (Рапа-Нуї, звідси й назва), інгібітор mTOR, який послідовно продовжує життя лабораторним мишам. Саме тут проходить межа між добре вивченим побутовим втручанням (дієта, спорт) і предметом активних досліджень (сполуки, чий вплив на ці шляхи ще належить підтвердити в лабораторії, і чий профіль користі й ризику для здорової людини поки не встановлено).</p>
+
+    <p>Це якраз приклад того, чому обчислювальний докінг корисний як перший фільтр: перш ніж перевіряти сполуку в лабораторії на клітинах, можна оцінити, чи взаємодіє вона взагалі з білками цих сигнальних шляхів — і наскільки сильно, за шкалою енергії зв'язування. Детальніше про метод — у статті про geroscience та на сторінці <a href="/lab.html">«Лабораторія»</a>.</p>
+
+    <div class="refs">
+      <h2><span lang="uk">Для подальшого читання</span></h2>
+      <ol>
+        <li>Нобелівська премія з фізіології або медицини, 2016 рік — офіційне обґрунтування нагороди Йошинорі Осумі: <a href="https://www.nobelprize.org" target="_blank" rel="noopener">nobelprize.org</a>.</li>
+        <li>López-Otín C., Blasco M.A., Partridge L., Serrano M., Kroemer G. «Hallmarks of aging: An expanding universe». <em>Cell</em>, 2023 (розділ про ослаблену макроаутофагію).</li>
+        <li>Longo V.D. та колеги — публікації лабораторії про дієти, що імітують голодування (fasting-mimicking diet), Університет Південної Каліфорнії.</li>
+      </ol>
+    </div>
   </div>
 
   <div lang="en">
-    <p>In 2016, the Nobel Prize in Physiology or Medicine went to Japanese biologist Yoshinori Ohsumi — solely to him, which is rare for this prize. The award recognized his work decoding the mechanism of autophagy (from the Greek for "self-eating") — the process by which a cell takes apart its own damaged or outdated components and recycles them into building material.</p>
+    <p>In 2016, the Nobel Prize in Physiology or Medicine went to Japanese cell biologist Yoshinori Ohsumi — solely to him, which is rare for this prize. The Nobel committee's official citation was "for his discoveries of mechanisms for autophagy." The word comes from the Greek "autos" (self) and "phagein" (to eat) — "self-eating," though "self-cleaning" or "self-recycling" would be more accurate.</p>
 
-    <p>Ohsumi studied this in yeast back in the 1990s: under starvation conditions, a cell forms a special membrane "capsule" (an autophagosome), uses it to engulf damaged proteins or organelles, and fuses this capsule with a lysosome — the cell's "recycling plant," where the contents are broken down into basic components. It turned out that the same mechanism — with the same genes and the same principle — operates in human cells too.</p>
+    <p>Ohsumi studied this in baker's yeast (Saccharomyces cerevisiae) starting in the late 1980s. In key experiments in the early 1990s, he and his group observed that under starvation, a cell actively forms round membrane structures in the cytoplasm — autophagosomes — which engulf part of the cell's own contents (damaged proteins, organelles) and fuse with the vacuole (in yeast) or the lysosome (in animal cells) — a compartment where the contents are broken down by enzymes into basic components suitable for reuse. Ohsumi's team identified dozens of genes (ATG, autophagy-related) that control this process — and it turned out that, evolutionarily, the same genes and the same principle are conserved in human cells.</p>
+
+    <h2><span lang="en">Three types of autophagy</span></h2>
+    <p>Cell biologists distinguish three mechanisms grouped under the umbrella term "autophagy": <strong>macroautophagy</strong> (described above, the best studied — the one Ohsumi's work decoded), <strong>microautophagy</strong> (the lysosome directly engulfs small patches of cytoplasm), and <strong>chaperone-mediated autophagy</strong> (individual tagged proteins are shuttled into the lysosome one at a time, escorted by chaperone proteins). In popular-science writing, including this article, "autophagy" usually refers to macroautophagy specifically.</p>
 
     <h2><span lang="en">Why would a cell "eat itself"</span></h2>
-    <p>This isn't a pathology — it's basic maintenance. Without autophagy, a cell gradually accumulates damaged proteins (which clump into toxic aggregates) and malfunctioning mitochondria (which produce excess oxidants). Autophagy is the quality-control process that keeps this waste from piling up faster than the cell can clear it out.</p>
+    <p>This isn't a pathology — it's basic maintenance that happens continuously, not just during starvation; stress conditions simply raise its intensity. Without autophagy, a cell gradually accumulates damaged proteins (which clump into toxic aggregates — a similar aggregation mechanism is implicated, for instance, in neurodegenerative processes) and malfunctioning mitochondria (which produce excess oxidants, accelerating the cell's own aging in turn). Autophagy is the quality-control process that keeps this waste from piling up faster than the cell can clear it out.</p>
 
-    <p>The catch is that autophagy's intensity declines with age. It's one of the twelve recognized "hallmarks of aging" (see the previous blog post on geroscience) — which is exactly why researchers are actively looking for ways to support this process in adulthood and old age, when it naturally slows down.</p>
+    <p>The catch is that autophagy's intensity declines with age. Disabled macroautophagy is one of the twelve recognized hallmarks of aging under the 2023 classification (see the previous blog post on geroscience) — which is exactly why researchers are actively looking for ways to support this process in adulthood and old age, when it naturally slows down.</p>
 
     <h2><span lang="en">What's known about stimulating autophagy</span></h2>
-    <p>The best-studied and most reliable way to stimulate autophagy is fasting or caloric restriction: under energy deficit, the cell switches to a "recycling mode" to draw resources from within itself. Exercise works on a similar principle. Researchers are also investigating pharmacological ways to influence the same cellular energy sensors (like AMPK) and signaling cascades (mTOR) that regulate whether autophagy switches on — and this is exactly where the line runs between a well-studied everyday intervention (diet, exercise) and an active research subject (candidate compounds whose effect on these pathways still needs to be confirmed in the lab).</p>
+    <p>The best-studied and most reliable way to stimulate autophagy is fasting or caloric restriction: under energy deficit, the cell switches to a "recycling mode" to draw resources from within itself. This principle underlies, among other things, gerontologist Valter Longo's research on "fasting-mimicking diets" — controlled short-term eating protocols that, per his lab's published work, reproduce part of the cellular effects of an actual fast. Exercise works on a similar principle, through partly overlapping signaling pathways.</p>
 
-    <p>This is a good example of why computational docking is useful as a first filter: before testing a compound in the lab on cells, you can estimate whether it interacts with the proteins in these signaling pathways at all. More on the method in the geroscience post and on the <a href="/lab.html">Lab page</a>.</p>
+    <p>Researchers are also investigating pharmacological ways to influence the same cellular energy sensors (AMPK) and signaling cascades (mTOR) that regulate whether autophagy switches on. The best-known example is rapamycin, a compound first isolated from a soil bacterium on Easter Island (Rapa Nui, hence the name), an mTOR inhibitor that has consistently extended lifespan in laboratory mice. This is exactly where the line runs between a well-studied everyday intervention (diet, exercise) and an active research subject — compounds whose effect on these pathways still needs to be confirmed in the lab, and whose benefit-risk profile for a healthy person hasn't been established.</p>
+
+    <p>This is a good example of why computational docking is useful as a first filter: before testing a compound in the lab on cells, you can estimate whether it interacts with the proteins in these signaling pathways at all, and how strongly, on a binding-energy scale. More on the method in the geroscience post and on the <a href="/lab.html">Lab page</a>.</p>
+
+    <div class="refs">
+      <h2><span lang="en">Further reading</span></h2>
+      <ol>
+        <li>The Nobel Prize in Physiology or Medicine 2016 — official citation for Yoshinori Ohsumi: <a href="https://www.nobelprize.org" target="_blank" rel="noopener">nobelprize.org</a>.</li>
+        <li>López-Otín C., Blasco M.A., Partridge L., Serrano M., Kroemer G. "Hallmarks of aging: An expanding universe." <em>Cell</em>, 2023 (section on disabled macroautophagy).</li>
+        <li>Longo V.D. and colleagues — published work from the Longo Lab on fasting-mimicking diets, University of Southern California.</li>
+      </ol>
+    </div>
   </div>
 
   <div lang="de">
-    <p>2016 ging der Nobelpreis für Physiologie oder Medizin an den japanischen Biologen Yoshinori Ohsumi — allein an ihn, was für diesen Preis selten ist. Die Auszeichnung würdigte seine Arbeit zur Entschlüsselung des Autophagie-Mechanismus (griechisch für „Selbst-Essen") — des Prozesses, mit dem eine Zelle ihre eigenen beschädigten oder veralteten Bestandteile zerlegt und zu Baumaterial recycelt.</p>
+    <p>2016 ging der Nobelpreis für Physiologie oder Medizin an den japanischen Zellbiologen Yoshinori Ohsumi — allein an ihn, was für diesen Preis selten ist. Die offizielle Begründung des Nobelkomitees lautete „für seine Entdeckungen der Mechanismen der Autophagie". Das Wort stammt aus dem Griechischen „autos" (selbst) und „phagein" (essen) — „Selbst-Essen", treffender wäre jedoch „Selbstreinigung" oder „Selbst-Recycling".</p>
 
-    <p>Ohsumi untersuchte dies bereits in den 1990er-Jahren an Hefe: Unter Hungerbedingungen bildet eine Zelle eine spezielle Membran-„Kapsel" (ein Autophagosom), umschließt damit beschädigte Proteine oder Organellen und verschmilzt diese Kapsel mit einem Lysosom — der „Recyclinganlage" der Zelle, in der der Inhalt in einfache Bestandteile zerlegt wird. Es stellte sich heraus, dass derselbe Mechanismus — mit denselben Genen und demselben Prinzip — auch in menschlichen Zellen abläuft.</p>
+    <p>Ohsumi untersuchte dies bereits ab Ende der 1980er-Jahre an Bäckerhefe (Saccharomyces cerevisiae). In Schlüsselexperimenten Anfang der 1990er-Jahre beobachteten er und seine Gruppe, dass eine Zelle unter Hungerbedingungen aktiv runde Membranstrukturen im Zytoplasma bildet — Autophagosomen —, die einen Teil des eigenen Zellinhalts (beschädigte Proteine, Organellen) umschließen und mit der Vakuole (bei Hefe) oder dem Lysosom (bei Tierzellen) verschmelzen — einem Kompartiment, in dem der Inhalt durch Enzyme in einfache, wiederverwertbare Bestandteile zerlegt wird. Ohsumis Team identifizierte Dutzende Gene (ATG, autophagy-related), die diesen Prozess steuern — und es stellte sich heraus, dass evolutionär dieselben Gene und dasselbe Prinzip auch in menschlichen Zellen erhalten geblieben sind.</p>
+
+    <h2><span lang="de">Drei Arten von Autophagie</span></h2>
+    <p>Zellbiologen unterscheiden drei Mechanismen, die unter dem Oberbegriff „Autophagie" zusammengefasst werden: <strong>Makroautophagie</strong> (oben beschrieben, am besten erforscht — deren Mechanismus Ohsumis Arbeit entschlüsselte), <strong>Mikroautophagie</strong> (das Lysosom umschließt direkt kleine Bereiche des Zytoplasmas) und <strong>chaperonvermittelte Autophagie</strong> (einzelne markierte Proteine werden nacheinander, begleitet von Chaperon-Proteinen, ins Lysosom transportiert). In populärwissenschaftlichen Texten, auch in diesem, meint „Autophagie" meist speziell die Makroautophagie.</p>
 
     <h2><span lang="de">Warum sollte sich eine Zelle „selbst essen"</span></h2>
-    <p>Das ist keine Pathologie, sondern grundlegende Wartung. Ohne Autophagie sammelt eine Zelle nach und nach beschädigte Proteine an (die zu toxischen Aggregaten verklumpen) und defekte Mitochondrien (die überschüssige Oxidantien produzieren). Autophagie ist genau der Qualitätskontrollprozess, der verhindert, dass sich dieser Abfall schneller anhäuft, als die Zelle ihn entsorgen kann.</p>
+    <p>Das ist keine Pathologie, sondern grundlegende Wartung, die fortlaufend stattfindet, nicht nur beim Fasten — unter Stressbedingungen steigt lediglich die Intensität. Ohne Autophagie sammelt eine Zelle nach und nach beschädigte Proteine an (die zu toxischen Aggregaten verklumpen — ein ähnlicher Aggregationsmechanismus ist etwa bei neurodegenerativen Prozessen beteiligt) und defekte Mitochondrien (die überschüssige Oxidantien produzieren und damit die Alterung der Zelle selbst beschleunigen). Autophagie ist der Qualitätskontrollprozess, der verhindert, dass sich dieser Abfall schneller anhäuft, als die Zelle ihn entsorgen kann.</p>
 
-    <p>Das Problem: Die Intensität der Autophagie nimmt mit dem Alter ab. Sie ist eines von zwölf anerkannten „Hallmarks of Aging" (siehe den vorherigen Blogbeitrag zu Geroscience) — und genau deshalb suchen Forscher aktiv nach Wegen, diesen Prozess im Erwachsenen- und höheren Alter zu unterstützen, wenn er sich natürlicherweise verlangsamt.</p>
+    <p>Das Problem: Die Intensität der Autophagie nimmt mit dem Alter ab. Die nachlassende Makroautophagie ist eines von zwölf anerkannten Hallmarks of Aging nach der Klassifikation von 2023 (siehe den vorherigen Blogbeitrag zu Geroscience) — und genau deshalb suchen Forscher aktiv nach Wegen, diesen Prozess im Erwachsenen- und höheren Alter zu unterstützen, wenn er sich natürlicherweise verlangsamt.</p>
 
     <h2><span lang="de">Was man über die Stimulierung der Autophagie weiß</span></h2>
-    <p>Der am besten untersuchte und zuverlässigste Weg, Autophagie zu stimulieren, ist Fasten oder Kalorienrestriktion: Im Energiedefizit schaltet die Zelle in einen „Recycling-Modus", um Ressourcen aus sich selbst zu gewinnen. Bewegung wirkt nach einem ähnlichen Prinzip. Forscher untersuchen zudem pharmakologische Wege, dieselben zellulären Energiesensoren (wie AMPK) und Signalkaskaden (mTOR) zu beeinflussen, die darüber entscheiden, ob Autophagie aktiviert wird — genau hier verläuft die Grenze zwischen einer gut untersuchten Alltagsmaßnahme (Ernährung, Sport) und einem aktiven Forschungsgegenstand (Kandidatensubstanzen, deren Wirkung auf diese Signalwege im Labor noch bestätigt werden muss).</p>
+    <p>Der am besten untersuchte und zuverlässigste Weg, Autophagie zu stimulieren, ist Fasten oder Kalorienrestriktion: Im Energiedefizit schaltet die Zelle in einen „Recycling-Modus", um Ressourcen aus sich selbst zu gewinnen. Auf diesem Prinzip basiert unter anderem die Forschung des Gerontologen Valter Longo zu „Fasting-Mimicking Diets" (das Fasten nachahmende Diäten) — kontrollierte, kurzzeitige Ernährungsprotokolle, die laut den Veröffentlichungen seines Labors einen Teil der zellulären Effekte eines echten Fastens nachbilden. Bewegung wirkt nach einem ähnlichen Prinzip, über teilweise überlappende Signalwege.</p>
 
-    <p>Das ist ein gutes Beispiel dafür, warum computergestütztes Docking als erster Filter nützlich ist: Bevor eine Substanz im Labor an Zellen getestet wird, lässt sich abschätzen, ob sie überhaupt mit den Proteinen dieser Signalwege interagiert. Mehr zur Methode im Geroscience-Beitrag und auf der <a href="/lab.html">Labor-Seite</a>.</p>
+    <p>Forscher untersuchen zudem pharmakologische Wege, dieselben zellulären Energiesensoren (AMPK) und Signalkaskaden (mTOR) zu beeinflussen, die darüber entscheiden, ob Autophagie aktiviert wird. Das bekannteste Beispiel ist Rapamycin, eine Substanz, die erstmals aus einem Bodenbakterium der Osterinsel (Rapa Nui, daher der Name) isoliert wurde — ein mTOR-Inhibitor, der bei Labormäusen die Lebensspanne konsistent verlängert hat. Genau hier verläuft die Grenze zwischen einer gut untersuchten Alltagsmaßnahme (Ernährung, Sport) und einem aktiven Forschungsgegenstand — Substanzen, deren Wirkung auf diese Signalwege im Labor noch bestätigt werden muss und deren Nutzen-Risiko-Profil für einen gesunden Menschen noch nicht feststeht.</p>
+
+    <p>Das ist ein gutes Beispiel dafür, warum computergestütztes Docking als erster Filter nützlich ist: Bevor eine Substanz im Labor an Zellen getestet wird, lässt sich abschätzen, ob und wie stark sie überhaupt mit den Proteinen dieser Signalwege interagiert, auf einer Bindungsenergie-Skala. Mehr zur Methode im Geroscience-Beitrag und auf der <a href="/lab.html">Labor-Seite</a>.</p>
+
+    <div class="refs">
+      <h2><span lang="de">Zum Weiterlesen</span></h2>
+      <ol>
+        <li>Der Nobelpreis für Physiologie oder Medizin 2016 — offizielle Begründung für Yoshinori Ohsumi: <a href="https://www.nobelprize.org" target="_blank" rel="noopener">nobelprize.org</a>.</li>
+        <li>López-Otín C., Blasco M.A., Partridge L., Serrano M., Kroemer G. „Hallmarks of aging: An expanding universe." <em>Cell</em>, 2023 (Abschnitt zur nachlassenden Makroautophagie).</li>
+        <li>Longo V.D. und Kollegen — veröffentlichte Arbeiten des Longo Lab zu Fasting-Mimicking Diets, University of Southern California.</li>
+      </ol>
+    </div>
   </div>
 
   <a class="back-link" href="/blog.html">
