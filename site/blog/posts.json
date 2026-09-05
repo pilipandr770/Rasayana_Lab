@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "geroscience-hallmarks-of-aging",
+    "date": "2026-09-05",
+    "tags": ["geroscience", "hallmarks-of-aging", "longevity-science"],
+    "title": {
+      "uk": "Що таке geroscience: чому уповільнення старіння — вже наука, а не фантастика",
+      "en": "What is geroscience: why slowing aging is science, not science fiction",
+      "de": "Was ist Geroscience: Warum die Verlangsamung des Alterns Wissenschaft ist, keine Science-Fiction"
+    },
+    "excerpt": {
+      "uk": "Старіння довго вважали одним неподільним процесом. Останні 15 років його розклали на конкретні, вимірювані молекулярні механізми — і це відкрило шлях до пошуку речовин, що впливають саме на них.",
+      "en": "Aging was long treated as one indivisible process. Over the last 15 years it's been broken down into specific, measurable molecular mechanisms — opening the door to finding compounds that act on them directly.",
+      "de": "Altern galt lange als ein einziger, unteilbarer Prozess. In den letzten 15 Jahren wurde es in konkrete, messbare molekulare Mechanismen zerlegt — das öffnet den Weg zur Suche nach Wirkstoffen, die gezielt darauf einwirken."
+    }
+  },
+  {
+    "slug": "autophagy-and-longevity",
+    "date": "2026-09-05",
+    "tags": ["autophagy", "cellular-biology", "longevity-science"],
+    "title": {
+      "uk": "Аутофагія: як клітини прибирають «сміття» — і до чого тут довголіття",
+      "en": "Autophagy: how cells clean out their own \"trash\" — and what it has to do with longevity",
+      "de": "Autophagie: Wie Zellen ihren eigenen „Müll“ entsorgen — und was das mit Langlebigkeit zu tun hat"
+    },
+    "excerpt": {
+      "uk": "У 2016 році Нобелівську премію дали за відкриття механізму, яким клітина розбирає власні пошкоджені частини на деталі й переробляє їх. З віком цей процес сповільнюється — і це один із напрямків, куди дивиться сучасна geroscience.",
+      "en": "In 2016 the Nobel Prize went to the discovery of the mechanism by which a cell takes apart its own damaged components and recycles them. This process slows with age — one of the directions modern geroscience is looking at.",
+      "de": "2016 ging der Nobelpreis an die Entdeckung des Mechanismus, mit dem eine Zelle ihre eigenen beschädigten Bestandteile zerlegt und recycelt. Dieser Prozess verlangsamt sich mit dem Alter — eine der Richtungen, in die die moderne Geroscience blickt."
+    }
+  }
+]

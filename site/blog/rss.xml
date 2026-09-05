@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Rasayana Virtual Lab — Blog</title>
+    <link>https://rasayana.andrii-it.de/blog.html</link>
+    <description>Longevity science, in plain language.</description>
+    <language>en</language>
+    <item>
+      <title>Autophagy: how cells clean out their own "trash" — and what it has to do with longevity</title>
+      <link>https://rasayana.andrii-it.de/blog/autophagy-and-longevity.html</link>
+      <guid>https://rasayana.andrii-it.de/blog/autophagy-and-longevity.html</guid>
+      <pubDate>Sat, 05 Sep 2026 00:00:00 GMT</pubDate>
+      <description>In 2016 the Nobel Prize went to the discovery of the mechanism by which a cell takes apart its own damaged components and recycles them. This process slows with age.</description>
+    </item>
+    <item>
+      <title>What is geroscience: why slowing aging is science, not science fiction</title>
+      <link>https://rasayana.andrii-it.de/blog/geroscience-hallmarks-of-aging.html</link>
+      <guid>https://rasayana.andrii-it.de/blog/geroscience-hallmarks-of-aging.html</guid>
+      <pubDate>Sat, 05 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Aging was long treated as one indivisible process. Over the last 15 years it's been broken down into specific, measurable molecular mechanisms.</description>
+    </item>
+  </channel>
+</rss>

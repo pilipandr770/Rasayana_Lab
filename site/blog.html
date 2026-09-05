@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rasayana — Blog</title>
+<meta name="description" content="Наука про уповільнення старіння простими словами: geroscience, аутофагія, окислювальний стрес та інші механізми довголіття.">
+<link rel="alternate" type="application/rss+xml" title="Rasayana Blog" href="/blog/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<style>
+  .tag-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px;}
+  .tag-btn{padding:7px 14px; border-radius:20px; border:1px solid var(--line); background:var(--bg-card); color:var(--ink-soft); font-size:13.5px; cursor:pointer; font-family:var(--sans);}
+  .tag-btn.active{background:var(--gold); border-color:var(--gold); color:#1A1204; font-weight:700;}
+  .post-list{display:flex; flex-direction:column; gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); border-radius:6px; overflow:hidden;}
+  .post-card{background:var(--bg-card); padding:24px 26px; display:block; text-decoration:none; color:inherit;}
+  .post-card:hover{background:var(--bg-raised);}
+  .post-card h3{font-family:var(--serif); font-size:21px; margin:0 0 8px;}
+  .post-card p{font-size:15px; color:var(--ink-soft); margin:0 0 10px; line-height:1.6;}
+  .post-meta{display:flex; gap:10px; align-items:center; font-size:12.5px; color:var(--ink-faint);}
+  .post-meta .tag{background:var(--gold-soft); color:var(--gold); padding:2px 9px; border-radius:10px; font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
+  #emptyState{display:none; color:var(--ink-faint); padding:24px 0;}
+</style>
+</head>
+<body>
+<!--#include virtual="/assets/_nav.html" -->
+
+<header class="hero" style="padding:48px 0 40px;">
+  <div class="container hero-inner">
+    <p class="eyebrow"><span lang="uk">Блог</span><span lang="en">Blog</span><span lang="de">Blog</span></p>
+    <h1 style="font-size:clamp(27.5px,3.4vw,39px);"><span lang="uk">Наука про довголіття простими словами</span><span lang="en">Longevity science, in plain language</span><span lang="de">Langlebigkeitswissenschaft in einfachen Worten</span></h1>
+    <p class="thesis" style="margin-top:12px; font-size:16.5px;">
+      <span lang="uk">Загальні механізми старіння й geroscience — без прив'язки до конкретних кандидатів проєкту (їх імена розкриваються інвесторам під NDA, див. <a href="/token.html#faq" style="color:inherit;">FAQ</a>).</span>
+      <span lang="en">General aging mechanisms and geroscience — not tied to the project's specific candidates (those are disclosed to investors under NDA, see the <a href="/token.html#faq" style="color:inherit;">FAQ</a>).</span>
+      <span lang="de">Allgemeine Alterungsmechanismen und Geroscience — ohne Bezug zu den konkreten Kandidaten des Projekts (diese werden Investoren unter NDA offengelegt, siehe <a href="/token.html#faq" style="color:inherit;">FAQ</a>).</span>
+    </p>
+  </div>
+</header>
+
+<main>
+<div class="container" style="padding-top:40px; padding-bottom:100px;">
+  <div class="tag-row" id="tagRow"></div>
+  <div class="post-list" id="postList"></div>
+  <p id="emptyState">
+    <span lang="uk">Статей з цим тегом поки немає.</span><span lang="en">No posts with this tag yet.</span><span lang="de">Noch keine Beiträge mit diesem Tag.</span>
+  </p>
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+<script>
+let allPosts = [];
+let activeTag = "all";
+
+function curLang() { return document.documentElement.getAttribute("data-lang") || "uk"; }
+function tr(uk, en, de) { const l = curLang(); if (l === "uk") return uk; if (l === "de") return de || en; return en; }
+
+async function loadPosts() {
+  const resp = await fetch("/blog/posts.json");
+  allPosts = (await resp.json()).sort((a, b) => b.date.localeCompare(a.date));
+  renderTags();
+  renderPosts();
+}
+
+function renderTags() {
+  const tags = ["all", ...new Set(allPosts.flatMap((p) => p.tags))];
+  document.getElementById("tagRow").innerHTML = tags.map((t) => `
+    <button type="button" class="tag-btn${t === activeTag ? " active" : ""}" data-tag="${t}">${t === "all" ? tr("Усі", "All", "Alle") : "#" + t}</button>
+  `).join("");
+  document.querySelectorAll(".tag-btn").forEach((btn) => btn.addEventListener("click", () => {
+    activeTag = btn.dataset.tag;
+    renderTags();
+    renderPosts();
+  }));
+}
+
+function renderPosts() {
+  const l = curLang();
+  const posts = activeTag === "all" ? allPosts : allPosts.filter((p) => p.tags.includes(activeTag));
+  document.getElementById("emptyState").style.display = posts.length ? "none" : "block";
+  document.getElementById("postList").innerHTML = posts.map((p) => `
+    <a class="post-card" href="/blog/${p.slug}.html">
+      <h3>${p.title[l] || p.title.en}</h3>
+      <p>${p.excerpt[l] || p.excerpt.en}</p>
+      <div class="post-meta">
+        <span>${new Date(p.date).toLocaleDateString(l === "uk" ? "uk-UA" : l === "de" ? "de-DE" : "en-US")}</span>
+        ${p.tags.map((t) => `<span class="tag">${t}</span>`).join("")}
+      </div>
+    </a>
+  `).join("");
+}
+
+new MutationObserver(() => { renderTags(); renderPosts(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-lang"] });
+loadPosts();
+</script>
+</body>
+</html>

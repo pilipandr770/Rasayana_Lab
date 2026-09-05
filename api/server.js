@@ -5,6 +5,7 @@ const Stripe = require("stripe");
 const { ethers } = require("ethers");
 const membershipAbi = require("./membership_abi.json");
 const db = require("./db");
+const CHATBOT_SYSTEM_PROMPT = require("./chatbot_knowledge");
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
@@ -344,6 +345,72 @@ app.post("/api/contact", async (req, res) => {
     res.json({ ok: true, id: entry.id });
   } catch (err) {
     console.error("contact error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// --- AI-чат-бот на сайті: пояснює проєкт і токен, спираючись лише на
+// CHATBOT_SYSTEM_PROMPT (курировано вручну, без реальних назв речовин) ---
+const CHATBOT_MODEL = process.env.CHATBOT_MODEL || "claude-haiku-4-5-20251001";
+const CHATBOT_RATE_LIMIT_MAX = 20; // запитів
+const CHATBOT_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // за 10 хвилин
+const chatbotRateLimits = new Map(); // ip -> { count, resetAt }
+
+function checkChatbotRateLimit(ip) {
+  const now = Date.now();
+  const entry = chatbotRateLimits.get(ip);
+  if (!entry || now > entry.resetAt) {
+    chatbotRateLimits.set(ip, { count: 1, resetAt: now + CHATBOT_RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+  if (entry.count >= CHATBOT_RATE_LIMIT_MAX) return false;
+  entry.count += 1;
+  return true;
+}
+
+app.post("/api/chat", async (req, res) => {
+  try {
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return res.status(503).json({ error: "chatbot_not_configured" });
+    }
+    const ip = req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.socket.remoteAddress;
+    if (!checkChatbotRateLimit(ip)) {
+      return res.status(429).json({ error: "rate_limited" });
+    }
+
+    const { messages } = req.body || {};
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return res.status(400).json({ error: "messages array required" });
+    }
+    // Обрізаємо історію й довжину повідомлень — контроль вартості й зловживань.
+    const trimmed = messages.slice(-10).map((m) => ({
+      role: m.role === "assistant" ? "assistant" : "user",
+      content: String(m.content || "").slice(0, 2000),
+    }));
+
+    const anthropicResp = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: CHATBOT_MODEL,
+        max_tokens: 500,
+        system: CHATBOT_SYSTEM_PROMPT,
+        messages: trimmed,
+      }),
+    });
+    const data = await anthropicResp.json();
+    if (!anthropicResp.ok) {
+      console.error("anthropic error:", data);
+      return res.status(502).json({ error: "chatbot_upstream_error" });
+    }
+    const reply = data.content?.[0]?.text || "";
+    res.json({ reply });
+  } catch (err) {
+    console.error("chat error:", err.message);
     res.status(500).json({ error: err.message });
   }
 });

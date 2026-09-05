@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rasayana Blog — Geroscience and the Hallmarks of Aging</title>
+<meta name="description" content="Старіння розклали на конкретні молекулярні механізми — це і є geroscience. Пояснюємо просто, без наукового жаргону.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<style>
+  .article{max-width:700px; margin:0 auto; padding-top:48px; padding-bottom:100px;}
+  .article p{font-size:17px; line-height:1.75; color:var(--ink-soft); margin-bottom:20px;}
+  .article h2{font-family:var(--serif); font-size:24px; margin:36px 0 14px;}
+  .article ul{padding-left:22px; margin-bottom:20px;}
+  .article li{font-size:17px; line-height:1.7; color:var(--ink-soft); margin-bottom:8px;}
+  .article-meta{display:flex; gap:10px; align-items:center; font-size:13px; color:var(--ink-faint); margin-bottom:8px;}
+  .article-meta .tag{background:var(--gold-soft); color:var(--gold); padding:2px 9px; border-radius:10px; font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
+  .back-link{display:inline-block; margin-top:20px; font-size:14.5px; color:var(--gold); text-decoration:underline;}
+</style>
+</head>
+<body>
+<!--#include virtual="/assets/_nav.html" -->
+
+<main>
+<div class="container article">
+  <div class="article-meta">
+    <span>2026-09-05</span>
+    <span class="tag">geroscience</span><span class="tag">hallmarks-of-aging</span><span class="tag">longevity-science</span>
+  </div>
+  <h1 style="font-family:var(--serif); font-size:clamp(27px,4vw,36px); margin-bottom:20px;">
+    <span lang="uk">Що таке geroscience: чому уповільнення старіння — вже наука, а не фантастика</span>
+    <span lang="en">What is geroscience: why slowing aging is science, not science fiction</span>
+    <span lang="de">Was ist Geroscience: Warum die Verlangsamung des Alterns Wissenschaft ist, keine Science-Fiction</span>
+  </h1>
+
+  <div lang="uk">
+    <p>Ще двадцять років тому «боротьба зі старінням» звучала як маркетингове гасло, а не науковий напрям. Проблема була не в амбіціях, а в означенні: старіння вважали одним суцільним, неподільним процесом — «організм просто зношується». З таким об'єктом важко працювати вченому: незрозуміло, за яку саме ниточку тягнути.</p>
+
+    <p>Перелом стався у 2013 році, коли група дослідників (López-Otín та колеги) опублікувала роботу, яка розклала старіння на дев'ять окремих, вимірюваних молекулярних процесів — так звані «ознаки старіння» (hallmarks of aging). У 2023 році список оновили й розширили до дванадцяти. Це не філософське спостереження, а практичний інструмент: кожна ознака — це конкретний біологічний механізм, який можна виміряти в клітині й, теоретично, на який можна впливати речовиною.</p>
+
+    <h2><span lang="uk">Кілька прикладів ознак старіння</span></h2>
+    <ul>
+      <li><strong>Вкорочення теломер</strong> — захисні «ковпачки» на кінцях хромосом коротшають із кожним поділом клітини.</li>
+      <li><strong>Мітохондріальна дисфункція</strong> — клітинні «електростанції» з віком працюють гірше, виробляючи більше побічних окислювачів.</li>
+      <li><strong>Ослаблення аутофагії</strong> — механізм «прибирання сміття» всередині клітини сповільнюється (про це — окрема стаття блогу).</li>
+      <li><strong>Клітинне старіння (сенесценція)</strong> — пошкоджені клітини не гинуть і не діляться, а залишаються й виділяють прозапальні сигнали.</li>
+      <li><strong>Дерегуляція живлення</strong> — шляхи на кшталт AMPK/mTOR, що відчувають рівень енергії в клітині, з віком працюють розбалансовано.</li>
+    </ul>
+
+    <p>Geroscience — це саме та галузь, яка займається не окремими хворобами старості (діабет, серцево-судинні захворювання, деякі види раку), а спільним знаменником для них усіх — власне процесом старіння на молекулярному рівні. Логіка проста: якщо вдасться сповільнити один із фундаментальних механізмів, це потенційно відсуне одразу кілька вікових захворювань, а не лікуватиме їх поштучно.</p>
+
+    <h2><span lang="uk">Чому це відкриває шлях для обчислювального пошуку речовин</span></h2>
+    <p>Коли механізм описано на молекулярному рівні — відомо, які саме білки в ньому задіяні — з'являється можливість шукати речовини, що взаємодіють саме з цими білками, ще до дорогих і повільних лабораторних експериментів. Метод називається молекулярний докінг: комп'ютерна симуляція оцінює, наскільки щільно молекула «сідає» в активний центр білка-мішені. Це не заміняє лабораторну перевірку, але дозволяє з тисяч кандидатів відсіяти найперспективніші ще на етапі комп'ютера — саме так побудований дослідницький пайплайн, який лежить в основі проєкту Rasayana (детальніше — на сторінці <a href="/lab.html">«Лабораторія»</a>).</p>
+
+    <p>Важливо чесно проговорити межі методу: сильний результат докінгу — це гіпотеза, а не доказ ефективності. Наступні кроки — перевірка на клітинних культурах (in vitro), потім на тваринних моделях, і лише згодом, за багато років, — клінічні дослідження на людях. Жодна речовина в цьому процесі не стає «ліками від старості» одразу після симуляції на комп'ютері.</p>
+  </div>
+
+  <div lang="en">
+    <p>Twenty years ago, "fighting aging" sounded like a marketing slogan rather than a scientific field. The problem wasn't ambition — it was definition: aging was treated as one indivisible process, as if "the body just wears out." That's a hard thing for a scientist to work with — there's no clear thread to pull.</p>
+
+    <p>The turning point came in 2013, when a group of researchers (López-Otín and colleagues) published a paper that broke aging down into nine distinct, measurable molecular processes — the so-called "hallmarks of aging." In 2023 the list was updated and expanded to twelve. This isn't a philosophical observation — it's a practical tool: each hallmark is a concrete biological mechanism that can be measured in a cell and, in principle, targeted by a compound.</p>
+
+    <h2><span lang="en">A few examples of aging hallmarks</span></h2>
+    <ul>
+      <li><strong>Telomere shortening</strong> — the protective "caps" on the ends of chromosomes shorten with every cell division.</li>
+      <li><strong>Mitochondrial dysfunction</strong> — the cell's "power plants" work less efficiently with age, producing more byproduct oxidants.</li>
+      <li><strong>Declining autophagy</strong> — the cell's internal "cleanup" mechanism slows down (more on this in a separate blog post).</li>
+      <li><strong>Cellular senescence</strong> — damaged cells stop dividing but don't die either, lingering and releasing pro-inflammatory signals.</li>
+      <li><strong>Deregulated nutrient sensing</strong> — pathways like AMPK/mTOR, which sense the cell's energy state, become imbalanced with age.</li>
+    </ul>
+
+    <p>Geroscience is precisely the field that doesn't chase individual diseases of old age (diabetes, cardiovascular disease, certain cancers) one at a time, but their common denominator — the aging process itself, at the molecular level. The logic is simple: slow down one of the fundamental mechanisms, and you potentially push back several age-related diseases at once, instead of treating them one by one.</p>
+
+    <h2><span lang="en">Why this opens the door to computational compound discovery</span></h2>
+    <p>Once a mechanism is described at the molecular level — once you know which specific proteins are involved — it becomes possible to search for compounds that interact with those exact proteins, before any expensive, slow lab work begins. The method is called molecular docking: a computer simulation estimates how tightly a molecule "fits" into a target protein's active site. It doesn't replace lab validation, but it lets you narrow thousands of candidates down to the most promising ones at the computer stage — which is exactly how the research pipeline behind the Rasayana project works (more on the <a href="/lab.html">Lab page</a>).</p>
+
+    <p>It's worth being honest about the method's limits: a strong docking result is a hypothesis, not proof of effectiveness. The next steps are testing in cell cultures (in vitro), then in animal models, and only much later — after many years — human clinical trials. No compound becomes an "anti-aging drug" the moment a computer simulation looks promising.</p>
+  </div>
+
+  <div lang="de">
+    <p>Vor zwanzig Jahren klang „Alterskampf" eher nach Marketing-Slogan als nach Wissenschaftszweig. Das Problem war nicht der Ehrgeiz, sondern die Definition: Altern galt als ein einziger, unteilbarer Prozess — als würde „der Körper einfach verschleißen". Damit lässt sich schwer arbeiten: Es ist unklar, an welchem Faden man ziehen soll.</p>
+
+    <p>Die Wende kam 2013, als eine Forschungsgruppe (López-Otín und Kollegen) eine Arbeit veröffentlichte, die das Altern in neun eigenständige, messbare molekulare Prozesse zerlegte — die sogenannten „Hallmarks of Aging". 2023 wurde die Liste aktualisiert und auf zwölf erweitert. Das ist keine philosophische Beobachtung, sondern ein praktisches Werkzeug: Jedes Kennzeichen ist ein konkreter biologischer Mechanismus, der in einer Zelle gemessen und im Prinzip mit einem Wirkstoff angesteuert werden kann.</p>
+
+    <h2><span lang="de">Ein paar Beispiele für Alterungskennzeichen</span></h2>
+    <ul>
+      <li><strong>Telomerverkürzung</strong> — die schützenden „Kappen" an den Enden der Chromosomen werden mit jeder Zellteilung kürzer.</li>
+      <li><strong>Mitochondriale Dysfunktion</strong> — die „Kraftwerke" der Zelle arbeiten mit dem Alter weniger effizient und produzieren mehr oxidative Nebenprodukte.</li>
+      <li><strong>Nachlassende Autophagie</strong> — der interne „Aufräum"-Mechanismus der Zelle verlangsamt sich (mehr dazu in einem separaten Blogbeitrag).</li>
+      <li><strong>Zelluläre Seneszenz</strong> — beschädigte Zellen teilen sich nicht mehr, sterben aber auch nicht, verbleiben und senden entzündungsfördernde Signale aus.</li>
+      <li><strong>Deregulierte Nährstofferkennung</strong> — Signalwege wie AMPK/mTOR, die den Energiezustand der Zelle erfassen, geraten mit dem Alter aus dem Gleichgewicht.</li>
+    </ul>
+
+    <p>Geroscience ist genau das Feld, das nicht einzelne Alterskrankheiten (Diabetes, Herz-Kreislauf-Erkrankungen, bestimmte Krebsarten) einzeln angeht, sondern deren gemeinsamen Nenner — den Alterungsprozess selbst, auf molekularer Ebene. Die Logik ist einfach: Verlangsamt man einen der grundlegenden Mechanismen, verschiebt man potenziell mehrere altersbedingte Erkrankungen gleichzeitig, statt sie einzeln zu behandeln.</p>
+
+    <h2><span lang="de">Warum das den Weg für computergestützte Wirkstoffsuche öffnet</span></h2>
+    <p>Sobald ein Mechanismus auf molekularer Ebene beschrieben ist — sobald bekannt ist, welche konkreten Proteine beteiligt sind — wird es möglich, nach Substanzen zu suchen, die genau mit diesen Proteinen interagieren, noch bevor teure, langsame Laborarbeit beginnt. Die Methode heißt molekulares Docking: Eine Computersimulation schätzt, wie gut ein Molekül in die aktive Tasche eines Zielproteins „passt". Sie ersetzt keine Laborvalidierung, erlaubt aber, aus Tausenden Kandidaten die vielversprechendsten bereits am Computer herauszufiltern — genau so ist die Forschungs-Pipeline hinter dem Rasayana-Projekt aufgebaut (mehr auf der <a href="/lab.html">Labor-Seite</a>).</p>
+
+    <p>Man sollte ehrlich über die Grenzen der Methode sprechen: Ein starkes Docking-Ergebnis ist eine Hypothese, kein Wirksamkeitsnachweis. Die nächsten Schritte sind Tests in Zellkulturen (in vitro), dann in Tiermodellen, und erst viel später — nach vielen Jahren — klinische Studien am Menschen. Keine Substanz wird allein durch eine vielversprechende Computersimulation zu einem „Anti-Aging-Medikament".</p>
+  </div>
+
+  <a class="back-link" href="/blog.html">
+    <span lang="uk">← Усі статті</span><span lang="en">← All posts</span><span lang="de">← Alle Beiträge</span>
+  </a>
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+</body>
+</html>

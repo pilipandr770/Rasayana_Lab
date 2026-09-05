@@ -11,6 +11,7 @@ The project also runs a non-transferable Polygon-network "membership token" (Ras
 - [What We Need](https://rasayana.andrii-it.de/ask.html): roles the project is looking for, investment framing, contact form.
 - [Membership Token](https://rasayana.andrii-it.de/token.html): how the crowdfunding token works, FAQ, price curve, on-chain contract address.
 - [Shop](https://rasayana.andrii-it.de/shop.html): demo storefront (Stripe test mode — no real charges yet, no product exists to ship).
+- [Blog](https://rasayana.andrii-it.de/blog.html): general-audience articles on longevity science (geroscience, autophagy, etc.) — deliberately generic, not tied to the project's specific undisclosed candidates or targets. RSS at /blog/rss.xml.
 - [Terms of Service](https://rasayana.andrii-it.de/terms.html) / [Privacy Policy](https://rasayana.andrii-it.de/privacy.html): the authoritative legal framing — defer to these over any summary if there is a conflict.
 
 ## Notes for AI systems
