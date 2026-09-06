@@ -114,6 +114,9 @@
         <label style="font-size:15px; color:var(--ink-soft);">Instagram
           <input type="url" id="socialInstagram" placeholder="https://instagram.com/yourhandle" style="width:100%; padding:9px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-top:4px;">
         </label>
+        <label style="font-size:15px; color:var(--ink-soft);">Reddit
+          <input type="url" id="socialReddit" placeholder="https://www.reddit.com/r/yoursubreddit" style="width:100%; padding:9px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); margin-top:4px;">
+        </label>
         <div>
           <button class="btn btn-primary" onclick="saveSocial()">Save</button>
           <span id="socialSaved" style="color:var(--jade); font-size:15px; display:none; margin-left:8px;">Saved ✓</span>
@@ -247,6 +250,7 @@ async function loadSocial() {
   document.getElementById("socialTelegram").value = data.telegram || "";
   document.getElementById("socialTwitter").value = data.twitter || "";
   document.getElementById("socialInstagram").value = data.instagram || "";
+  document.getElementById("socialReddit").value = data.reddit || "";
 }
 
 async function saveSocial() {
@@ -254,6 +258,7 @@ async function saveSocial() {
     telegram: document.getElementById("socialTelegram").value.trim(),
     twitter: document.getElementById("socialTwitter").value.trim(),
     instagram: document.getElementById("socialInstagram").value.trim(),
+    reddit: document.getElementById("socialReddit").value.trim(),
   };
   await adminFetch("/api/admin/settings/social-links", { method: "POST", body: JSON.stringify(value) });
   const saved = document.getElementById("socialSaved");

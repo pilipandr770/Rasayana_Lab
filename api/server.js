@@ -214,11 +214,11 @@ app.post("/api/admin/settings/aml-threshold", requireAdmin, (req, res) => {
 
 // --- Соцсети (управляются из админки, показываются в хедере) ---
 app.get("/api/settings/social-links", (req, res) => {
-  res.json(db.getSetting("socialLinks") || { telegram: "", twitter: "", instagram: "" });
+  res.json(db.getSetting("socialLinks") || { telegram: "", twitter: "", instagram: "", reddit: "" });
 });
 app.post("/api/admin/settings/social-links", requireAdmin, (req, res) => {
-  const { telegram, twitter, instagram } = req.body || {};
-  const value = { telegram: telegram || "", twitter: twitter || "", instagram: instagram || "" };
+  const { telegram, twitter, instagram, reddit } = req.body || {};
+  const value = { telegram: telegram || "", twitter: twitter || "", instagram: instagram || "", reddit: reddit || "" };
   db.setSetting("socialLinks", value);
   res.json(value);
 });
