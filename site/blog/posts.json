@@ -15,6 +15,21 @@
     }
   },
   {
+    "slug": "aging-targets-and-biomarkers",
+    "date": "2026-09-09",
+    "tags": ["molecular-docking", "aging-biomarkers", "longevity-science"],
+    "title": {
+      "uk": "Шість мішеней старіння: проти чого ми перевіряємо кандидатів і що вважаємо доказом користі",
+      "en": "Six aging targets: what we test candidates against, and what would actually count as evidence",
+      "de": "Sechs Alterungs-Zielproteine: Wogegen wir Kandidaten testen — und was als Wirksamkeitsnachweis zählt"
+    },
+    "excerpt": {
+      "uk": "Шість білкових ролей, проти яких ми тестуємо кандидатів докінгом, і конкретні біомаркери, які показали б реальну користь — на відміну від самого лише сильного докінг-скору.",
+      "en": "Six protein roles we test candidates against via docking, and the concrete biomarkers that would show real benefit — as opposed to a strong docking score alone.",
+      "de": "Sechs Proteinrollen, gegen die wir Kandidaten per Docking testen, und die konkreten Biomarker, die einen echten Nutzen zeigen würden — im Unterschied zu einem starken Docking-Score allein."
+    }
+  },
+  {
     "slug": "autophagy-and-longevity",
     "date": "2026-09-05",
     "tags": ["autophagy", "cellular-biology", "longevity-science"],

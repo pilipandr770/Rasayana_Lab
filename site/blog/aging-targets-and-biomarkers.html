@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<title>Rasayana Blog — Six Aging Targets and the Biomarkers Behind Them</title>
+<meta name="description" content="Шість білків-мішеней старіння, проти яких ми тестуємо кандидатів, і які біомаркери показали б реальну користь — не тільки в комп'ютерній симуляції.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/lang.js"></script>
+<style>
+  .article{max-width:700px; margin:0 auto; padding-top:48px; padding-bottom:100px;}
+  .article p{font-size:17px; line-height:1.75; color:var(--ink-soft); margin-bottom:20px;}
+  .article h2{font-family:var(--serif); font-size:24px; margin:36px 0 14px;}
+  .article ul{padding-left:22px; margin-bottom:20px;}
+  .article li{font-size:17px; line-height:1.7; color:var(--ink-soft); margin-bottom:8px;}
+  .article-meta{display:flex; gap:10px; align-items:center; font-size:13px; color:var(--ink-faint); margin-bottom:8px;}
+  .article-meta .tag{background:var(--gold-soft); color:var(--gold); padding:2px 9px; border-radius:10px; font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
+  .back-link{display:inline-block; margin-top:20px; font-size:14.5px; color:var(--gold); text-decoration:underline;}
+  .refs{background:var(--bg-card); border:1px solid var(--line-soft); border-radius:6px; padding:20px 24px; margin-top:36px;}
+  .refs h2{margin-top:0 !important; font-size:18px !important;}
+  .refs ol{padding-left:20px; margin:0;}
+  .refs li{font-size:14.5px !important; line-height:1.6 !important; color:var(--ink-faint) !important; margin-bottom:10px !important;}
+  .target-card{border:1px solid var(--line-soft); border-radius:6px; padding:18px 20px; margin-bottom:14px; background:var(--bg-card);}
+  .target-card h3{font-family:var(--sans); font-size:15px; text-transform:uppercase; letter-spacing:.03em; color:var(--gold); margin-bottom:8px;}
+  .target-card p{font-size:15.5px; margin-bottom:0;}
+  .target-card .marker{margin-top:8px; padding-top:8px; border-top:1px dashed var(--line-soft); font-size:14.5px; color:var(--ink-faint);}
+  .callout{background:var(--gold-soft); border:1px solid var(--line-soft); border-radius:6px; padding:18px 22px; margin:28px 0; font-size:15.5px; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<!--#include virtual="/assets/_nav.html" -->
+
+<main>
+<div class="container article">
+  <div class="article-meta">
+    <span>2026-09-09</span>
+    <span class="tag">molecular-docking</span><span class="tag">aging-biomarkers</span><span class="tag">longevity-science</span>
+  </div>
+  <h1 style="font-family:var(--serif); font-size:clamp(27px,4vw,36px); margin-bottom:20px;">
+    <span lang="uk">Шість мішеней старіння: проти чого ми перевіряємо кандидатів і що вважаємо доказом користі</span>
+    <span lang="en">Six aging targets: what we test candidates against, and what would actually count as evidence</span>
+    <span lang="de">Sechs Alterungs-Zielproteine: Wogegen wir Kandidaten testen — und was als Wirksamkeitsnachweis zählt</span>
+  </h1>
+
+  <div lang="uk">
+    <p>У попередній статті блогу ми пояснювали, що geroscience розклала старіння на конкретні, вимірювані молекулярні механізми — «ознаки старіння». Наступний логічний крок: якщо механізм описано на рівні конкретних білків, можна шукати речовини, що на ці білки впливають, ще до дорогих лабораторних експериментів. Це і є молекулярний докінг — метод, на якому побудована обчислювальна частина Rasayana.</p>
+
+    <p>У нашому пайплайні три кандидати (відібрані з 39 традиційних рецептів) перевірено проти шести білків-мішеней старіння — 18 пар «кандидат×мішень» усього, найкраща передбачена афінність зв'язування склала −9,7 ккал/моль. Ці цифри вже публічні (див. <a href="/index.html">головну сторінку</a>). А от самі назви речовин і конкретні білки — ні: маючи повний набір даних, нашу роботу можна було б відтворити без нас, тож ми свідомо публікуємо тут лише ролі мішеней, без назв генів чи PDB-кодів.</p>
+
+    <h2><span lang="uk">Шість ролей, які ми перевіряємо</span></h2>
+
+    <div class="target-card">
+      <h3><span lang="uk">Фермент підтримки теломер</span></h3>
+      <p>Добудовує захисні «ковпачки» на кінцях хромосом, які коротшають з кожним поділом клітини — один із класичних маркерів клітинного старіння.</p>
+      <div class="marker"><span lang="uk"><b>Що вважали б доказом користі:</b> реальне уповільнення вкорочення теломер у клітинній культурі (вимірюється qPCR або Flow-FISH), а не лише сильний докінг-скор.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="uk">NAD⁺-залежна деацетилаза (сиртуїновий тип)</span></h3>
+      <p>Регулює метаболічну «економність» клітини у відповідь на рівень енергії; активність цього класу білків знижується з віком паралельно з падінням рівня NAD⁺.</p>
+      <div class="marker"><span lang="uk"><b>Що вважали б доказом користі:</b> зростання співвідношення NAD⁺/NADH або пряме підвищення ферментативної активності в лізаті клітин після впливу речовини.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="uk">Кіназа шляху чутливості до поживних речовин (mTOR-типу)</span></h3>
+      <p>Цей шлях «вирішує», чи клітина росте й ділиться, чи економить ресурси; хронічна гіперактивність пов'язана з пришвидшеним старінням, а часткове пригнічення — з подовженням життя у тваринних моделях.</p>
+      <div class="marker"><span lang="uk"><b>Що вважали б доказом користі:</b> зниження фосфорилювання низхідних мішеней цього шляху (вимірюється Western blot) без токсичності для клітини.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="uk">Регулятор антиоксидантної відповіді (Nrf2-типу)</span></h3>
+      <p>Керує «увімкненням» власної системи захисту клітини від окислювального стресу — одного з накопичувальних факторів пошкодження з віком.</p>
+      <div class="marker"><span lang="uk"><b>Що вважали б доказом користі:</b> активація ARE-репортерної системи або зниження маркерів окислювального пошкодження (наприклад, 8-OHdG) в обробленій культурі.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="uk">Ацетилтрансфераза, пов'язана з регуляцією автофагії</span></h3>
+      <p>Автофагія — «служба прибирання сміття» клітини (детальніше — в окремій статті блогу); цей фермент — одна з точок, де його можна фармакологічно підкрутити.</p>
+      <div class="marker"><span lang="uk"><b>Що вважали б доказом користі:</b> зміна співвідношення LC3-II/p62 — стандартного маркера автофагічного потоку — у бік активнішого «прибирання».</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="uk">Енергетичний сенсор (AMPK-типу)</span></h3>
+      <p>Активується, коли клітині бракує енергії, і запускає каскад «режиму економії» — шлях, з яким пов'язують ефекти фізичних вправ і обмеження калорій на довголіття.</p>
+      <div class="marker"><span lang="uk"><b>Що вважали б доказом користі:</b> зростання співвідношення AMP/ATP разом із фосфорилюванням низхідних мішеней сенсора.</span></div>
+    </div>
+
+    <h2><span lang="uk">Докінг — це гіпотеза, а не результат</span></h2>
+    <p>Важливо чесно розмежувати два різні твердження. Перше: «речовина X передбачено добре сідає в кишеню білка Y» — це те, що дає нам молекулярний докінг, і саме це ми вже маємо для всіх 18 пар. Друге: «речовина X реально уповільнює процес, за який відповідає білок Y» — це можна показати лише експериментально, на клітинній культурі, а потім на тваринних моделях. Ми поки на етапі першого твердження й відкрито про це говоримо: сильний докінг-скор — це підстава перевіряти далі, а не готовий результат.</p>
+
+    <p>Саме тому наступний крок проєкту — не маркетинг, а домовленість із лабораторією про перелічені вище тести in vitro: цитотоксичність, а потім — конкретні функціональні аналізи під кожну мішень і кожен біомаркер зі списку вище. Коли з'являться перші реальні (а не передбачені) цифри, ми розповімо про це в блозі так само відкрито.</p>
+
+    <div class="callout">
+      <span lang="uk"><b>Чому без назв.</b> Ролі мішеней описано узагальнено навмисно, так само як на головній сторінці ми не називаємо самі речовини: маючи повний набір «речовина + білок + PDB-структура», нашу роботу можна було б відтворити без нас. Повне досьє розкривається серйозним інвесторам після розмови, під NDA.</span>
+    </div>
+
+    <div class="refs">
+      <h2><span lang="uk">Пов'язані матеріали</span></h2>
+      <ol>
+        <li><a href="/blog/geroscience-hallmarks-of-aging.html">Що таке geroscience: чому уповільнення старіння — вже наука, а не фантастика</a></li>
+        <li><a href="/blog/autophagy-and-longevity.html">Аутофагія: як клітини прибирають «сміття» — і до чого тут довголіття</a></li>
+        <li><a href="/lab.html">Лабораторія — як влаштований наш докінг-пайплайн</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <div lang="en">
+    <p>In an earlier post we explained how geroscience broke aging down into concrete, measurable molecular mechanisms — the "hallmarks of aging." The next logical step: once a mechanism is described at the level of specific proteins, you can search for compounds that act on those proteins before any expensive lab work begins. That's molecular docking — the method behind Rasayana's computational pipeline.</p>
+
+    <p>In our pipeline, three candidates (shortlisted from 39 traditional recipes) were tested against six aging-related protein targets — 18 candidate×target pairs in total, with the best predicted binding affinity at −9.7 kcal/mol. Those numbers are already public (see the <a href="/index.html">homepage</a>). The compound names and the specific proteins are not: with the full dataset, our work could be reproduced without us, so here we deliberately publish only the targets' general roles, without gene names or PDB codes.</p>
+
+    <h2><span lang="en">The six roles we test against</span></h2>
+
+    <div class="target-card">
+      <h3><span lang="en">A telomere-maintenance enzyme</span></h3>
+      <p>Rebuilds the protective "caps" on chromosome ends, which shorten with every cell division — one of the classic markers of cellular aging.</p>
+      <div class="marker"><span lang="en"><b>What would count as evidence of benefit:</b> a measurable slowdown in telomere shortening in cell culture (via qPCR or Flow-FISH), not just a strong docking score.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="en">An NAD⁺-dependent deacetylase (sirtuin-type)</span></h3>
+      <p>Regulates the cell's metabolic "thriftiness" in response to energy status; this class of protein's activity declines with age alongside falling NAD⁺ levels.</p>
+      <div class="marker"><span lang="en"><b>What would count as evidence of benefit:</b> a rise in the NAD⁺/NADH ratio, or a direct increase in enzymatic activity in cell lysate after exposure to the compound.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="en">A nutrient-sensing pathway kinase (mTOR-type)</span></h3>
+      <p>This pathway "decides" whether a cell grows and divides or conserves resources; chronic hyperactivity is linked to accelerated aging, while partial inhibition extends lifespan in animal models.</p>
+      <div class="marker"><span lang="en"><b>What would count as evidence of benefit:</b> reduced phosphorylation of downstream targets in this pathway (measured by Western blot), without cellular toxicity.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="en">An antioxidant-response regulator (Nrf2-type)</span></h3>
+      <p>Controls the cell's own defense system against oxidative stress — one of the cumulative damage factors that builds up with age.</p>
+      <div class="marker"><span lang="en"><b>What would count as evidence of benefit:</b> activation of an ARE-reporter system, or reduced oxidative-damage markers (e.g. 8-OHdG) in treated culture.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="en">An acetyltransferase linked to autophagy regulation</span></h3>
+      <p>Autophagy is the cell's "cleanup crew" (see our separate post on it); this enzyme is one point where it can be pharmacologically nudged.</p>
+      <div class="marker"><span lang="en"><b>What would count as evidence of benefit:</b> a shift in the LC3-II/p62 ratio — the standard marker of autophagic flux — toward more active cleanup.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="en">An energy sensor (AMPK-type)</span></h3>
+      <p>Activates when a cell is short on energy and triggers an "energy-saving mode" cascade — a pathway linked to the longevity effects of exercise and caloric restriction.</p>
+      <div class="marker"><span lang="en"><b>What would count as evidence of benefit:</b> a rise in the AMP/ATP ratio together with phosphorylation of the sensor's downstream targets.</span></div>
+    </div>
+
+    <h2><span lang="en">Docking is a hypothesis, not a result</span></h2>
+    <p>It's worth being precise about two very different claims. The first: "compound X is predicted to fit well into protein Y's pocket" — that's what molecular docking gives us, and we already have that for all 18 pairs. The second: "compound X actually slows the process protein Y is responsible for" — that can only be shown experimentally, first in cell culture and then in animal models. We're currently at the first claim, and we say so openly: a strong docking score is a reason to test further, not a finished result.</p>
+
+    <p>That's exactly why the project's next step isn't marketing — it's arranging the in vitro tests listed above with a lab: cytotoxicity screening first, then specific functional assays for each target and each biomarker above. When the first real (not predicted) numbers come in, we'll report them here just as openly.</p>
+
+    <div class="callout">
+      <span lang="en"><b>Why no names.</b> Target roles are described generically on purpose, the same way we don't name the compounds themselves on the homepage: with the full "compound + protein + PDB structure" dataset, our work could be reproduced without us. The full dossier is shared with serious investors after a conversation, under NDA.</span>
+    </div>
+
+    <div class="refs">
+      <h2><span lang="en">Related posts</span></h2>
+      <ol>
+        <li><a href="/blog/geroscience-hallmarks-of-aging.html">What is geroscience: why slowing aging is science, not science fiction</a></li>
+        <li><a href="/blog/autophagy-and-longevity.html">Autophagy: how cells clean out their own "trash" — and what it has to do with longevity</a></li>
+        <li><a href="/lab.html">Lab page — how our docking pipeline works</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <div lang="de">
+    <p>In einem früheren Beitrag haben wir erklärt, wie Geroscience das Altern in konkrete, messbare molekulare Mechanismen zerlegt hat — die „Hallmarks of Aging". Der nächste logische Schritt: Ist ein Mechanismus auf Ebene konkreter Proteine beschrieben, lässt sich nach Substanzen suchen, die auf genau diese Proteine wirken — noch bevor teure Laborarbeit beginnt. Das ist molekulares Docking, die Methode hinter der computergestützten Pipeline von Rasayana.</p>
+
+    <p>In unserer Pipeline wurden drei Kandidaten (aus 39 traditionellen Rezepturen vorausgewählt) gegen sechs alterungsrelevante Zielproteine getestet — insgesamt 18 Kandidat×Zielprotein-Paare, mit einer besten vorhergesagten Bindungsaffinität von −9,7 kcal/mol. Diese Zahlen sind bereits öffentlich (siehe <a href="/index.html">Startseite</a>). Die Substanznamen und die konkreten Proteine sind es nicht: Mit dem vollständigen Datensatz ließe sich unsere Arbeit ohne uns reproduzieren, deshalb veröffentlichen wir hier bewusst nur die allgemeinen Rollen der Zielproteine, ohne Gennamen oder PDB-Codes.</p>
+
+    <h2><span lang="de">Die sechs Rollen, gegen die wir testen</span></h2>
+
+    <div class="target-card">
+      <h3><span lang="de">Ein Enzym zur Telomer-Erhaltung</span></h3>
+      <p>Baut die schützenden „Kappen" an den Chromosomenenden wieder auf, die sich mit jeder Zellteilung verkürzen — eines der klassischen Kennzeichen zellulärer Alterung.</p>
+      <div class="marker"><span lang="de"><b>Was als Wirksamkeitsnachweis zählen würde:</b> eine messbare Verlangsamung der Telomerverkürzung in Zellkultur (per qPCR oder Flow-FISH), nicht nur ein starker Docking-Score.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="de">Eine NAD⁺-abhängige Deacetylase (Sirtuin-Typ)</span></h3>
+      <p>Reguliert die metabolische „Sparsamkeit" der Zelle je nach Energiestatus; die Aktivität dieser Proteinklasse sinkt mit dem Alter parallel zum fallenden NAD⁺-Spiegel.</p>
+      <div class="marker"><span lang="de"><b>Was als Wirksamkeitsnachweis zählen würde:</b> ein Anstieg des NAD⁺/NADH-Verhältnisses oder eine direkt erhöhte Enzymaktivität im Zelllysat nach Substanzeinwirkung.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="de">Eine Kinase des Nährstoff-Sensing-Signalwegs (mTOR-Typ)</span></h3>
+      <p>Dieser Signalweg „entscheidet", ob eine Zelle wächst und sich teilt oder Ressourcen spart; chronische Überaktivität ist mit beschleunigter Alterung verknüpft, eine teilweise Hemmung verlängert in Tiermodellen die Lebensspanne.</p>
+      <div class="marker"><span lang="de"><b>Was als Wirksamkeitsnachweis zählen würde:</b> verringerte Phosphorylierung nachgeschalteter Zielproteine dieses Signalwegs (per Western Blot), ohne Zelltoxizität.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="de">Ein Regulator der antioxidativen Antwort (Nrf2-Typ)</span></h3>
+      <p>Steuert die „Aktivierung" des zelleigenen Abwehrsystems gegen oxidativen Stress — einen der Schadensfaktoren, die sich mit dem Alter kumulativ aufbauen.</p>
+      <div class="marker"><span lang="de"><b>Was als Wirksamkeitsnachweis zählen würde:</b> Aktivierung eines ARE-Reportersystems oder reduzierte oxidative Schadensmarker (z. B. 8-OHdG) in behandelter Kultur.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="de">Eine Acetyltransferase, die mit der Autophagie-Regulation verbunden ist</span></h3>
+      <p>Autophagie ist die „Aufräumtruppe" der Zelle (siehe unseren separaten Beitrag dazu); dieses Enzym ist einer der Punkte, an denen sie pharmakologisch angestoßen werden kann.</p>
+      <div class="marker"><span lang="de"><b>Was als Wirksamkeitsnachweis zählen würde:</b> eine Verschiebung des LC3-II/p62-Verhältnisses — dem Standardmarker für den autophagischen Fluss — hin zu aktiverem Aufräumen.</span></div>
+    </div>
+
+    <div class="target-card">
+      <h3><span lang="de">Ein Energiesensor (AMPK-Typ)</span></h3>
+      <p>Wird aktiv, wenn der Zelle Energie fehlt, und löst eine „Energiesparmodus"-Kaskade aus — ein Signalweg, der mit den Langlebigkeitseffekten von Bewegung und Kalorienrestriktion in Verbindung gebracht wird.</p>
+      <div class="marker"><span lang="de"><b>Was als Wirksamkeitsnachweis zählen würde:</b> ein Anstieg des AMP/ATP-Verhältnisses zusammen mit der Phosphorylierung nachgeschalteter Zielproteine des Sensors.</span></div>
+    </div>
+
+    <h2><span lang="de">Docking ist eine Hypothese, kein Ergebnis</span></h2>
+    <p>Zwei sehr unterschiedliche Aussagen sollte man klar trennen. Die erste: „Substanz X passt vorhergesagt gut in die Tasche von Protein Y" — das liefert molekulares Docking, und das haben wir bereits für alle 18 Paare. Die zweite: „Substanz X verlangsamt tatsächlich den Prozess, für den Protein Y verantwortlich ist" — das lässt sich nur experimentell zeigen, zunächst in Zellkultur, dann in Tiermodellen. Wir befinden uns aktuell bei der ersten Aussage, und das sagen wir offen: Ein starker Docking-Score ist ein Grund für weitere Tests, kein fertiges Ergebnis.</p>
+
+    <p>Genau deshalb ist der nächste Schritt des Projekts kein Marketing, sondern die Abstimmung der oben genannten In-vitro-Tests mit einem Labor: zunächst Zytotoxizitäts-Screening, danach spezifische funktionelle Assays für jedes Zielprotein und jeden Biomarker oben. Sobald erste echte (nicht vorhergesagte) Zahlen vorliegen, berichten wir hier genauso offen darüber.</p>
+
+    <div class="callout">
+      <span lang="de"><b>Warum keine Namen.</b> Die Rollen der Zielproteine sind absichtlich allgemein beschrieben, genau wie wir auf der Startseite die Substanzen selbst nicht benennen: Mit dem vollständigen Datensatz „Substanz + Protein + PDB-Struktur" ließe sich unsere Arbeit ohne uns reproduzieren. Das vollständige Dossier wird ernsthaften Investoren nach einem Gespräch unter NDA zugänglich gemacht.</span>
+    </div>
+  </div>
+
+  <a class="back-link" href="/blog.html">
+    <span lang="uk">← Усі статті</span><span lang="en">← All posts</span><span lang="de">← Alle Beiträge</span>
+  </a>
+</div>
+</main>
+
+<!--#include virtual="/assets/_footer.html" -->
+</body>
+</html>
